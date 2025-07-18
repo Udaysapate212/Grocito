@@ -16,6 +16,7 @@ public class OrderItem {
 
     private int quantity;
     private double totalPrice;
+    private double price; // Unit price of the product
 
     @ManyToOne
     @JoinColumn(name = "order_id")
@@ -33,11 +34,12 @@ public class OrderItem {
 		// TODO Auto-generated constructor stub
 	}
 
-	public OrderItem(Long id, int quantity, double totalPrice, Order order, Product product) {
+	public OrderItem(Long id, int quantity, double totalPrice, double price, Order order, Product product) {
 		super();
 		this.id = id;
 		this.quantity = quantity;
 		this.totalPrice = totalPrice;
+		this.price = price;
 		this.order = order;
 		this.product = product;
 	}
@@ -68,6 +70,14 @@ public class OrderItem {
 	public void setTotalPrice(double totalPrice) {
 		this.totalPrice = totalPrice;
 	}
+	
+	public double getPrice() {
+		return price;
+	}
+
+	public void setPrice(double price) {
+		this.price = price;
+	}
 
 	public Order getOrder() {
 		return order;
@@ -87,8 +97,7 @@ public class OrderItem {
 
 	@Override
 	public String toString() {
-		return "OrderItem [id=" + id + ", quantity=" + quantity + ", totalPrice=" + totalPrice + ", order=" + order
-				+ ", product=" + product + "]";
+		return "OrderItem [id=" + id + ", quantity=" + quantity + ", price=" + price + ", totalPrice=" + totalPrice + "]";
 	}
     
 	

@@ -1,6 +1,9 @@
 package com.example.Grocito.Entity;
 
+import java.time.LocalDate;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.*;
 
@@ -8,30 +11,33 @@ import jakarta.persistence.*;
 @Table(name = "users")
 public class User {
     
-    @Id
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
     private String fullName;
+    @Column(unique = true)
     private String email;
     private String password;
     private String role; // [ USER / ADMIN / DELIVERY_PARTNER ]
     private String address;
     private String pincode;
+    private String contactNumber; // Added contact number field
+    private LocalDate registeredDate;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<Order> orders;
-
-    
     
     public User() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-    
-    
+
+
 
 	public User(Long id, String fullName, String email, String password, String role, String address, String pincode,
-			List<Order> orders) {
+			String contactNumber, LocalDate registeredDate, List<Order> orders) {
 		super();
 		this.id = id;
 		this.fullName = fullName;
@@ -40,8 +46,14 @@ public class User {
 		this.role = role;
 		this.address = address;
 		this.pincode = pincode;
+		this.contactNumber = contactNumber;
+		this.registeredDate = registeredDate;
 		this.orders = orders;
 	}
+
+
+
+
 
 
 
@@ -101,6 +113,26 @@ public class User {
 	public void setPincode(String pincode) {
 		this.pincode = pincode;
 	}
+	
+	public String getContactNumber() {
+		return contactNumber;
+	}
+
+	public void setContactNumber(String contactNumber) {
+		this.contactNumber = contactNumber;
+	}
+
+	public LocalDate getRegisteredDate() {
+		return registeredDate;
+	}
+
+
+
+	public void setRegisteredDate(LocalDate registeredDate) {
+		this.registeredDate = registeredDate;
+	}
+
+
 
 	public List<Order> getOrders() {
 		return orders;
@@ -113,7 +145,7 @@ public class User {
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", fullName=" + fullName + ", email=" + email + ", password=" + password + ", role="
-				+ role + ", address=" + address + ", pincode=" + pincode + ", orders=" + orders + "]";
+				+ role + ", address=" + address + ", pincode=" + pincode + ", contactNumber=" + contactNumber + ", orders=" + orders + "]";
 	}
 
     

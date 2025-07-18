@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
@@ -19,9 +20,11 @@ public class Order {
     private LocalDateTime orderTime;
     private String deliveryAddress;
     private String pincode;
+    private double totalAmount;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
+//    @JsonIgnore
     private User user;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
@@ -34,7 +37,7 @@ public class Order {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Order(Long id, String status, LocalDateTime orderTime, String deliveryAddress, String pincode, User user,
+	public Order(Long id, String status, LocalDateTime orderTime, String deliveryAddress, String pincode, double totalAmount, User user,
 			List<OrderItem> items) {
 		super();
 		this.id = id;
@@ -42,6 +45,7 @@ public class Order {
 		this.orderTime = orderTime;
 		this.deliveryAddress = deliveryAddress;
 		this.pincode = pincode;
+		this.totalAmount = totalAmount;
 		this.user = user;
 		this.items = items;
 	}
@@ -104,11 +108,20 @@ public class Order {
 	public void setItems(List<OrderItem> items) {
 		this.items = items;
 	}
+	
+	public double getTotalAmount() {
+		return totalAmount;
+	}
+
+	public void setTotalAmount(double totalAmount) {
+		this.totalAmount = totalAmount;
+	}
 
 	@Override
 	public String toString() {
 		return "Order [id=" + id + ", status=" + status + ", orderTime=" + orderTime + ", deliveryAddress="
-				+ deliveryAddress + ", pincode=" + pincode + ", user=" + user + ", items=" + items + "]";
+				+ deliveryAddress + ", pincode=" + pincode + ", totalAmount=" + totalAmount + ", user=" + user 
+				+ ", itemsCount=" + (items != null ? items.size() : 0)+ "]";
 	}
     
 	
