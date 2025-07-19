@@ -35,6 +35,13 @@ public class UserController {
                 return ResponseEntity.badRequest().body("Full name is required");
             }
             
+            // Trim input fields
+            user.setEmail(user.getEmail().trim());
+            user.setFullName(user.getFullName().trim());
+            if (user.getAddress() != null) user.setAddress(user.getAddress().trim());
+            if (user.getPincode() != null) user.setPincode(user.getPincode().trim());
+            if (user.getContactNumber() != null) user.setContactNumber(user.getContactNumber().trim());
+            
             User registeredUser = userService.register(user);
             return ResponseEntity.status(HttpStatus.CREATED).body(registeredUser);
         } catch (RuntimeException e) {
@@ -71,6 +78,12 @@ public class UserController {
                 (user.getContactNumber() == null || user.getContactNumber().trim().isEmpty())) {
                 return ResponseEntity.badRequest().body("At least one field (fullName, address, pincode, or contactNumber) must be provided for update");
             }
+            
+            // Trim input fields if they are not null
+            if (user.getFullName() != null) user.setFullName(user.getFullName().trim());
+            if (user.getAddress() != null) user.setAddress(user.getAddress().trim());
+            if (user.getPincode() != null) user.setPincode(user.getPincode().trim());
+            if (user.getContactNumber() != null) user.setContactNumber(user.getContactNumber().trim());
             
             User updatedUser = userService.updateProfile(id, user);
             return ResponseEntity.ok(updatedUser);

@@ -22,7 +22,7 @@ public class User {
     private String role; // [ USER / ADMIN / DELIVERY_PARTNER ]
     private String address;
     private String pincode;
-    private String contactNumber; // Added contact number field
+    private String contactNumber; 
     private LocalDate registeredDate;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)

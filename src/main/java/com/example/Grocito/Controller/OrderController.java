@@ -62,7 +62,15 @@ public class OrderController {
                 return ResponseEntity.badRequest().body("Delivery address is required");
             }
             
-            Order savedOrder = orderService.placeOrderFromCart(userId, deliveryAddress);
+            // Check if user exists and has a valid pincode
+            User user = userRepository.findById(userId)
+                    .orElseThrow(() -> new RuntimeException("User not found with id: " + userId));
+            
+            if (user.getPincode() == null || user.getPincode().trim().isEmpty()) {
+                return ResponseEntity.badRequest().body("User must have a valid pincode in their profile for delivery. Please update your profile.");
+            }
+            
+            Order savedOrder = orderService.placeOrderFromCart(userId, deliveryAddress.trim());
             return ResponseEntity.status(HttpStatus.CREATED).body(savedOrder);
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -118,8 +126,12 @@ public class OrderController {
     @PutMapping("/{id}/status")
     public ResponseEntity<?> updateOrderStatus(
             @PathVariable Long id,
-            @RequestParam String status) {
+            @RequestBody Map<String, String> statusData) {
         try {
+            String status = statusData.get("status");
+            if (status == null || status.trim().isEmpty()) {
+                return ResponseEntity.badRequest().body("Status is required");
+            }
             Order updatedOrder = orderService.updateOrderStatus(id, status);
             return ResponseEntity.ok(updatedOrder);
         } catch (RuntimeException e) {
@@ -143,7 +155,7 @@ public class OrderController {
     /**
      * Get all orders (admin function)
      */
-    @GetMapping("/all")
+    @GetMapping({"/all", ""})
     public ResponseEntity<?> getAllOrders() {
         try {
             List<Order> orders = orderService.getAllOrders();

@@ -59,15 +59,15 @@ public class UserService {
         }
         
         if (updatedUser.getAddress() != null) {
-            existingUser.setAddress(updatedUser.getAddress());
+            existingUser.setAddress(updatedUser.getAddress().trim());
         }
         
         if (updatedUser.getPincode() != null) {
-            existingUser.setPincode(updatedUser.getPincode());
+            existingUser.setPincode(updatedUser.getPincode().trim());
         }
         
         if (updatedUser.getContactNumber() != null) {
-            existingUser.setContactNumber(updatedUser.getContactNumber());
+            existingUser.setContactNumber(updatedUser.getContactNumber().trim());
         }
         
         // Don't allow email change through this method for security reasons
