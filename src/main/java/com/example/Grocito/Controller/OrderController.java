@@ -4,11 +4,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import com.example.Grocito.config.LoggerConfig;
 import com.example.Grocito.Entity.Order;
 import com.example.Grocito.Entity.User;
 import com.example.Grocito.Repository.UserRepository;
@@ -17,6 +19,8 @@ import com.example.Grocito.Services.OrderService;
 @RestController
 @RequestMapping("/api/orders")
 public class OrderController {
+
+    private static final Logger logger = LoggerConfig.getLogger(OrderController.class);
 
     @Autowired
     private OrderService orderService;
@@ -29,18 +33,27 @@ public class OrderController {
      */
     @PostMapping("/place")
     public ResponseEntity<?> placeOrder(@RequestBody Order order) {
+        logger.info("Received request to place a new order");
         try {
             if (order.getUser() == null || order.getUser().getId() == null) {
+                logger.warn("Order placement failed: User is required");
                 return ResponseEntity.badRequest().body("User is required for placing the order.");
             }
 
+            logger.debug("Finding user with ID: {}", order.getUser().getId());
             User user = userRepository.findById(order.getUser().getId())
-                    .orElseThrow(() -> new RuntimeException("User not found"));
+                    .orElseThrow(() -> {
+                        logger.error("User not found with ID: {}", order.getUser().getId());
+                        return new RuntimeException("User not found");
+                    });
             order.setUser(user);
 
+            logger.debug("Processing order for user: {}", user.getEmail());
             Order savedOrder = orderService.placeOrder(order);
+            logger.info("Order placed successfully with ID: {}", savedOrder.getId());
             return ResponseEntity.status(HttpStatus.CREATED).body(savedOrder);
         } catch (RuntimeException e) {
+            logger.error("Order placement failed: {}", e.getMessage());
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
@@ -52,21 +65,29 @@ public class OrderController {
     public ResponseEntity<?> placeOrderFromCart(
             @RequestParam Long userId,
             @RequestParam String deliveryAddress) {
+        logger.info("Received request to place order from cart for user ID: {}", userId);
         try {
             // Validate input parameters
             if (userId == null) {
+                logger.warn("Order from cart failed: User ID is required");
                 return ResponseEntity.badRequest().body("User ID is required");
             }
             
             if (deliveryAddress == null || deliveryAddress.trim().isEmpty()) {
+                logger.warn("Order from cart failed: Delivery address is required");
                 return ResponseEntity.badRequest().body("Delivery address is required");
             }
             
             // Check if user exists and has a valid pincode
+            logger.debug("Finding user with ID: {}", userId);
             User user = userRepository.findById(userId)
-                    .orElseThrow(() -> new RuntimeException("User not found with id: " + userId));
+                    .orElseThrow(() -> {
+                        logger.error("User not found with ID: {}", userId);
+                        return new RuntimeException("User not found with id: " + userId);
+                    });
             
             if (user.getPincode() == null || user.getPincode().trim().isEmpty()) {
+                logger.warn("Order from cart failed: User {} has no valid pincode", user.getEmail());
                 return ResponseEntity.badRequest().body("User must have a valid pincode in their profile for delivery. Please update your profile.");
             }
             

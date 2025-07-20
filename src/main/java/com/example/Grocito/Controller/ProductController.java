@@ -2,12 +2,14 @@ package com.example.Grocito.Controller;
 
 import java.util.List;
 
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import com.example.Grocito.config.LoggerConfig;
 import com.example.Grocito.Entity.Product;
 import com.example.Grocito.Services.ProductService;
 
@@ -15,55 +17,86 @@ import com.example.Grocito.Services.ProductService;
 @RequestMapping("/api/products")
 public class ProductController {
 
+    private static final Logger logger = LoggerConfig.getLogger(ProductController.class);
+
     @Autowired
     private ProductService productService;
 
     // Get all products
     @GetMapping
     public ResponseEntity<List<Product>> getAllProducts() {
-        return ResponseEntity.ok(productService.getAllProducts());
+        logger.info("Fetching all products");
+        List<Product> products = productService.getAllProducts();
+        logger.debug("Retrieved {} products", products.size());
+        return ResponseEntity.ok(products);
     }
     
     // Get products by pincode
     @GetMapping("/pincode/{pincode}")
     public ResponseEntity<List<Product>> getProductsByPincode(@PathVariable String pincode) {
-        return ResponseEntity.ok(productService.getProductsByPincode(pincode));
+        logger.info("Fetching products for pincode: {}", pincode);
+        List<Product> products = productService.getProductsByPincode(pincode);
+        logger.debug("Retrieved {} products for pincode: {}", products.size(), pincode);
+        return ResponseEntity.ok(products);
     }
     
     // Get product by ID
     @GetMapping("/{id}")
     public ResponseEntity<?> getProductById(@PathVariable Long id) {
+        logger.info("Fetching product with ID: {}", id);
         return productService.getProductById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+                .map(product -> {
+                    logger.debug("Found product: {}", product.getName());
+                    return ResponseEntity.ok(product);
+                })
+                .orElseGet(() -> {
+                    logger.warn("Product not found with ID: {}", id);
+                    return ResponseEntity.notFound().build();
+                });
     }
     
     // Create new product
     @PostMapping
     public ResponseEntity<Product> createProduct(@RequestBody Product product) {
-        return new ResponseEntity<>(productService.createProduct(product), HttpStatus.CREATED);
+        logger.info("Creating new product: {}", product.getName());
+        Product createdProduct = productService.createProduct(product);
+        logger.info("Product created successfully with ID: {}", createdProduct.getId());
+        return new ResponseEntity<>(createdProduct, HttpStatus.CREATED);
     }
     
     // Update existing product
     @PutMapping("/{id}")
     public ResponseEntity<?> updateProduct(@PathVariable Long id, @RequestBody Product product) {
+        logger.info("Updating product with ID: {}", id);
         return productService.getProductById(id)
                 .map(existingProduct -> {
                     product.setId(id);
-                    return ResponseEntity.ok(productService.updateProduct(product));
+                    logger.debug("Updating product: {} (ID: {})", product.getName(), id);
+                    Product updatedProduct = productService.updateProduct(product);
+                    logger.info("Product updated successfully: {}", updatedProduct.getName());
+                    return ResponseEntity.ok(updatedProduct);
                 })
-                .orElse(ResponseEntity.notFound().build());
+                .orElseGet(() -> {
+                    logger.warn("Cannot update - product not found with ID: {}", id);
+                    return ResponseEntity.notFound().build();
+                });
     }
     
     // Delete product
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteProduct(@PathVariable Long id) {
+        logger.info("Deleting product with ID: {}", id);
         return productService.getProductById(id)
                 .map(product -> {
+                    logger.debug("Found product to delete: {} (ID: {})", product.getName(), id);
                     productService.deleteProduct(id);
+                    logger.info("Product deleted successfully: ID {}", id);
                     return ResponseEntity.ok().build();
                 })
-                .orElse(ResponseEntity.notFound().build());
+                .orElseGet(() -> {
+                    logger.warn("Cannot delete - product not found with ID: {}", id);
+                    return ResponseEntity.notFound().build();
+                });
     }
     
     // Get products by category
