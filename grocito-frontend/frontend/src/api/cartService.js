@@ -1,50 +1,5 @@
 import api from './config';
 
-// Fallback mock data for development/testing when backend is unavailable
-const mockCartItems = [
-  {
-    product: {
-      id: 1,
-      name: "Fresh Tomatoes",
-      price: 40.00,
-      category: "Vegetables",
-      imageUrl: "https://images.unsplash.com/photo-1546094096-0df4bcaaa337?w=500"
-    },
-    quantity: 2
-  },
-  {
-    product: {
-      id: 2,
-      name: "Organic Bananas",
-      price: 30.00,
-      category: "Fruits",
-      imageUrl: "https://images.unsplash.com/photo-1543218024-57a70143c369?w=500"
-    },
-    quantity: 3
-  },
-  {
-    product: {
-      id: 3,
-      name: "Whole Wheat Bread",
-      price: 25.00,
-      category: "Bakery",
-      imageUrl: "https://images.unsplash.com/photo-1598373182133-52452f7691ef?w=500"
-    },
-    quantity: 1
-  }
-];
-
-// Helper to check if backend is available
-const isBackendAvailable = async () => {
-  try {
-    await api.get('/health-check');
-    return true;
-  } catch (error) {
-    console.warn('Backend appears to be unavailable, using mock data');
-    return false;
-  }
-};
-
 // Helper to handle API errors with better messages
 const handleApiError = (error, defaultMessage) => {
   console.error('API Error:', error);

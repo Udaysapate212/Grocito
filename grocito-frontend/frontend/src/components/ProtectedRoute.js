@@ -25,7 +25,7 @@ const ProtectedRoute = ({ children }) => {
         return;
       }
 
-      // Check if user has the correct role for customer app
+      // STRICT ROLE ENFORCEMENT: Check if user has the correct role for customer app
       if (currentUser.role && currentUser.role !== 'USER') {
         console.log('User is not a customer, access denied to customer app');
         let redirectMessage = '';
@@ -37,6 +37,8 @@ const ProtectedRoute = ({ children }) => {
         } else if (currentUser.role === 'DELIVERY_PARTNER') {
           redirectMessage = 'Delivery partners should use the Delivery App';
           redirectUrl = 'http://localhost:3002'; // Future delivery app URL
+        } else {
+          redirectMessage = 'Access denied. This portal is for customers only.';
         }
         
         toast.error(redirectMessage, {
@@ -48,6 +50,11 @@ const ProtectedRoute = ({ children }) => {
         authService.logout();
         
         if (redirectUrl) {
+          toast.info(`Redirecting to ${redirectUrl.replace('http://localhost:', 'port ')}...`, {
+            position: "bottom-right",
+            autoClose: 2000,
+          });
+          
           setTimeout(() => {
             window.location.href = redirectUrl;
           }, 2000);

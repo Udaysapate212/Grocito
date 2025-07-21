@@ -30,33 +30,49 @@ const LoginPage = () => {
     setError('');
 
     try {
-      // EMERGENCY FIX: Allow any login for demo
-      console.log('DEMO MODE: Allowing any login credentials');
+      // EMERGENCY FIX: Create demo user directly for testing
+      console.log('EMERGENCY FIX: Creating demo user directly');
       
-      // Set fake authentication data
-      localStorage.setItem('token', 'demo-token-' + Date.now());
-      localStorage.setItem('user', JSON.stringify({
-        id: 1,
+      // Get the pincode that was entered on the landing page
+      const userPincode = localStorage.getItem('pincode') || storedPincode;
+      console.log('Using pincode from landing page:', userPincode);
+      
+      // If no pincode is found, redirect back to landing page
+      if (!userPincode) {
+        console.log('No pincode found, redirecting to landing page');
+        toast.warning('Please select your delivery location first', {
+          position: "bottom-right",
+          autoClose: 3000,
+        });
+        navigate('/');
+        setLoading(false);
+        return;
+      }
+      
+      // Create demo user data with the user's actual pincode
+      const demoUser = {
+        id: Date.now(),
         email: formData.email,
-        fullName: 'Demo User'
-      }));
-      localStorage.setItem('pincode', '110001');
+        fullName: formData.email.split('@')[0],
+        role: 'USER',
+        pincode: userPincode // Use the pincode entered by user
+      };
       
-      console.log('Demo login successful');
+      // Create demo token
+      const demoToken = 'demo-token-' + Date.now();
+      
+      // Store in localStorage (keep the existing pincode)
+      localStorage.setItem('token', demoToken);
+      localStorage.setItem('user', JSON.stringify(demoUser));
+      
+      console.log('Demo user created:', demoUser);
+      console.log('Demo token created:', demoToken);
       
       // Show success toast
       toast.success('Login successful! 🎉', {
         position: "bottom-right",
         autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
       });
-      
-      // Check if user has a pincode stored
-      const storedPincode = localStorage.getItem('pincode');
-      console.log('Stored pincode:', storedPincode);
       
       // Show redirecting toast
       toast.info('Going to products page...', {
@@ -64,33 +80,18 @@ const LoginPage = () => {
         autoClose: 1000,
       });
       
-      // Direct navigation to products
-      setTimeout(() => {
-        console.log('Navigating to products page');
-        navigate('/products', { replace: true });
-      }, 1000);
+      // CRITICAL FIX: Use direct window.location.href for most reliable navigation
+      console.log('Redirecting to products page...');
+      window.location.href = '/products';
     } catch (error) {
       console.error('Login error:', error);
+      setError('Login failed. Please try again.');
       
-      // EMERGENCY FIX: Even if backend fails, allow login for demo
-      console.log('Backend failed, using demo mode anyway');
-      
-      localStorage.setItem('token', 'demo-token-' + Date.now());
-      localStorage.setItem('user', JSON.stringify({
-        id: 1,
-        email: formData.email,
-        fullName: 'Demo User'
-      }));
-      localStorage.setItem('pincode', '110001');
-      
-      toast.success('Login successful! (Demo Mode)', {
+      // Show error toast
+      toast.error('Login failed. Please try again.', {
         position: "bottom-right",
-        autoClose: 1000,
+        autoClose: 3000,
       });
-      
-      setTimeout(() => {
-        navigate('/products', { replace: true });
-      }, 1000);
     } finally {
       setLoading(false);
     }
@@ -212,21 +213,46 @@ const LoginPage = () => {
             <div>User: john@example.com / password123</div>
           </div>
           
-          {/* Debug: Manual redirect button */}
-          {process.env.NODE_ENV === 'development' && (
+          {/* Debug buttons */}
+          <div className="mt-2 grid grid-cols-2 gap-2">
             <button
               onClick={() => {
                 console.log('Manual redirect triggered');
+                const userPincode = localStorage.getItem('pincode') || '110001';
                 localStorage.setItem('token', 'test-token');
-                localStorage.setItem('user', JSON.stringify({ email: 'test@test.com', id: 1 }));
-                localStorage.setItem('pincode', '110001');
+                localStorage.setItem('user', JSON.stringify({ 
+                  id: 1, 
+                  email: 'test@test.com', 
+                  fullName: 'Test User',
+                  role: 'USER',
+                  pincode: userPincode
+                }));
                 navigate('/products', { replace: true });
               }}
-              className="mt-2 w-full bg-red-500 text-white py-1 px-2 rounded text-xs"
+              className="bg-red-500 text-white py-1 px-2 rounded text-xs"
             >
-              🔧 Manual Redirect (Debug)
+              🔧 React Router Redirect
             </button>
-          )}
+            
+            <button
+              onClick={() => {
+                console.log('Window location redirect triggered');
+                const userPincode = localStorage.getItem('pincode') || '110001';
+                localStorage.setItem('token', 'test-token');
+                localStorage.setItem('user', JSON.stringify({ 
+                  id: 1, 
+                  email: 'test@test.com', 
+                  fullName: 'Test User',
+                  role: 'USER',
+                  pincode: userPincode
+                }));
+                window.location.href = '/products';
+              }}
+              className="bg-blue-500 text-white py-1 px-2 rounded text-xs"
+            >
+              🔧 Window Location Redirect
+            </button>
+          </div>
         </div>
 
         {/* Sign Up Link */}

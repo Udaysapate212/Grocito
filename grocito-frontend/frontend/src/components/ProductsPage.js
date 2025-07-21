@@ -27,10 +27,16 @@ const ProductsPage = () => {
   const navigate = useNavigate();
   const pincode = localStorage.getItem('pincode');
 
-  const fetchProducts = async () => {
+  const fetchProducts = async (userPincode) => {
     try {
       setLoading(true);
-      const productsData = await productService.getProductsByPincode(pincode);
+      // Use the provided userPincode parameter instead of the global pincode
+      const pincodeToUse = userPincode || pincode;
+      console.log(`Fetching products for pincode: ${pincodeToUse}`);
+      
+      const productsData = await productService.getProductsByPincode(pincodeToUse);
+      console.log(`Found ${productsData.length} products for pincode ${pincodeToUse}`);
+      
       setProducts(productsData);
       setFilteredProducts(productsData);
 
@@ -38,7 +44,7 @@ const ProductsPage = () => {
       const uniqueCategories = [...new Set(productsData.map(product => product.category))];
       setCategories(['All', ...uniqueCategories]);
     } catch (error) {
-      setError('Failed to load products');
+      setError(`Failed to load products for pincode ${userPincode || pincode}`);
       console.error('Error fetching products:', error);
     } finally {
       setLoading(false);
@@ -57,35 +63,70 @@ const ProductsPage = () => {
 
   useEffect(() => {
     console.log('ProductsPage useEffect triggered');
-    const currentUser = authService.getCurrentUser();
-    console.log('Current user:', currentUser);
-    console.log('Current pincode:', pincode);
     
-    if (!currentUser) {
-      console.log('No user found, redirecting to login');
+    // CRITICAL FIX: Ensure we have a valid user and pincode
+    try {
+      // Get current user from auth service
+      const currentUser = authService.getCurrentUser();
+      console.log('Current user:', currentUser);
+      
+      // Check if user is logged in
+      if (!currentUser || !currentUser.id) {
+        console.log('No valid user found, redirecting to login');
+        toast.warning('Please login to continue', {
+          position: "bottom-right",
+          autoClose: 3000,
+        });
+        navigate('/login');
+        return;
+      }
+      
+      // Set user state
+      setUser(currentUser);
+      
+      // Get pincode - prioritize user's profile pincode, then localStorage pincode
+      const storedPincode = localStorage.getItem('pincode');
+      console.log('Stored pincode:', storedPincode);
+      
+      // Determine which pincode to use
+      let pincodeToUse = currentUser.pincode || storedPincode;
+      console.log('Pincode to use:', pincodeToUse);
+      
+      // If no pincode is available, use a default one
+      if (!pincodeToUse) {
+        pincodeToUse = '110001'; // Default pincode
+        console.log('No pincode found, using default:', pincodeToUse);
+        localStorage.setItem('pincode', pincodeToUse);
+        toast.info(`Using default delivery location: ${pincodeToUse}`, {
+          position: "bottom-right",
+          autoClose: 3000,
+        });
+      }
+      
+      // Update pincode in localStorage if it's different from user's pincode
+      if (currentUser.pincode && currentUser.pincode !== storedPincode) {
+        localStorage.setItem('pincode', currentUser.pincode);
+        console.log('Updated pincode from user profile:', currentUser.pincode);
+        toast.info(`Delivery location updated to your address pincode: ${currentUser.pincode}`, {
+          position: "bottom-right",
+          autoClose: 3000,
+        });
+      }
+      
+      // Fetch products and cart data
+      console.log('Fetching products and cart data for pincode:', pincodeToUse);
+      fetchProducts(pincodeToUse);
+      fetchCartData(currentUser.id);
+      
+      // Show guide for first-time users
+      const hasSeenGuide = localStorage.getItem('hasSeenGuide');
+      if (!hasSeenGuide) {
+        setTimeout(() => setShowGuide(true), 1000); // Delay guide to let page load
+      }
+    } catch (error) {
+      console.error('Error in ProductsPage initialization:', error);
+      toast.error('Something went wrong. Please try again.');
       navigate('/login');
-      return;
-    }
-    setUser(currentUser);
-
-    if (!pincode) {
-      console.log('No pincode found, redirecting to landing page');
-      toast.info('Please select your delivery location first', {
-        position: "bottom-right",
-        autoClose: 3000,
-      });
-      navigate('/');
-      return;
-    }
-
-    console.log('Fetching products and cart data');
-    fetchProducts();
-    fetchCartData(currentUser.id);
-
-    // Show guide for first-time users
-    const hasSeenGuide = localStorage.getItem('hasSeenGuide');
-    if (!hasSeenGuide) {
-      setTimeout(() => setShowGuide(true), 1000); // Delay guide to let page load
     }
   }, [navigate, pincode]);
 
@@ -112,16 +153,39 @@ const ProductsPage = () => {
 
   const addToCart = async (productId) => {
     try {
+      // Ensure we have a valid user
+      if (!user || !user.id) {
+        console.error('Cannot add to cart: No valid user found');
+        toast.error('Please login to add items to cart');
+        navigate('/login');
+        return;
+      }
+      
+      console.log(`Adding product ${productId} to cart for user ${user.id}`);
       setAddingToCart(prev => ({ ...prev, [productId]: true }));
-      await cartService.addToCart(user.id, productId, 1);
+      
+      // Add to cart
+      const result = await cartService.addToCart(user.id, productId, 1);
+      console.log('Add to cart result:', result);
+      
+      // Refresh cart data
       await fetchCartData(user.id);
+      
+      // Show success message
       toast.success('Added to cart!', {
         position: "bottom-right",
         autoClose: 2000,
       });
     } catch (error) {
-      toast.error('Failed to add to cart');
       console.error('Error adding to cart:', error);
+      
+      // Check if it's an authentication error
+      if (error.message?.includes('authentication') || error.message?.includes('token')) {
+        toast.error('Your session has expired. Please login again.');
+        navigate('/login');
+      } else {
+        toast.error(error.message || 'Failed to add to cart');
+      }
     } finally {
       setAddingToCart(prev => ({ ...prev, [productId]: false }));
     }
@@ -146,6 +210,9 @@ const ProductsPage = () => {
     return <LoadingSpinner message="Loading products..." />;
   }
 
+  // Get the current pincode being used
+  const currentPincode = user?.pincode || pincode;
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-yellow-50 to-green-50">
       <Header user={user} cartCount={cartCount} />
@@ -163,9 +230,14 @@ const ProductsPage = () => {
               Fresh Groceries Delivered Fast
             </h1>
           </div>
-          <p className="text-gray-700 text-lg">
-            Choose from <span className="font-semibold text-green-600 bg-yellow-200 px-3 py-1 rounded-full">{products.length}</span> products available in your area
-          </p>
+          <div className="text-gray-700 text-lg">
+            <p>
+              Welcome back, <span className="font-semibold text-green-700">{user?.fullName || user?.email?.split('@')[0] || 'User'}</span>!
+            </p>
+            <p className="mt-2">
+              Choose from <span className="font-semibold text-green-600 bg-yellow-200 px-3 py-1 rounded-full">{products.length}</span> products available in <span className="font-semibold text-green-700">{currentPincode}</span>
+            </p>
+          </div>
         </div>
 
         <SearchAndFilter

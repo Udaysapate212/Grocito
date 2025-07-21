@@ -1138,3 +1138,498 @@ Identify and stop the process that's listening on port 8080 or configure this ap
 2025-07-21 15:11:22 [http-nio-8080-exec-1] DEBUG org.hibernate.SQL - select p1_0.id,p1_0.category,p1_0.description,p1_0.image_url,p1_0.name,p1_0.pincode,p1_0.price,p1_0.stock from products p1_0 where p1_0.pincode=?
 2025-07-21 15:11:22 [http-nio-8080-exec-1] DEBUG c.e.Grocito.Services.ProductService - Found 9 products for pincode: 110001
 2025-07-21 15:11:22 [http-nio-8080-exec-1] DEBUG c.e.G.Controller.ProductController - Retrieved 9 products for pincode: 110001
+2025-07-21 15:18:04 [http-nio-8080-exec-9] INFO  c.e.G.Controller.ProductController - Fetching products for pincode: 110001
+2025-07-21 15:18:04 [http-nio-8080-exec-9] DEBUG c.e.Grocito.Services.ProductService - Fetching products for pincode: 110001
+2025-07-21 15:18:04 [http-nio-8080-exec-9] DEBUG org.hibernate.SQL - select p1_0.id,p1_0.category,p1_0.description,p1_0.image_url,p1_0.name,p1_0.pincode,p1_0.price,p1_0.stock from products p1_0 where p1_0.pincode=?
+2025-07-21 15:18:04 [http-nio-8080-exec-9] DEBUG c.e.Grocito.Services.ProductService - Found 9 products for pincode: 110001
+2025-07-21 15:18:04 [http-nio-8080-exec-9] DEBUG c.e.G.Controller.ProductController - Retrieved 9 products for pincode: 110001
+2025-07-21 15:18:15 [http-nio-8080-exec-10] INFO  c.e.G.Controller.ProductController - Fetching products for pincode: 110001
+2025-07-21 15:18:15 [http-nio-8080-exec-10] DEBUG c.e.Grocito.Services.ProductService - Fetching products for pincode: 110001
+2025-07-21 15:18:15 [http-nio-8080-exec-10] DEBUG org.hibernate.SQL - select p1_0.id,p1_0.category,p1_0.description,p1_0.image_url,p1_0.name,p1_0.pincode,p1_0.price,p1_0.stock from products p1_0 where p1_0.pincode=?
+2025-07-21 15:18:15 [http-nio-8080-exec-10] DEBUG c.e.Grocito.Services.ProductService - Found 9 products for pincode: 110001
+2025-07-21 15:18:15 [http-nio-8080-exec-10] DEBUG c.e.G.Controller.ProductController - Retrieved 9 products for pincode: 110001
+2025-07-21 15:18:15 [http-nio-8080-exec-6] INFO  c.e.G.Controller.ProductController - Fetching products for pincode: 110001
+2025-07-21 15:18:15 [http-nio-8080-exec-6] DEBUG c.e.Grocito.Services.ProductService - Fetching products for pincode: 110001
+2025-07-21 15:18:15 [http-nio-8080-exec-6] DEBUG org.hibernate.SQL - select p1_0.id,p1_0.category,p1_0.description,p1_0.image_url,p1_0.name,p1_0.pincode,p1_0.price,p1_0.stock from products p1_0 where p1_0.pincode=?
+2025-07-21 15:18:15 [http-nio-8080-exec-6] DEBUG c.e.Grocito.Services.ProductService - Found 9 products for pincode: 110001
+2025-07-21 15:18:15 [http-nio-8080-exec-6] DEBUG c.e.G.Controller.ProductController - Retrieved 9 products for pincode: 110001
+2025-07-21 15:19:14 [http-nio-8080-exec-3] INFO  c.e.G.Controller.UserController - Login attempt for user: johndoe@grocito.com
+2025-07-21 15:19:14 [http-nio-8080-exec-3] DEBUG c.e.Grocito.Services.UserService - Attempting login for user: johndoe@grocito.com
+2025-07-21 15:19:14 [http-nio-8080-exec-3] DEBUG org.hibernate.SQL - select u1_0.id,u1_0.address,u1_0.contact_number,u1_0.email,u1_0.full_name,u1_0.password,u1_0.pincode,u1_0.registered_date,u1_0.role from users u1_0 where u1_0.email=?
+2025-07-21 15:19:14 [http-nio-8080-exec-3] INFO  c.e.Grocito.Services.UserService - User logged in successfully: johndoe@grocito.com
+2025-07-21 15:19:14 [http-nio-8080-exec-3] INFO  c.e.G.Controller.UserController - User logged in successfully: johndoe@grocito.com
+2025-07-21 15:36:24 [http-nio-8080-exec-7] INFO  c.e.G.Controller.ProductController - Fetching products for pincode: 412105
+2025-07-21 15:36:24 [http-nio-8080-exec-7] DEBUG c.e.Grocito.Services.ProductService - Fetching products for pincode: 412105
+2025-07-21 15:36:24 [http-nio-8080-exec-7] DEBUG org.hibernate.SQL - select p1_0.id,p1_0.category,p1_0.description,p1_0.image_url,p1_0.name,p1_0.pincode,p1_0.price,p1_0.stock from products p1_0 where p1_0.pincode=?
+2025-07-21 15:36:24 [http-nio-8080-exec-7] DEBUG c.e.Grocito.Services.ProductService - Found 10 products for pincode: 412105
+2025-07-21 15:36:24 [http-nio-8080-exec-7] DEBUG c.e.G.Controller.ProductController - Retrieved 10 products for pincode: 412105
+2025-07-21 15:37:15 [http-nio-8080-exec-2] INFO  c.e.G.Controller.UserController - Login attempt for user: udaysapate212@gmail.com
+2025-07-21 15:37:15 [http-nio-8080-exec-2] DEBUG c.e.Grocito.Services.UserService - Attempting login for user: udaysapate212@gmail.com
+2025-07-21 15:37:15 [http-nio-8080-exec-2] DEBUG org.hibernate.SQL - select u1_0.id,u1_0.address,u1_0.contact_number,u1_0.email,u1_0.full_name,u1_0.password,u1_0.pincode,u1_0.registered_date,u1_0.role from users u1_0 where u1_0.email=?
+2025-07-21 15:37:15 [http-nio-8080-exec-2] INFO  c.e.Grocito.Services.UserService - User logged in successfully: udaysapate212@gmail.com
+2025-07-21 15:37:15 [http-nio-8080-exec-2] INFO  c.e.G.Controller.UserController - User logged in successfully: udaysapate212@gmail.com
+2025-07-21 15:37:28 [http-nio-8080-exec-5] INFO  c.e.G.Controller.ProductController - Fetching products for pincode: 412105
+2025-07-21 15:37:28 [http-nio-8080-exec-5] DEBUG c.e.Grocito.Services.ProductService - Fetching products for pincode: 412105
+2025-07-21 15:37:28 [http-nio-8080-exec-5] DEBUG org.hibernate.SQL - select p1_0.id,p1_0.category,p1_0.description,p1_0.image_url,p1_0.name,p1_0.pincode,p1_0.price,p1_0.stock from products p1_0 where p1_0.pincode=?
+2025-07-21 15:37:28 [http-nio-8080-exec-5] DEBUG c.e.Grocito.Services.ProductService - Found 10 products for pincode: 412105
+2025-07-21 15:37:28 [http-nio-8080-exec-5] DEBUG c.e.G.Controller.ProductController - Retrieved 10 products for pincode: 412105
+2025-07-21 15:37:40 [http-nio-8080-exec-8] INFO  c.e.G.Controller.UserController - Login attempt for user: jagdishbabalsure@gmail.com
+2025-07-21 15:37:40 [http-nio-8080-exec-8] DEBUG c.e.Grocito.Services.UserService - Attempting login for user: jagdishbabalsure@gmail.com
+2025-07-21 15:37:40 [http-nio-8080-exec-8] DEBUG org.hibernate.SQL - select u1_0.id,u1_0.address,u1_0.contact_number,u1_0.email,u1_0.full_name,u1_0.password,u1_0.pincode,u1_0.registered_date,u1_0.role from users u1_0 where u1_0.email=?
+2025-07-21 15:37:40 [http-nio-8080-exec-8] INFO  c.e.Grocito.Services.UserService - User logged in successfully: jagdishbabalsure@gmail.com
+2025-07-21 15:37:40 [http-nio-8080-exec-8] INFO  c.e.G.Controller.UserController - User logged in successfully: jagdishbabalsure@gmail.com
+2025-07-21 15:38:03 [http-nio-8080-exec-3] INFO  c.e.G.Controller.UserController - Login attempt for user: jagdishbabalsure@gmail.com
+2025-07-21 15:38:03 [http-nio-8080-exec-3] DEBUG c.e.Grocito.Services.UserService - Attempting login for user: jagdishbabalsure@gmail.com
+2025-07-21 15:38:03 [http-nio-8080-exec-3] DEBUG org.hibernate.SQL - select u1_0.id,u1_0.address,u1_0.contact_number,u1_0.email,u1_0.full_name,u1_0.password,u1_0.pincode,u1_0.registered_date,u1_0.role from users u1_0 where u1_0.email=?
+2025-07-21 15:38:03 [http-nio-8080-exec-3] INFO  c.e.Grocito.Services.UserService - User logged in successfully: jagdishbabalsure@gmail.com
+2025-07-21 15:38:03 [http-nio-8080-exec-3] INFO  c.e.G.Controller.UserController - User logged in successfully: jagdishbabalsure@gmail.com
+2025-07-21 15:38:12 [http-nio-8080-exec-1] INFO  c.e.G.Controller.ProductController - Fetching products for pincode: 110001
+2025-07-21 15:38:12 [http-nio-8080-exec-1] DEBUG c.e.Grocito.Services.ProductService - Fetching products for pincode: 110001
+2025-07-21 15:38:12 [http-nio-8080-exec-1] DEBUG org.hibernate.SQL - select p1_0.id,p1_0.category,p1_0.description,p1_0.image_url,p1_0.name,p1_0.pincode,p1_0.price,p1_0.stock from products p1_0 where p1_0.pincode=?
+2025-07-21 15:38:12 [http-nio-8080-exec-1] DEBUG c.e.Grocito.Services.ProductService - Found 9 products for pincode: 110001
+2025-07-21 15:38:12 [http-nio-8080-exec-1] DEBUG c.e.G.Controller.ProductController - Retrieved 9 products for pincode: 110001
+2025-07-21 15:38:12 [http-nio-8080-exec-8] INFO  c.e.G.Controller.ProductController - Fetching products for pincode: 110001
+2025-07-21 15:38:12 [http-nio-8080-exec-8] DEBUG c.e.Grocito.Services.ProductService - Fetching products for pincode: 110001
+2025-07-21 15:38:12 [http-nio-8080-exec-8] DEBUG org.hibernate.SQL - select p1_0.id,p1_0.category,p1_0.description,p1_0.image_url,p1_0.name,p1_0.pincode,p1_0.price,p1_0.stock from products p1_0 where p1_0.pincode=?
+2025-07-21 15:38:12 [http-nio-8080-exec-8] DEBUG c.e.Grocito.Services.ProductService - Found 9 products for pincode: 110001
+2025-07-21 15:38:12 [http-nio-8080-exec-8] DEBUG c.e.G.Controller.ProductController - Retrieved 9 products for pincode: 110001
+2025-07-21 15:38:52 [http-nio-8080-exec-3] INFO  c.e.G.Controller.UserController - Login attempt for user: sunitasapate1972@gmail.com
+2025-07-21 15:38:52 [http-nio-8080-exec-3] DEBUG c.e.Grocito.Services.UserService - Attempting login for user: sunitasapate1972@gmail.com
+2025-07-21 15:38:52 [http-nio-8080-exec-3] DEBUG org.hibernate.SQL - select u1_0.id,u1_0.address,u1_0.contact_number,u1_0.email,u1_0.full_name,u1_0.password,u1_0.pincode,u1_0.registered_date,u1_0.role from users u1_0 where u1_0.email=?
+2025-07-21 15:38:52 [http-nio-8080-exec-3] INFO  c.e.Grocito.Services.UserService - User logged in successfully: sunitasapate1972@gmail.com
+2025-07-21 15:38:52 [http-nio-8080-exec-3] INFO  c.e.G.Controller.UserController - User logged in successfully: sunitasapate1972@gmail.com
+2025-07-21 16:00:52 [http-nio-8080-exec-5] INFO  c.e.G.Controller.ProductController - Fetching products for pincode: 412105
+2025-07-21 16:00:52 [http-nio-8080-exec-5] DEBUG c.e.Grocito.Services.ProductService - Fetching products for pincode: 412105
+2025-07-21 16:00:52 [http-nio-8080-exec-5] DEBUG org.hibernate.SQL - select p1_0.id,p1_0.category,p1_0.description,p1_0.image_url,p1_0.name,p1_0.pincode,p1_0.price,p1_0.stock from products p1_0 where p1_0.pincode=?
+2025-07-21 16:00:52 [http-nio-8080-exec-5] DEBUG c.e.Grocito.Services.ProductService - Found 10 products for pincode: 412105
+2025-07-21 16:00:52 [http-nio-8080-exec-5] DEBUG c.e.G.Controller.ProductController - Retrieved 10 products for pincode: 412105
+2025-07-21 16:01:03 [http-nio-8080-exec-9] INFO  c.e.G.Controller.UserController - Login attempt for user: jagdishbabalsure@gmail.com
+2025-07-21 16:01:03 [http-nio-8080-exec-9] DEBUG c.e.Grocito.Services.UserService - Attempting login for user: jagdishbabalsure@gmail.com
+2025-07-21 16:01:03 [http-nio-8080-exec-9] DEBUG org.hibernate.SQL - select u1_0.id,u1_0.address,u1_0.contact_number,u1_0.email,u1_0.full_name,u1_0.password,u1_0.pincode,u1_0.registered_date,u1_0.role from users u1_0 where u1_0.email=?
+2025-07-21 16:01:03 [http-nio-8080-exec-9] INFO  c.e.Grocito.Services.UserService - User logged in successfully: jagdishbabalsure@gmail.com
+2025-07-21 16:01:03 [http-nio-8080-exec-9] INFO  c.e.G.Controller.UserController - User logged in successfully: jagdishbabalsure@gmail.com
+2025-07-21 16:01:27 [http-nio-8080-exec-6] INFO  c.e.G.Controller.ProductController - Fetching products for pincode: 110001
+2025-07-21 16:01:27 [http-nio-8080-exec-6] DEBUG c.e.Grocito.Services.ProductService - Fetching products for pincode: 110001
+2025-07-21 16:01:27 [http-nio-8080-exec-2] INFO  c.e.G.Controller.CartController - Received request to get cart items for user ID: 1
+2025-07-21 16:01:27 [http-nio-8080-exec-2] INFO  c.e.Grocito.Services.CartService - Retrieving cart items for user ID: 1
+2025-07-21 16:01:27 [http-nio-8080-exec-6] DEBUG org.hibernate.SQL - select p1_0.id,p1_0.category,p1_0.description,p1_0.image_url,p1_0.name,p1_0.pincode,p1_0.price,p1_0.stock from products p1_0 where p1_0.pincode=?
+2025-07-21 16:01:27 [http-nio-8080-exec-2] DEBUG org.hibernate.SQL - select c1_0.id,c1_0.user_id from cart c1_0 left join users u1_0 on u1_0.id=c1_0.user_id where u1_0.id=?
+2025-07-21 16:01:27 [http-nio-8080-exec-6] DEBUG c.e.Grocito.Services.ProductService - Found 9 products for pincode: 110001
+2025-07-21 16:01:27 [http-nio-8080-exec-6] DEBUG c.e.G.Controller.ProductController - Retrieved 9 products for pincode: 110001
+2025-07-21 16:01:27 [http-nio-8080-exec-2] DEBUG org.hibernate.SQL - select u1_0.id,u1_0.address,u1_0.contact_number,u1_0.email,u1_0.full_name,u1_0.password,u1_0.pincode,u1_0.registered_date,u1_0.role from users u1_0 where u1_0.id=?
+2025-07-21 16:01:27 [http-nio-8080-exec-2] DEBUG org.hibernate.SQL - select i1_0.cart_id,i1_0.id,p1_0.id,p1_0.category,p1_0.description,p1_0.image_url,p1_0.name,p1_0.pincode,p1_0.price,p1_0.stock,i1_0.quantity from cart_item i1_0 left join products p1_0 on p1_0.id=i1_0.product_id where i1_0.cart_id=?
+2025-07-21 16:01:27 [http-nio-8080-exec-7] INFO  c.e.G.Controller.ProductController - Fetching products for pincode: 110001
+2025-07-21 16:01:27 [http-nio-8080-exec-7] DEBUG c.e.Grocito.Services.ProductService - Fetching products for pincode: 110001
+2025-07-21 16:01:27 [http-nio-8080-exec-2] DEBUG c.e.Grocito.Services.CartService - Found 3 items in cart for user ID: 1
+2025-07-21 16:01:27 [http-nio-8080-exec-2] INFO  c.e.G.Controller.CartController - Successfully retrieved 3 cart items for user ID: 1
+2025-07-21 16:01:27 [http-nio-8080-exec-7] DEBUG org.hibernate.SQL - select p1_0.id,p1_0.category,p1_0.description,p1_0.image_url,p1_0.name,p1_0.pincode,p1_0.price,p1_0.stock from products p1_0 where p1_0.pincode=?
+2025-07-21 16:01:27 [http-nio-8080-exec-7] DEBUG c.e.Grocito.Services.ProductService - Found 9 products for pincode: 110001
+2025-07-21 16:01:27 [http-nio-8080-exec-7] DEBUG c.e.G.Controller.ProductController - Retrieved 9 products for pincode: 110001
+2025-07-21 16:01:27 [http-nio-8080-exec-5] INFO  c.e.G.Controller.CartController - Received request to get cart items for user ID: 1
+2025-07-21 16:01:27 [http-nio-8080-exec-5] INFO  c.e.Grocito.Services.CartService - Retrieving cart items for user ID: 1
+2025-07-21 16:01:27 [http-nio-8080-exec-5] DEBUG org.hibernate.SQL - select c1_0.id,c1_0.user_id from cart c1_0 left join users u1_0 on u1_0.id=c1_0.user_id where u1_0.id=?
+2025-07-21 16:01:27 [http-nio-8080-exec-5] DEBUG org.hibernate.SQL - select u1_0.id,u1_0.address,u1_0.contact_number,u1_0.email,u1_0.full_name,u1_0.password,u1_0.pincode,u1_0.registered_date,u1_0.role from users u1_0 where u1_0.id=?
+2025-07-21 16:01:27 [http-nio-8080-exec-5] DEBUG org.hibernate.SQL - select i1_0.cart_id,i1_0.id,p1_0.id,p1_0.category,p1_0.description,p1_0.image_url,p1_0.name,p1_0.pincode,p1_0.price,p1_0.stock,i1_0.quantity from cart_item i1_0 left join products p1_0 on p1_0.id=i1_0.product_id where i1_0.cart_id=?
+2025-07-21 16:01:27 [http-nio-8080-exec-5] DEBUG c.e.Grocito.Services.CartService - Found 3 items in cart for user ID: 1
+2025-07-21 16:01:27 [http-nio-8080-exec-5] INFO  c.e.G.Controller.CartController - Successfully retrieved 3 cart items for user ID: 1
+2025-07-21 16:01:33 [http-nio-8080-exec-3] INFO  c.e.G.Controller.ProductController - Fetching products for pincode: 110001
+2025-07-21 16:01:33 [http-nio-8080-exec-10] INFO  c.e.G.Controller.CartController - Received request to get cart items for user ID: 1
+2025-07-21 16:01:33 [http-nio-8080-exec-3] DEBUG c.e.Grocito.Services.ProductService - Fetching products for pincode: 110001
+2025-07-21 16:01:33 [http-nio-8080-exec-10] INFO  c.e.Grocito.Services.CartService - Retrieving cart items for user ID: 1
+2025-07-21 16:01:33 [http-nio-8080-exec-3] DEBUG org.hibernate.SQL - select p1_0.id,p1_0.category,p1_0.description,p1_0.image_url,p1_0.name,p1_0.pincode,p1_0.price,p1_0.stock from products p1_0 where p1_0.pincode=?
+2025-07-21 16:01:33 [http-nio-8080-exec-3] DEBUG c.e.Grocito.Services.ProductService - Found 9 products for pincode: 110001
+2025-07-21 16:01:33 [http-nio-8080-exec-3] DEBUG c.e.G.Controller.ProductController - Retrieved 9 products for pincode: 110001
+2025-07-21 16:01:33 [http-nio-8080-exec-10] DEBUG org.hibernate.SQL - select c1_0.id,c1_0.user_id from cart c1_0 left join users u1_0 on u1_0.id=c1_0.user_id where u1_0.id=?
+2025-07-21 16:01:33 [http-nio-8080-exec-10] DEBUG org.hibernate.SQL - select u1_0.id,u1_0.address,u1_0.contact_number,u1_0.email,u1_0.full_name,u1_0.password,u1_0.pincode,u1_0.registered_date,u1_0.role from users u1_0 where u1_0.id=?
+2025-07-21 16:01:33 [http-nio-8080-exec-6] INFO  c.e.G.Controller.ProductController - Fetching products for pincode: 110001
+2025-07-21 16:01:33 [http-nio-8080-exec-6] DEBUG c.e.Grocito.Services.ProductService - Fetching products for pincode: 110001
+2025-07-21 16:01:33 [http-nio-8080-exec-10] DEBUG org.hibernate.SQL - select i1_0.cart_id,i1_0.id,p1_0.id,p1_0.category,p1_0.description,p1_0.image_url,p1_0.name,p1_0.pincode,p1_0.price,p1_0.stock,i1_0.quantity from cart_item i1_0 left join products p1_0 on p1_0.id=i1_0.product_id where i1_0.cart_id=?
+2025-07-21 16:01:33 [http-nio-8080-exec-6] DEBUG org.hibernate.SQL - select p1_0.id,p1_0.category,p1_0.description,p1_0.image_url,p1_0.name,p1_0.pincode,p1_0.price,p1_0.stock from products p1_0 where p1_0.pincode=?
+2025-07-21 16:01:33 [http-nio-8080-exec-10] DEBUG c.e.Grocito.Services.CartService - Found 3 items in cart for user ID: 1
+2025-07-21 16:01:33 [http-nio-8080-exec-10] INFO  c.e.G.Controller.CartController - Successfully retrieved 3 cart items for user ID: 1
+2025-07-21 16:01:33 [http-nio-8080-exec-6] DEBUG c.e.Grocito.Services.ProductService - Found 9 products for pincode: 110001
+2025-07-21 16:01:33 [http-nio-8080-exec-6] DEBUG c.e.G.Controller.ProductController - Retrieved 9 products for pincode: 110001
+2025-07-21 16:01:33 [http-nio-8080-exec-2] INFO  c.e.G.Controller.CartController - Received request to get cart items for user ID: 1
+2025-07-21 16:01:33 [http-nio-8080-exec-2] INFO  c.e.Grocito.Services.CartService - Retrieving cart items for user ID: 1
+2025-07-21 16:01:33 [http-nio-8080-exec-2] DEBUG org.hibernate.SQL - select c1_0.id,c1_0.user_id from cart c1_0 left join users u1_0 on u1_0.id=c1_0.user_id where u1_0.id=?
+2025-07-21 16:01:33 [http-nio-8080-exec-2] DEBUG org.hibernate.SQL - select u1_0.id,u1_0.address,u1_0.contact_number,u1_0.email,u1_0.full_name,u1_0.password,u1_0.pincode,u1_0.registered_date,u1_0.role from users u1_0 where u1_0.id=?
+2025-07-21 16:01:33 [http-nio-8080-exec-2] DEBUG org.hibernate.SQL - select i1_0.cart_id,i1_0.id,p1_0.id,p1_0.category,p1_0.description,p1_0.image_url,p1_0.name,p1_0.pincode,p1_0.price,p1_0.stock,i1_0.quantity from cart_item i1_0 left join products p1_0 on p1_0.id=i1_0.product_id where i1_0.cart_id=?
+2025-07-21 16:01:33 [http-nio-8080-exec-2] DEBUG c.e.Grocito.Services.CartService - Found 3 items in cart for user ID: 1
+2025-07-21 16:01:33 [http-nio-8080-exec-2] INFO  c.e.G.Controller.CartController - Successfully retrieved 3 cart items for user ID: 1
+2025-07-21 16:02:19 [http-nio-8080-exec-5] INFO  c.e.G.Controller.ProductController - Fetching products for pincode: 412105
+2025-07-21 16:02:19 [http-nio-8080-exec-5] DEBUG c.e.Grocito.Services.ProductService - Fetching products for pincode: 412105
+2025-07-21 16:02:19 [http-nio-8080-exec-5] DEBUG org.hibernate.SQL - select p1_0.id,p1_0.category,p1_0.description,p1_0.image_url,p1_0.name,p1_0.pincode,p1_0.price,p1_0.stock from products p1_0 where p1_0.pincode=?
+2025-07-21 16:02:19 [http-nio-8080-exec-5] DEBUG c.e.Grocito.Services.ProductService - Found 10 products for pincode: 412105
+2025-07-21 16:02:19 [http-nio-8080-exec-5] DEBUG c.e.G.Controller.ProductController - Retrieved 10 products for pincode: 412105
+2025-07-21 16:02:37 [http-nio-8080-exec-3] INFO  c.e.G.Controller.UserController - Login attempt for user: utksapate@gmail.com
+2025-07-21 16:02:37 [http-nio-8080-exec-3] DEBUG c.e.Grocito.Services.UserService - Attempting login for user: utksapate@gmail.com
+2025-07-21 16:02:37 [http-nio-8080-exec-3] DEBUG org.hibernate.SQL - select u1_0.id,u1_0.address,u1_0.contact_number,u1_0.email,u1_0.full_name,u1_0.password,u1_0.pincode,u1_0.registered_date,u1_0.role from users u1_0 where u1_0.email=?
+2025-07-21 16:02:37 [http-nio-8080-exec-3] INFO  c.e.Grocito.Services.UserService - User logged in successfully: utksapate@gmail.com
+2025-07-21 16:02:37 [http-nio-8080-exec-3] INFO  c.e.G.Controller.UserController - User logged in successfully: utksapate@gmail.com
+2025-07-21 16:02:37 [http-nio-8080-exec-9] INFO  c.e.G.Controller.ProductController - Fetching products for pincode: 110001
+2025-07-21 16:02:37 [http-nio-8080-exec-9] DEBUG c.e.Grocito.Services.ProductService - Fetching products for pincode: 110001
+2025-07-21 16:02:37 [http-nio-8080-exec-9] DEBUG org.hibernate.SQL - select p1_0.id,p1_0.category,p1_0.description,p1_0.image_url,p1_0.name,p1_0.pincode,p1_0.price,p1_0.stock from products p1_0 where p1_0.pincode=?
+2025-07-21 16:02:37 [http-nio-8080-exec-8] INFO  c.e.G.Controller.CartController - Received request to get cart items for user ID: 1
+2025-07-21 16:02:37 [http-nio-8080-exec-8] INFO  c.e.Grocito.Services.CartService - Retrieving cart items for user ID: 1
+2025-07-21 16:02:37 [http-nio-8080-exec-9] DEBUG c.e.Grocito.Services.ProductService - Found 9 products for pincode: 110001
+2025-07-21 16:02:37 [http-nio-8080-exec-9] DEBUG c.e.G.Controller.ProductController - Retrieved 9 products for pincode: 110001
+2025-07-21 16:02:37 [http-nio-8080-exec-8] DEBUG org.hibernate.SQL - select c1_0.id,c1_0.user_id from cart c1_0 left join users u1_0 on u1_0.id=c1_0.user_id where u1_0.id=?
+2025-07-21 16:02:37 [http-nio-8080-exec-8] DEBUG org.hibernate.SQL - select u1_0.id,u1_0.address,u1_0.contact_number,u1_0.email,u1_0.full_name,u1_0.password,u1_0.pincode,u1_0.registered_date,u1_0.role from users u1_0 where u1_0.id=?
+2025-07-21 16:02:37 [http-nio-8080-exec-4] INFO  c.e.G.Controller.ProductController - Fetching products for pincode: 110001
+2025-07-21 16:02:37 [http-nio-8080-exec-4] DEBUG c.e.Grocito.Services.ProductService - Fetching products for pincode: 110001
+2025-07-21 16:02:37 [http-nio-8080-exec-8] DEBUG org.hibernate.SQL - select i1_0.cart_id,i1_0.id,p1_0.id,p1_0.category,p1_0.description,p1_0.image_url,p1_0.name,p1_0.pincode,p1_0.price,p1_0.stock,i1_0.quantity from cart_item i1_0 left join products p1_0 on p1_0.id=i1_0.product_id where i1_0.cart_id=?
+2025-07-21 16:02:37 [http-nio-8080-exec-4] DEBUG org.hibernate.SQL - select p1_0.id,p1_0.category,p1_0.description,p1_0.image_url,p1_0.name,p1_0.pincode,p1_0.price,p1_0.stock from products p1_0 where p1_0.pincode=?
+2025-07-21 16:02:37 [http-nio-8080-exec-8] DEBUG c.e.Grocito.Services.CartService - Found 3 items in cart for user ID: 1
+2025-07-21 16:02:37 [http-nio-8080-exec-8] INFO  c.e.G.Controller.CartController - Successfully retrieved 3 cart items for user ID: 1
+2025-07-21 16:02:37 [http-nio-8080-exec-4] DEBUG c.e.Grocito.Services.ProductService - Found 9 products for pincode: 110001
+2025-07-21 16:02:37 [http-nio-8080-exec-4] DEBUG c.e.G.Controller.ProductController - Retrieved 9 products for pincode: 110001
+2025-07-21 16:02:37 [http-nio-8080-exec-3] INFO  c.e.G.Controller.CartController - Received request to get cart items for user ID: 1
+2025-07-21 16:02:37 [http-nio-8080-exec-3] INFO  c.e.Grocito.Services.CartService - Retrieving cart items for user ID: 1
+2025-07-21 16:02:37 [http-nio-8080-exec-10] INFO  c.e.G.Controller.ProductController - Fetching products for pincode: 110001
+2025-07-21 16:02:37 [http-nio-8080-exec-10] DEBUG c.e.Grocito.Services.ProductService - Fetching products for pincode: 110001
+2025-07-21 16:02:37 [http-nio-8080-exec-3] DEBUG org.hibernate.SQL - select c1_0.id,c1_0.user_id from cart c1_0 left join users u1_0 on u1_0.id=c1_0.user_id where u1_0.id=?
+2025-07-21 16:02:37 [http-nio-8080-exec-10] DEBUG org.hibernate.SQL - select p1_0.id,p1_0.category,p1_0.description,p1_0.image_url,p1_0.name,p1_0.pincode,p1_0.price,p1_0.stock from products p1_0 where p1_0.pincode=?
+2025-07-21 16:02:37 [http-nio-8080-exec-3] DEBUG org.hibernate.SQL - select u1_0.id,u1_0.address,u1_0.contact_number,u1_0.email,u1_0.full_name,u1_0.password,u1_0.pincode,u1_0.registered_date,u1_0.role from users u1_0 where u1_0.id=?
+2025-07-21 16:02:37 [http-nio-8080-exec-10] DEBUG c.e.Grocito.Services.ProductService - Found 9 products for pincode: 110001
+2025-07-21 16:02:37 [http-nio-8080-exec-10] DEBUG c.e.G.Controller.ProductController - Retrieved 9 products for pincode: 110001
+2025-07-21 16:02:37 [http-nio-8080-exec-3] DEBUG org.hibernate.SQL - select i1_0.cart_id,i1_0.id,p1_0.id,p1_0.category,p1_0.description,p1_0.image_url,p1_0.name,p1_0.pincode,p1_0.price,p1_0.stock,i1_0.quantity from cart_item i1_0 left join products p1_0 on p1_0.id=i1_0.product_id where i1_0.cart_id=?
+2025-07-21 16:02:37 [http-nio-8080-exec-3] DEBUG c.e.Grocito.Services.CartService - Found 3 items in cart for user ID: 1
+2025-07-21 16:02:37 [http-nio-8080-exec-3] INFO  c.e.G.Controller.CartController - Successfully retrieved 3 cart items for user ID: 1
+2025-07-21 16:02:37 [http-nio-8080-exec-2] INFO  c.e.G.Controller.CartController - Received request to get cart items for user ID: 1
+2025-07-21 16:02:37 [http-nio-8080-exec-2] INFO  c.e.Grocito.Services.CartService - Retrieving cart items for user ID: 1
+2025-07-21 16:02:37 [http-nio-8080-exec-2] DEBUG org.hibernate.SQL - select c1_0.id,c1_0.user_id from cart c1_0 left join users u1_0 on u1_0.id=c1_0.user_id where u1_0.id=?
+2025-07-21 16:02:37 [http-nio-8080-exec-2] DEBUG org.hibernate.SQL - select u1_0.id,u1_0.address,u1_0.contact_number,u1_0.email,u1_0.full_name,u1_0.password,u1_0.pincode,u1_0.registered_date,u1_0.role from users u1_0 where u1_0.id=?
+2025-07-21 16:02:37 [http-nio-8080-exec-2] DEBUG org.hibernate.SQL - select i1_0.cart_id,i1_0.id,p1_0.id,p1_0.category,p1_0.description,p1_0.image_url,p1_0.name,p1_0.pincode,p1_0.price,p1_0.stock,i1_0.quantity from cart_item i1_0 left join products p1_0 on p1_0.id=i1_0.product_id where i1_0.cart_id=?
+2025-07-21 16:02:37 [http-nio-8080-exec-2] DEBUG c.e.Grocito.Services.CartService - Found 3 items in cart for user ID: 1
+2025-07-21 16:02:37 [http-nio-8080-exec-2] INFO  c.e.G.Controller.CartController - Successfully retrieved 3 cart items for user ID: 1
+2025-07-21 16:03:04 [http-nio-8080-exec-6] INFO  c.e.G.Controller.UserController - Login attempt for user: jagdishbabalsure@gmail.com
+2025-07-21 16:03:04 [http-nio-8080-exec-6] DEBUG c.e.Grocito.Services.UserService - Attempting login for user: jagdishbabalsure@gmail.com
+2025-07-21 16:03:04 [http-nio-8080-exec-6] DEBUG org.hibernate.SQL - select u1_0.id,u1_0.address,u1_0.contact_number,u1_0.email,u1_0.full_name,u1_0.password,u1_0.pincode,u1_0.registered_date,u1_0.role from users u1_0 where u1_0.email=?
+2025-07-21 16:03:04 [http-nio-8080-exec-6] INFO  c.e.Grocito.Services.UserService - User logged in successfully: jagdishbabalsure@gmail.com
+2025-07-21 16:03:04 [http-nio-8080-exec-6] INFO  c.e.G.Controller.UserController - User logged in successfully: jagdishbabalsure@gmail.com
+2025-07-21 16:03:04 [http-nio-8080-exec-3] INFO  c.e.G.Controller.ProductController - Fetching products for pincode: 110001
+2025-07-21 16:03:04 [http-nio-8080-exec-3] DEBUG c.e.Grocito.Services.ProductService - Fetching products for pincode: 110001
+2025-07-21 16:03:04 [http-nio-8080-exec-2] INFO  c.e.G.Controller.CartController - Received request to get cart items for user ID: 1
+2025-07-21 16:03:04 [http-nio-8080-exec-2] INFO  c.e.Grocito.Services.CartService - Retrieving cart items for user ID: 1
+2025-07-21 16:03:04 [http-nio-8080-exec-3] DEBUG org.hibernate.SQL - select p1_0.id,p1_0.category,p1_0.description,p1_0.image_url,p1_0.name,p1_0.pincode,p1_0.price,p1_0.stock from products p1_0 where p1_0.pincode=?
+2025-07-21 16:03:04 [http-nio-8080-exec-2] DEBUG org.hibernate.SQL - select c1_0.id,c1_0.user_id from cart c1_0 left join users u1_0 on u1_0.id=c1_0.user_id where u1_0.id=?
+2025-07-21 16:03:04 [http-nio-8080-exec-3] DEBUG c.e.Grocito.Services.ProductService - Found 9 products for pincode: 110001
+2025-07-21 16:03:04 [http-nio-8080-exec-3] DEBUG c.e.G.Controller.ProductController - Retrieved 9 products for pincode: 110001
+2025-07-21 16:03:04 [http-nio-8080-exec-2] DEBUG org.hibernate.SQL - select u1_0.id,u1_0.address,u1_0.contact_number,u1_0.email,u1_0.full_name,u1_0.password,u1_0.pincode,u1_0.registered_date,u1_0.role from users u1_0 where u1_0.id=?
+2025-07-21 16:03:04 [http-nio-8080-exec-2] DEBUG org.hibernate.SQL - select i1_0.cart_id,i1_0.id,p1_0.id,p1_0.category,p1_0.description,p1_0.image_url,p1_0.name,p1_0.pincode,p1_0.price,p1_0.stock,i1_0.quantity from cart_item i1_0 left join products p1_0 on p1_0.id=i1_0.product_id where i1_0.cart_id=?
+2025-07-21 16:03:04 [http-nio-8080-exec-2] DEBUG c.e.Grocito.Services.CartService - Found 3 items in cart for user ID: 1
+2025-07-21 16:03:04 [http-nio-8080-exec-2] INFO  c.e.G.Controller.CartController - Successfully retrieved 3 cart items for user ID: 1
+2025-07-21 16:03:04 [http-nio-8080-exec-5] INFO  c.e.G.Controller.ProductController - Fetching products for pincode: 110001
+2025-07-21 16:03:04 [http-nio-8080-exec-5] DEBUG c.e.Grocito.Services.ProductService - Fetching products for pincode: 110001
+2025-07-21 16:03:04 [http-nio-8080-exec-6] INFO  c.e.G.Controller.CartController - Received request to get cart items for user ID: 1
+2025-07-21 16:03:04 [http-nio-8080-exec-6] INFO  c.e.Grocito.Services.CartService - Retrieving cart items for user ID: 1
+2025-07-21 16:03:04 [http-nio-8080-exec-5] DEBUG org.hibernate.SQL - select p1_0.id,p1_0.category,p1_0.description,p1_0.image_url,p1_0.name,p1_0.pincode,p1_0.price,p1_0.stock from products p1_0 where p1_0.pincode=?
+2025-07-21 16:03:04 [http-nio-8080-exec-6] DEBUG org.hibernate.SQL - select c1_0.id,c1_0.user_id from cart c1_0 left join users u1_0 on u1_0.id=c1_0.user_id where u1_0.id=?
+2025-07-21 16:03:04 [http-nio-8080-exec-5] DEBUG c.e.Grocito.Services.ProductService - Found 9 products for pincode: 110001
+2025-07-21 16:03:04 [http-nio-8080-exec-5] DEBUG c.e.G.Controller.ProductController - Retrieved 9 products for pincode: 110001
+2025-07-21 16:03:04 [http-nio-8080-exec-6] DEBUG org.hibernate.SQL - select u1_0.id,u1_0.address,u1_0.contact_number,u1_0.email,u1_0.full_name,u1_0.password,u1_0.pincode,u1_0.registered_date,u1_0.role from users u1_0 where u1_0.id=?
+2025-07-21 16:03:04 [http-nio-8080-exec-6] DEBUG org.hibernate.SQL - select i1_0.cart_id,i1_0.id,p1_0.id,p1_0.category,p1_0.description,p1_0.image_url,p1_0.name,p1_0.pincode,p1_0.price,p1_0.stock,i1_0.quantity from cart_item i1_0 left join products p1_0 on p1_0.id=i1_0.product_id where i1_0.cart_id=?
+2025-07-21 16:03:04 [http-nio-8080-exec-6] DEBUG c.e.Grocito.Services.CartService - Found 3 items in cart for user ID: 1
+2025-07-21 16:03:04 [http-nio-8080-exec-6] INFO  c.e.G.Controller.CartController - Successfully retrieved 3 cart items for user ID: 1
+2025-07-21 16:03:04 [http-nio-8080-exec-1] INFO  c.e.G.Controller.ProductController - Fetching products for pincode: 110001
+2025-07-21 16:03:04 [http-nio-8080-exec-1] DEBUG c.e.Grocito.Services.ProductService - Fetching products for pincode: 110001
+2025-07-21 16:03:04 [http-nio-8080-exec-7] INFO  c.e.G.Controller.CartController - Received request to get cart items for user ID: 1
+2025-07-21 16:03:04 [http-nio-8080-exec-7] INFO  c.e.Grocito.Services.CartService - Retrieving cart items for user ID: 1
+2025-07-21 16:03:04 [http-nio-8080-exec-1] DEBUG org.hibernate.SQL - select p1_0.id,p1_0.category,p1_0.description,p1_0.image_url,p1_0.name,p1_0.pincode,p1_0.price,p1_0.stock from products p1_0 where p1_0.pincode=?
+2025-07-21 16:03:04 [http-nio-8080-exec-7] DEBUG org.hibernate.SQL - select c1_0.id,c1_0.user_id from cart c1_0 left join users u1_0 on u1_0.id=c1_0.user_id where u1_0.id=?
+2025-07-21 16:03:04 [http-nio-8080-exec-1] DEBUG c.e.Grocito.Services.ProductService - Found 9 products for pincode: 110001
+2025-07-21 16:03:04 [http-nio-8080-exec-1] DEBUG c.e.G.Controller.ProductController - Retrieved 9 products for pincode: 110001
+2025-07-21 16:03:04 [http-nio-8080-exec-7] DEBUG org.hibernate.SQL - select u1_0.id,u1_0.address,u1_0.contact_number,u1_0.email,u1_0.full_name,u1_0.password,u1_0.pincode,u1_0.registered_date,u1_0.role from users u1_0 where u1_0.id=?
+2025-07-21 16:03:04 [http-nio-8080-exec-7] DEBUG org.hibernate.SQL - select i1_0.cart_id,i1_0.id,p1_0.id,p1_0.category,p1_0.description,p1_0.image_url,p1_0.name,p1_0.pincode,p1_0.price,p1_0.stock,i1_0.quantity from cart_item i1_0 left join products p1_0 on p1_0.id=i1_0.product_id where i1_0.cart_id=?
+2025-07-21 16:03:04 [http-nio-8080-exec-7] DEBUG c.e.Grocito.Services.CartService - Found 3 items in cart for user ID: 1
+2025-07-21 16:03:04 [http-nio-8080-exec-7] INFO  c.e.G.Controller.CartController - Successfully retrieved 3 cart items for user ID: 1
+2025-07-21 16:03:27 [http-nio-8080-exec-9] INFO  c.e.G.Controller.ProductController - Fetching products for pincode: 412105
+2025-07-21 16:03:27 [http-nio-8080-exec-9] DEBUG c.e.Grocito.Services.ProductService - Fetching products for pincode: 412105
+2025-07-21 16:03:27 [http-nio-8080-exec-9] DEBUG org.hibernate.SQL - select p1_0.id,p1_0.category,p1_0.description,p1_0.image_url,p1_0.name,p1_0.pincode,p1_0.price,p1_0.stock from products p1_0 where p1_0.pincode=?
+2025-07-21 16:03:27 [http-nio-8080-exec-9] DEBUG c.e.Grocito.Services.ProductService - Found 10 products for pincode: 412105
+2025-07-21 16:03:27 [http-nio-8080-exec-9] DEBUG c.e.G.Controller.ProductController - Retrieved 10 products for pincode: 412105
+2025-07-21 16:03:38 [http-nio-8080-exec-10] INFO  c.e.G.Controller.UserController - Login attempt for user: jagdishbabalsure@gmail.com
+2025-07-21 16:03:38 [http-nio-8080-exec-10] DEBUG c.e.Grocito.Services.UserService - Attempting login for user: jagdishbabalsure@gmail.com
+2025-07-21 16:03:38 [http-nio-8080-exec-10] DEBUG org.hibernate.SQL - select u1_0.id,u1_0.address,u1_0.contact_number,u1_0.email,u1_0.full_name,u1_0.password,u1_0.pincode,u1_0.registered_date,u1_0.role from users u1_0 where u1_0.email=?
+2025-07-21 16:03:38 [http-nio-8080-exec-10] INFO  c.e.Grocito.Services.UserService - User logged in successfully: jagdishbabalsure@gmail.com
+2025-07-21 16:03:38 [http-nio-8080-exec-10] INFO  c.e.G.Controller.UserController - User logged in successfully: jagdishbabalsure@gmail.com
+2025-07-21 16:03:46 [http-nio-8080-exec-2] INFO  c.e.G.Controller.UserController - Login attempt for user: jagdishbabalsure@gmail.com
+2025-07-21 16:03:46 [http-nio-8080-exec-2] DEBUG c.e.Grocito.Services.UserService - Attempting login for user: jagdishbabalsure@gmail.com
+2025-07-21 16:03:46 [http-nio-8080-exec-2] DEBUG org.hibernate.SQL - select u1_0.id,u1_0.address,u1_0.contact_number,u1_0.email,u1_0.full_name,u1_0.password,u1_0.pincode,u1_0.registered_date,u1_0.role from users u1_0 where u1_0.email=?
+2025-07-21 16:03:46 [http-nio-8080-exec-2] INFO  c.e.Grocito.Services.UserService - User logged in successfully: jagdishbabalsure@gmail.com
+2025-07-21 16:03:46 [http-nio-8080-exec-2] INFO  c.e.G.Controller.UserController - User logged in successfully: jagdishbabalsure@gmail.com
+2025-07-21 16:04:03 [http-nio-8080-exec-5] INFO  c.e.G.Controller.ProductController - Fetching products for pincode: 110001
+2025-07-21 16:04:03 [http-nio-8080-exec-5] DEBUG c.e.Grocito.Services.ProductService - Fetching products for pincode: 110001
+2025-07-21 16:04:03 [http-nio-8080-exec-5] DEBUG org.hibernate.SQL - select p1_0.id,p1_0.category,p1_0.description,p1_0.image_url,p1_0.name,p1_0.pincode,p1_0.price,p1_0.stock from products p1_0 where p1_0.pincode=?
+2025-07-21 16:04:03 [http-nio-8080-exec-5] DEBUG c.e.Grocito.Services.ProductService - Found 9 products for pincode: 110001
+2025-07-21 16:04:03 [http-nio-8080-exec-5] DEBUG c.e.G.Controller.ProductController - Retrieved 9 products for pincode: 110001
+2025-07-21 16:04:15 [http-nio-8080-exec-4] INFO  c.e.G.Controller.UserController - Login attempt for user: jagdishbabalsure@gmail.com
+2025-07-21 16:04:15 [http-nio-8080-exec-4] DEBUG c.e.Grocito.Services.UserService - Attempting login for user: jagdishbabalsure@gmail.com
+2025-07-21 16:04:15 [http-nio-8080-exec-4] DEBUG org.hibernate.SQL - select u1_0.id,u1_0.address,u1_0.contact_number,u1_0.email,u1_0.full_name,u1_0.password,u1_0.pincode,u1_0.registered_date,u1_0.role from users u1_0 where u1_0.email=?
+2025-07-21 16:04:15 [http-nio-8080-exec-4] INFO  c.e.Grocito.Services.UserService - User logged in successfully: jagdishbabalsure@gmail.com
+2025-07-21 16:04:15 [http-nio-8080-exec-4] INFO  c.e.G.Controller.UserController - User logged in successfully: jagdishbabalsure@gmail.com
+2025-07-21 16:04:27 [http-nio-8080-exec-3] INFO  c.e.G.Controller.UserController - Login attempt for user: utksapate@gmail.com
+2025-07-21 16:04:27 [http-nio-8080-exec-3] DEBUG c.e.Grocito.Services.UserService - Attempting login for user: utksapate@gmail.com
+2025-07-21 16:04:27 [http-nio-8080-exec-3] DEBUG org.hibernate.SQL - select u1_0.id,u1_0.address,u1_0.contact_number,u1_0.email,u1_0.full_name,u1_0.password,u1_0.pincode,u1_0.registered_date,u1_0.role from users u1_0 where u1_0.email=?
+2025-07-21 16:04:27 [http-nio-8080-exec-3] INFO  c.e.Grocito.Services.UserService - User logged in successfully: utksapate@gmail.com
+2025-07-21 16:04:27 [http-nio-8080-exec-3] INFO  c.e.G.Controller.UserController - User logged in successfully: utksapate@gmail.com
+2025-07-21 16:04:55 [http-nio-8080-exec-5] INFO  c.e.G.Controller.UserController - Login attempt for user: jagdishbabalsure@gmail.com
+2025-07-21 16:04:55 [http-nio-8080-exec-5] DEBUG c.e.Grocito.Services.UserService - Attempting login for user: jagdishbabalsure@gmail.com
+2025-07-21 16:04:55 [http-nio-8080-exec-5] DEBUG org.hibernate.SQL - select u1_0.id,u1_0.address,u1_0.contact_number,u1_0.email,u1_0.full_name,u1_0.password,u1_0.pincode,u1_0.registered_date,u1_0.role from users u1_0 where u1_0.email=?
+2025-07-21 16:04:55 [http-nio-8080-exec-5] INFO  c.e.Grocito.Services.UserService - User logged in successfully: jagdishbabalsure@gmail.com
+2025-07-21 16:04:55 [http-nio-8080-exec-5] INFO  c.e.G.Controller.UserController - User logged in successfully: jagdishbabalsure@gmail.com
+2025-07-21 16:05:15 [http-nio-8080-exec-6] INFO  c.e.G.Controller.ProductController - Fetching products for pincode: 123456
+2025-07-21 16:05:15 [http-nio-8080-exec-6] DEBUG c.e.Grocito.Services.ProductService - Fetching products for pincode: 123456
+2025-07-21 16:05:15 [http-nio-8080-exec-6] DEBUG org.hibernate.SQL - select p1_0.id,p1_0.category,p1_0.description,p1_0.image_url,p1_0.name,p1_0.pincode,p1_0.price,p1_0.stock from products p1_0 where p1_0.pincode=?
+2025-07-21 16:05:15 [http-nio-8080-exec-6] DEBUG c.e.Grocito.Services.ProductService - Found 0 products for pincode: 123456
+2025-07-21 16:05:15 [http-nio-8080-exec-6] DEBUG c.e.G.Controller.ProductController - Retrieved 0 products for pincode: 123456
+2025-07-21 16:13:15 [http-nio-8080-exec-7] INFO  c.e.G.Controller.ProductController - Fetching products for pincode: 412105
+2025-07-21 16:13:15 [http-nio-8080-exec-7] DEBUG c.e.Grocito.Services.ProductService - Fetching products for pincode: 412105
+2025-07-21 16:13:15 [http-nio-8080-exec-7] DEBUG org.hibernate.SQL - select p1_0.id,p1_0.category,p1_0.description,p1_0.image_url,p1_0.name,p1_0.pincode,p1_0.price,p1_0.stock from products p1_0 where p1_0.pincode=?
+2025-07-21 16:13:15 [http-nio-8080-exec-7] DEBUG c.e.Grocito.Services.ProductService - Found 10 products for pincode: 412105
+2025-07-21 16:13:15 [http-nio-8080-exec-7] DEBUG c.e.G.Controller.ProductController - Retrieved 10 products for pincode: 412105
+2025-07-21 16:13:28 [http-nio-8080-exec-3] INFO  c.e.G.Controller.ProductController - Fetching products for pincode: 110001
+2025-07-21 16:13:28 [http-nio-8080-exec-3] DEBUG c.e.Grocito.Services.ProductService - Fetching products for pincode: 110001
+2025-07-21 16:13:28 [http-nio-8080-exec-2] INFO  c.e.G.Controller.CartController - Received request to get cart items for user ID: 1753094608111
+2025-07-21 16:13:28 [http-nio-8080-exec-2] INFO  c.e.Grocito.Services.CartService - Retrieving cart items for user ID: 1753094608111
+2025-07-21 16:13:28 [http-nio-8080-exec-3] DEBUG org.hibernate.SQL - select p1_0.id,p1_0.category,p1_0.description,p1_0.image_url,p1_0.name,p1_0.pincode,p1_0.price,p1_0.stock from products p1_0 where p1_0.pincode=?
+2025-07-21 16:13:28 [http-nio-8080-exec-2] DEBUG org.hibernate.SQL - select c1_0.id,c1_0.user_id from cart c1_0 left join users u1_0 on u1_0.id=c1_0.user_id where u1_0.id=?
+2025-07-21 16:13:28 [http-nio-8080-exec-3] DEBUG c.e.Grocito.Services.ProductService - Found 9 products for pincode: 110001
+2025-07-21 16:13:28 [http-nio-8080-exec-3] DEBUG c.e.G.Controller.ProductController - Retrieved 9 products for pincode: 110001
+2025-07-21 16:13:28 [http-nio-8080-exec-2] WARN  c.e.Grocito.Services.CartService - Cannot retrieve items: Cart not found for user ID: 1753094608111
+2025-07-21 16:13:29 [http-nio-8080-exec-2] WARN  c.e.G.Controller.CartController - Failed to retrieve cart items for user ID: 1753094608111. Error: Cart not found for user: 1753094608111
+2025-07-21 16:13:29 [http-nio-8080-exec-5] INFO  c.e.G.Controller.ProductController - Fetching products for pincode: 110001
+2025-07-21 16:13:29 [http-nio-8080-exec-5] DEBUG c.e.Grocito.Services.ProductService - Fetching products for pincode: 110001
+2025-07-21 16:13:29 [http-nio-8080-exec-5] DEBUG org.hibernate.SQL - select p1_0.id,p1_0.category,p1_0.description,p1_0.image_url,p1_0.name,p1_0.pincode,p1_0.price,p1_0.stock from products p1_0 where p1_0.pincode=?
+2025-07-21 16:13:29 [http-nio-8080-exec-6] INFO  c.e.G.Controller.CartController - Received request to get cart items for user ID: 1753094608111
+2025-07-21 16:13:29 [http-nio-8080-exec-6] INFO  c.e.Grocito.Services.CartService - Retrieving cart items for user ID: 1753094608111
+2025-07-21 16:13:29 [http-nio-8080-exec-6] DEBUG org.hibernate.SQL - select c1_0.id,c1_0.user_id from cart c1_0 left join users u1_0 on u1_0.id=c1_0.user_id where u1_0.id=?
+2025-07-21 16:13:29 [http-nio-8080-exec-6] WARN  c.e.Grocito.Services.CartService - Cannot retrieve items: Cart not found for user ID: 1753094608111
+2025-07-21 16:13:29 [http-nio-8080-exec-6] WARN  c.e.G.Controller.CartController - Failed to retrieve cart items for user ID: 1753094608111. Error: Cart not found for user: 1753094608111
+2025-07-21 16:13:29 [http-nio-8080-exec-5] DEBUG c.e.Grocito.Services.ProductService - Found 9 products for pincode: 110001
+2025-07-21 16:13:29 [http-nio-8080-exec-5] DEBUG c.e.G.Controller.ProductController - Retrieved 9 products for pincode: 110001
+2025-07-21 16:13:39 [http-nio-8080-exec-9] INFO  c.e.G.Controller.CartController - Received request to get cart items for user ID: 1753094608111
+2025-07-21 16:13:39 [http-nio-8080-exec-9] INFO  c.e.Grocito.Services.CartService - Retrieving cart items for user ID: 1753094608111
+2025-07-21 16:13:39 [http-nio-8080-exec-9] DEBUG org.hibernate.SQL - select c1_0.id,c1_0.user_id from cart c1_0 left join users u1_0 on u1_0.id=c1_0.user_id where u1_0.id=?
+2025-07-21 16:13:39 [http-nio-8080-exec-9] WARN  c.e.Grocito.Services.CartService - Cannot retrieve items: Cart not found for user ID: 1753094608111
+2025-07-21 16:13:39 [http-nio-8080-exec-9] WARN  c.e.G.Controller.CartController - Failed to retrieve cart items for user ID: 1753094608111. Error: Cart not found for user: 1753094608111
+2025-07-21 16:13:39 [http-nio-8080-exec-4] INFO  c.e.G.Controller.CartController - Received request to get cart items for user ID: 1753094608111
+2025-07-21 16:13:39 [http-nio-8080-exec-4] INFO  c.e.Grocito.Services.CartService - Retrieving cart items for user ID: 1753094608111
+2025-07-21 16:13:39 [http-nio-8080-exec-4] DEBUG org.hibernate.SQL - select c1_0.id,c1_0.user_id from cart c1_0 left join users u1_0 on u1_0.id=c1_0.user_id where u1_0.id=?
+2025-07-21 16:13:39 [http-nio-8080-exec-4] WARN  c.e.Grocito.Services.CartService - Cannot retrieve items: Cart not found for user ID: 1753094608111
+2025-07-21 16:13:39 [http-nio-8080-exec-4] WARN  c.e.G.Controller.CartController - Failed to retrieve cart items for user ID: 1753094608111. Error: Cart not found for user: 1753094608111
+2025-07-21 16:13:46 [http-nio-8080-exec-2] WARN  o.s.w.s.m.s.DefaultHandlerExceptionResolver - Resolved [org.springframework.web.bind.MissingServletRequestParameterException: Required request parameter 'userId' for method parameter type Long is not present]
+2025-07-21 16:13:46 [http-nio-8080-exec-5] INFO  c.e.G.Controller.CartController - Received request to get cart items for user ID: 1753094608111
+2025-07-21 16:13:46 [http-nio-8080-exec-5] INFO  c.e.Grocito.Services.CartService - Retrieving cart items for user ID: 1753094608111
+2025-07-21 16:13:46 [http-nio-8080-exec-5] DEBUG org.hibernate.SQL - select c1_0.id,c1_0.user_id from cart c1_0 left join users u1_0 on u1_0.id=c1_0.user_id where u1_0.id=?
+2025-07-21 16:13:46 [http-nio-8080-exec-5] WARN  c.e.Grocito.Services.CartService - Cannot retrieve items: Cart not found for user ID: 1753094608111
+2025-07-21 16:13:46 [http-nio-8080-exec-5] WARN  c.e.G.Controller.CartController - Failed to retrieve cart items for user ID: 1753094608111. Error: Cart not found for user: 1753094608111
+2025-07-21 16:13:49 [http-nio-8080-exec-1] WARN  o.s.w.s.m.s.DefaultHandlerExceptionResolver - Resolved [org.springframework.web.bind.MissingServletRequestParameterException: Required request parameter 'userId' for method parameter type Long is not present]
+2025-07-21 16:13:49 [http-nio-8080-exec-7] INFO  c.e.G.Controller.CartController - Received request to get cart items for user ID: 1753094608111
+2025-07-21 16:13:49 [http-nio-8080-exec-7] INFO  c.e.Grocito.Services.CartService - Retrieving cart items for user ID: 1753094608111
+2025-07-21 16:13:49 [http-nio-8080-exec-7] DEBUG org.hibernate.SQL - select c1_0.id,c1_0.user_id from cart c1_0 left join users u1_0 on u1_0.id=c1_0.user_id where u1_0.id=?
+2025-07-21 16:13:49 [http-nio-8080-exec-7] WARN  c.e.Grocito.Services.CartService - Cannot retrieve items: Cart not found for user ID: 1753094608111
+2025-07-21 16:13:49 [http-nio-8080-exec-7] WARN  c.e.G.Controller.CartController - Failed to retrieve cart items for user ID: 1753094608111. Error: Cart not found for user: 1753094608111
+2025-07-21 16:13:52 [http-nio-8080-exec-4] WARN  o.s.w.s.m.s.DefaultHandlerExceptionResolver - Resolved [org.springframework.web.bind.MissingServletRequestParameterException: Required request parameter 'userId' for method parameter type Long is not present]
+2025-07-21 16:13:52 [http-nio-8080-exec-10] INFO  c.e.G.Controller.CartController - Received request to get cart items for user ID: 1753094608111
+2025-07-21 16:13:52 [http-nio-8080-exec-10] INFO  c.e.Grocito.Services.CartService - Retrieving cart items for user ID: 1753094608111
+2025-07-21 16:13:52 [http-nio-8080-exec-10] DEBUG org.hibernate.SQL - select c1_0.id,c1_0.user_id from cart c1_0 left join users u1_0 on u1_0.id=c1_0.user_id where u1_0.id=?
+2025-07-21 16:13:52 [http-nio-8080-exec-10] WARN  c.e.Grocito.Services.CartService - Cannot retrieve items: Cart not found for user ID: 1753094608111
+2025-07-21 16:13:52 [http-nio-8080-exec-10] WARN  c.e.G.Controller.CartController - Failed to retrieve cart items for user ID: 1753094608111. Error: Cart not found for user: 1753094608111
+2025-07-21 16:13:55 [http-nio-8080-exec-2] WARN  o.s.w.s.m.s.DefaultHandlerExceptionResolver - Resolved [org.springframework.web.bind.MissingServletRequestParameterException: Required request parameter 'userId' for method parameter type Long is not present]
+2025-07-21 16:13:55 [http-nio-8080-exec-6] INFO  c.e.G.Controller.CartController - Received request to get cart items for user ID: 1753094608111
+2025-07-21 16:13:55 [http-nio-8080-exec-6] INFO  c.e.Grocito.Services.CartService - Retrieving cart items for user ID: 1753094608111
+2025-07-21 16:13:55 [http-nio-8080-exec-6] DEBUG org.hibernate.SQL - select c1_0.id,c1_0.user_id from cart c1_0 left join users u1_0 on u1_0.id=c1_0.user_id where u1_0.id=?
+2025-07-21 16:13:55 [http-nio-8080-exec-6] WARN  c.e.Grocito.Services.CartService - Cannot retrieve items: Cart not found for user ID: 1753094608111
+2025-07-21 16:13:55 [http-nio-8080-exec-6] WARN  c.e.G.Controller.CartController - Failed to retrieve cart items for user ID: 1753094608111. Error: Cart not found for user: 1753094608111
+2025-07-21 16:14:04 [http-nio-8080-exec-2] INFO  c.e.G.Controller.ProductController - Fetching products for pincode: 110001
+2025-07-21 16:14:04 [http-nio-8080-exec-2] DEBUG c.e.Grocito.Services.ProductService - Fetching products for pincode: 110001
+2025-07-21 16:14:04 [http-nio-8080-exec-6] INFO  c.e.G.Controller.CartController - Received request to get cart items for user ID: 1753094608111
+2025-07-21 16:14:04 [http-nio-8080-exec-6] INFO  c.e.Grocito.Services.CartService - Retrieving cart items for user ID: 1753094608111
+2025-07-21 16:14:04 [http-nio-8080-exec-2] DEBUG org.hibernate.SQL - select p1_0.id,p1_0.category,p1_0.description,p1_0.image_url,p1_0.name,p1_0.pincode,p1_0.price,p1_0.stock from products p1_0 where p1_0.pincode=?
+2025-07-21 16:14:04 [http-nio-8080-exec-6] DEBUG org.hibernate.SQL - select c1_0.id,c1_0.user_id from cart c1_0 left join users u1_0 on u1_0.id=c1_0.user_id where u1_0.id=?
+2025-07-21 16:14:04 [http-nio-8080-exec-2] DEBUG c.e.Grocito.Services.ProductService - Found 9 products for pincode: 110001
+2025-07-21 16:14:04 [http-nio-8080-exec-2] DEBUG c.e.G.Controller.ProductController - Retrieved 9 products for pincode: 110001
+2025-07-21 16:14:04 [http-nio-8080-exec-6] WARN  c.e.Grocito.Services.CartService - Cannot retrieve items: Cart not found for user ID: 1753094608111
+2025-07-21 16:14:04 [http-nio-8080-exec-6] WARN  c.e.G.Controller.CartController - Failed to retrieve cart items for user ID: 1753094608111. Error: Cart not found for user: 1753094608111
+2025-07-21 16:14:04 [http-nio-8080-exec-5] INFO  c.e.G.Controller.ProductController - Fetching products for pincode: 110001
+2025-07-21 16:14:04 [http-nio-8080-exec-5] DEBUG c.e.Grocito.Services.ProductService - Fetching products for pincode: 110001
+2025-07-21 16:14:04 [http-nio-8080-exec-1] INFO  c.e.G.Controller.CartController - Received request to get cart items for user ID: 1753094608111
+2025-07-21 16:14:04 [http-nio-8080-exec-1] INFO  c.e.Grocito.Services.CartService - Retrieving cart items for user ID: 1753094608111
+2025-07-21 16:14:04 [http-nio-8080-exec-5] DEBUG org.hibernate.SQL - select p1_0.id,p1_0.category,p1_0.description,p1_0.image_url,p1_0.name,p1_0.pincode,p1_0.price,p1_0.stock from products p1_0 where p1_0.pincode=?
+2025-07-21 16:14:04 [http-nio-8080-exec-1] DEBUG org.hibernate.SQL - select c1_0.id,c1_0.user_id from cart c1_0 left join users u1_0 on u1_0.id=c1_0.user_id where u1_0.id=?
+2025-07-21 16:14:04 [http-nio-8080-exec-5] DEBUG c.e.Grocito.Services.ProductService - Found 9 products for pincode: 110001
+2025-07-21 16:14:04 [http-nio-8080-exec-5] DEBUG c.e.G.Controller.ProductController - Retrieved 9 products for pincode: 110001
+2025-07-21 16:14:04 [http-nio-8080-exec-1] WARN  c.e.Grocito.Services.CartService - Cannot retrieve items: Cart not found for user ID: 1753094608111
+2025-07-21 16:14:04 [http-nio-8080-exec-1] WARN  c.e.G.Controller.CartController - Failed to retrieve cart items for user ID: 1753094608111. Error: Cart not found for user: 1753094608111
+2025-07-21 16:14:14 [http-nio-8080-exec-9] INFO  c.e.G.Controller.CartController - Received request to add product ID: 14 to cart for user ID: 1753094608111 with quantity: 1
+2025-07-21 16:14:14 [http-nio-8080-exec-9] INFO  c.e.Grocito.Services.CartService - Adding product ID: 14 to cart for user ID: 1753094608111, quantity: 1
+2025-07-21 16:14:14 [http-nio-8080-exec-9] DEBUG org.hibernate.SQL - select u1_0.id,u1_0.address,u1_0.contact_number,u1_0.email,u1_0.full_name,u1_0.password,u1_0.pincode,u1_0.registered_date,u1_0.role from users u1_0 where u1_0.id=?
+2025-07-21 16:14:14 [http-nio-8080-exec-9] ERROR c.e.Grocito.Services.CartService - Failed to add to cart: User not found with ID: 1753094608111
+2025-07-21 16:14:14 [http-nio-8080-exec-9] WARN  c.e.G.Controller.CartController - Failed to add product ID: 14 to cart for user ID: 1753094608111. Error: User not found with id: 1753094608111
+2025-07-21 16:14:17 [http-nio-8080-exec-4] INFO  c.e.G.Controller.CartController - Received request to add product ID: 13 to cart for user ID: 1753094608111 with quantity: 1
+2025-07-21 16:14:17 [http-nio-8080-exec-4] INFO  c.e.Grocito.Services.CartService - Adding product ID: 13 to cart for user ID: 1753094608111, quantity: 1
+2025-07-21 16:14:17 [http-nio-8080-exec-4] DEBUG org.hibernate.SQL - select u1_0.id,u1_0.address,u1_0.contact_number,u1_0.email,u1_0.full_name,u1_0.password,u1_0.pincode,u1_0.registered_date,u1_0.role from users u1_0 where u1_0.id=?
+2025-07-21 16:14:17 [http-nio-8080-exec-4] ERROR c.e.Grocito.Services.CartService - Failed to add to cart: User not found with ID: 1753094608111
+2025-07-21 16:14:17 [http-nio-8080-exec-4] WARN  c.e.G.Controller.CartController - Failed to add product ID: 13 to cart for user ID: 1753094608111. Error: User not found with id: 1753094608111
+2025-07-21 16:14:21 [http-nio-8080-exec-10] INFO  c.e.G.Controller.CartController - Received request to add product ID: 36 to cart for user ID: 1753094608111 with quantity: 1
+2025-07-21 16:14:21 [http-nio-8080-exec-10] INFO  c.e.Grocito.Services.CartService - Adding product ID: 36 to cart for user ID: 1753094608111, quantity: 1
+2025-07-21 16:14:21 [http-nio-8080-exec-10] DEBUG org.hibernate.SQL - select u1_0.id,u1_0.address,u1_0.contact_number,u1_0.email,u1_0.full_name,u1_0.password,u1_0.pincode,u1_0.registered_date,u1_0.role from users u1_0 where u1_0.id=?
+2025-07-21 16:14:21 [http-nio-8080-exec-10] ERROR c.e.Grocito.Services.CartService - Failed to add to cart: User not found with ID: 1753094608111
+2025-07-21 16:14:21 [http-nio-8080-exec-10] WARN  c.e.G.Controller.CartController - Failed to add product ID: 36 to cart for user ID: 1753094608111. Error: User not found with id: 1753094608111
+2025-07-21 16:14:25 [http-nio-8080-exec-6] INFO  c.e.G.Controller.CartController - Received request to get cart items for user ID: 1753094608111
+2025-07-21 16:14:25 [http-nio-8080-exec-6] INFO  c.e.Grocito.Services.CartService - Retrieving cart items for user ID: 1753094608111
+2025-07-21 16:14:25 [http-nio-8080-exec-6] DEBUG org.hibernate.SQL - select c1_0.id,c1_0.user_id from cart c1_0 left join users u1_0 on u1_0.id=c1_0.user_id where u1_0.id=?
+2025-07-21 16:14:25 [http-nio-8080-exec-6] WARN  c.e.Grocito.Services.CartService - Cannot retrieve items: Cart not found for user ID: 1753094608111
+2025-07-21 16:14:25 [http-nio-8080-exec-6] WARN  c.e.G.Controller.CartController - Failed to retrieve cart items for user ID: 1753094608111. Error: Cart not found for user: 1753094608111
+2025-07-21 16:14:25 [http-nio-8080-exec-1] INFO  c.e.G.Controller.CartController - Received request to get cart items for user ID: 1753094608111
+2025-07-21 16:14:25 [http-nio-8080-exec-1] INFO  c.e.Grocito.Services.CartService - Retrieving cart items for user ID: 1753094608111
+2025-07-21 16:14:25 [http-nio-8080-exec-1] DEBUG org.hibernate.SQL - select c1_0.id,c1_0.user_id from cart c1_0 left join users u1_0 on u1_0.id=c1_0.user_id where u1_0.id=?
+2025-07-21 16:14:25 [http-nio-8080-exec-1] WARN  c.e.Grocito.Services.CartService - Cannot retrieve items: Cart not found for user ID: 1753094608111
+2025-07-21 16:14:25 [http-nio-8080-exec-1] WARN  c.e.G.Controller.CartController - Failed to retrieve cart items for user ID: 1753094608111. Error: Cart not found for user: 1753094608111
+2025-07-21 16:20:00 [http-nio-8080-exec-3] INFO  c.e.G.Controller.ProductController - Fetching products for pincode: 110001
+2025-07-21 16:20:00 [http-nio-8080-exec-3] DEBUG c.e.Grocito.Services.ProductService - Fetching products for pincode: 110001
+2025-07-21 16:20:00 [http-nio-8080-exec-2] INFO  c.e.G.Controller.CartController - Received request to get cart items for user ID: 1753094608111
+2025-07-21 16:20:00 [http-nio-8080-exec-2] INFO  c.e.Grocito.Services.CartService - Retrieving cart items for user ID: 1753094608111
+2025-07-21 16:20:00 [http-nio-8080-exec-3] DEBUG org.hibernate.SQL - select p1_0.id,p1_0.category,p1_0.description,p1_0.image_url,p1_0.name,p1_0.pincode,p1_0.price,p1_0.stock from products p1_0 where p1_0.pincode=?
+2025-07-21 16:20:00 [http-nio-8080-exec-2] DEBUG org.hibernate.SQL - select c1_0.id,c1_0.user_id from cart c1_0 left join users u1_0 on u1_0.id=c1_0.user_id where u1_0.id=?
+2025-07-21 16:20:00 [http-nio-8080-exec-2] WARN  c.e.Grocito.Services.CartService - Cannot retrieve items: Cart not found for user ID: 1753094608111
+2025-07-21 16:20:00 [http-nio-8080-exec-2] WARN  c.e.G.Controller.CartController - Failed to retrieve cart items for user ID: 1753094608111. Error: Cart not found for user: 1753094608111
+2025-07-21 16:20:00 [http-nio-8080-exec-3] DEBUG c.e.Grocito.Services.ProductService - Found 9 products for pincode: 110001
+2025-07-21 16:20:00 [http-nio-8080-exec-3] DEBUG c.e.G.Controller.ProductController - Retrieved 9 products for pincode: 110001
+2025-07-21 16:20:00 [http-nio-8080-exec-6] INFO  c.e.G.Controller.CartController - Received request to get cart items for user ID: 1753094608111
+2025-07-21 16:20:00 [http-nio-8080-exec-1] INFO  c.e.G.Controller.ProductController - Fetching products for pincode: 110001
+2025-07-21 16:20:00 [http-nio-8080-exec-1] DEBUG c.e.Grocito.Services.ProductService - Fetching products for pincode: 110001
+2025-07-21 16:20:00 [http-nio-8080-exec-6] INFO  c.e.Grocito.Services.CartService - Retrieving cart items for user ID: 1753094608111
+2025-07-21 16:20:00 [http-nio-8080-exec-1] DEBUG org.hibernate.SQL - select p1_0.id,p1_0.category,p1_0.description,p1_0.image_url,p1_0.name,p1_0.pincode,p1_0.price,p1_0.stock from products p1_0 where p1_0.pincode=?
+2025-07-21 16:20:00 [http-nio-8080-exec-6] DEBUG org.hibernate.SQL - select c1_0.id,c1_0.user_id from cart c1_0 left join users u1_0 on u1_0.id=c1_0.user_id where u1_0.id=?
+2025-07-21 16:20:00 [http-nio-8080-exec-1] DEBUG c.e.Grocito.Services.ProductService - Found 9 products for pincode: 110001
+2025-07-21 16:20:00 [http-nio-8080-exec-1] DEBUG c.e.G.Controller.ProductController - Retrieved 9 products for pincode: 110001
+2025-07-21 16:20:00 [http-nio-8080-exec-6] WARN  c.e.Grocito.Services.CartService - Cannot retrieve items: Cart not found for user ID: 1753094608111
+2025-07-21 16:20:00 [http-nio-8080-exec-6] WARN  c.e.G.Controller.CartController - Failed to retrieve cart items for user ID: 1753094608111. Error: Cart not found for user: 1753094608111
+2025-07-21 16:20:09 [http-nio-8080-exec-7] INFO  c.e.G.Controller.ProductController - Fetching products for pincode: 412105
+2025-07-21 16:20:09 [http-nio-8080-exec-7] DEBUG c.e.Grocito.Services.ProductService - Fetching products for pincode: 412105
+2025-07-21 16:20:09 [http-nio-8080-exec-7] DEBUG org.hibernate.SQL - select p1_0.id,p1_0.category,p1_0.description,p1_0.image_url,p1_0.name,p1_0.pincode,p1_0.price,p1_0.stock from products p1_0 where p1_0.pincode=?
+2025-07-21 16:20:09 [http-nio-8080-exec-7] DEBUG c.e.Grocito.Services.ProductService - Found 10 products for pincode: 412105
+2025-07-21 16:20:09 [http-nio-8080-exec-7] DEBUG c.e.G.Controller.ProductController - Retrieved 10 products for pincode: 412105
+2025-07-21 16:20:21 [http-nio-8080-exec-2] INFO  c.e.G.Controller.ProductController - Fetching products for pincode: 412105
+2025-07-21 16:20:21 [http-nio-8080-exec-2] DEBUG c.e.Grocito.Services.ProductService - Fetching products for pincode: 412105
+2025-07-21 16:20:21 [http-nio-8080-exec-10] INFO  c.e.G.Controller.CartController - Received request to get cart items for user ID: 1753095020866
+2025-07-21 16:20:21 [http-nio-8080-exec-10] INFO  c.e.Grocito.Services.CartService - Retrieving cart items for user ID: 1753095020866
+2025-07-21 16:20:21 [http-nio-8080-exec-2] DEBUG org.hibernate.SQL - select p1_0.id,p1_0.category,p1_0.description,p1_0.image_url,p1_0.name,p1_0.pincode,p1_0.price,p1_0.stock from products p1_0 where p1_0.pincode=?
+2025-07-21 16:20:21 [http-nio-8080-exec-10] DEBUG org.hibernate.SQL - select c1_0.id,c1_0.user_id from cart c1_0 left join users u1_0 on u1_0.id=c1_0.user_id where u1_0.id=?
+2025-07-21 16:20:21 [http-nio-8080-exec-10] WARN  c.e.Grocito.Services.CartService - Cannot retrieve items: Cart not found for user ID: 1753095020866
+2025-07-21 16:20:21 [http-nio-8080-exec-10] WARN  c.e.G.Controller.CartController - Failed to retrieve cart items for user ID: 1753095020866. Error: Cart not found for user: 1753095020866
+2025-07-21 16:20:21 [http-nio-8080-exec-2] DEBUG c.e.Grocito.Services.ProductService - Found 10 products for pincode: 412105
+2025-07-21 16:20:21 [http-nio-8080-exec-2] DEBUG c.e.G.Controller.ProductController - Retrieved 10 products for pincode: 412105
+2025-07-21 16:20:21 [http-nio-8080-exec-3] INFO  c.e.G.Controller.CartController - Received request to get cart items for user ID: 1753095020866
+2025-07-21 16:20:21 [http-nio-8080-exec-6] INFO  c.e.G.Controller.ProductController - Fetching products for pincode: 412105
+2025-07-21 16:20:21 [http-nio-8080-exec-3] INFO  c.e.Grocito.Services.CartService - Retrieving cart items for user ID: 1753095020866
+2025-07-21 16:20:21 [http-nio-8080-exec-6] DEBUG c.e.Grocito.Services.ProductService - Fetching products for pincode: 412105
+2025-07-21 16:20:21 [http-nio-8080-exec-6] DEBUG org.hibernate.SQL - select p1_0.id,p1_0.category,p1_0.description,p1_0.image_url,p1_0.name,p1_0.pincode,p1_0.price,p1_0.stock from products p1_0 where p1_0.pincode=?
+2025-07-21 16:20:21 [http-nio-8080-exec-3] DEBUG org.hibernate.SQL - select c1_0.id,c1_0.user_id from cart c1_0 left join users u1_0 on u1_0.id=c1_0.user_id where u1_0.id=?
+2025-07-21 16:20:21 [http-nio-8080-exec-3] WARN  c.e.Grocito.Services.CartService - Cannot retrieve items: Cart not found for user ID: 1753095020866
+2025-07-21 16:20:21 [http-nio-8080-exec-6] DEBUG c.e.Grocito.Services.ProductService - Found 10 products for pincode: 412105
+2025-07-21 16:20:21 [http-nio-8080-exec-3] WARN  c.e.G.Controller.CartController - Failed to retrieve cart items for user ID: 1753095020866. Error: Cart not found for user: 1753095020866
+2025-07-21 16:20:21 [http-nio-8080-exec-6] DEBUG c.e.G.Controller.ProductController - Retrieved 10 products for pincode: 412105
+2025-07-21 16:21:02 [http-nio-8080-exec-5] INFO  c.e.G.Controller.CartController - Received request to get cart items for user ID: 1753095020866
+2025-07-21 16:21:02 [http-nio-8080-exec-5] INFO  c.e.Grocito.Services.CartService - Retrieving cart items for user ID: 1753095020866
+2025-07-21 16:21:02 [http-nio-8080-exec-5] DEBUG org.hibernate.SQL - select c1_0.id,c1_0.user_id from cart c1_0 left join users u1_0 on u1_0.id=c1_0.user_id where u1_0.id=?
+2025-07-21 16:21:02 [http-nio-8080-exec-5] WARN  c.e.Grocito.Services.CartService - Cannot retrieve items: Cart not found for user ID: 1753095020866
+2025-07-21 16:21:02 [http-nio-8080-exec-5] WARN  c.e.G.Controller.CartController - Failed to retrieve cart items for user ID: 1753095020866. Error: Cart not found for user: 1753095020866
+2025-07-21 16:21:02 [http-nio-8080-exec-9] INFO  c.e.G.Controller.CartController - Received request to get cart items for user ID: 1753095020866
+2025-07-21 16:21:02 [http-nio-8080-exec-9] INFO  c.e.Grocito.Services.CartService - Retrieving cart items for user ID: 1753095020866
+2025-07-21 16:21:02 [http-nio-8080-exec-9] DEBUG org.hibernate.SQL - select c1_0.id,c1_0.user_id from cart c1_0 left join users u1_0 on u1_0.id=c1_0.user_id where u1_0.id=?
+2025-07-21 16:21:02 [http-nio-8080-exec-9] WARN  c.e.Grocito.Services.CartService - Cannot retrieve items: Cart not found for user ID: 1753095020866
+2025-07-21 16:21:02 [http-nio-8080-exec-9] WARN  c.e.G.Controller.CartController - Failed to retrieve cart items for user ID: 1753095020866. Error: Cart not found for user: 1753095020866
+2025-07-21 16:21:19 [http-nio-8080-exec-2] WARN  o.s.w.s.m.s.DefaultHandlerExceptionResolver - Resolved [org.springframework.web.bind.MissingServletRequestParameterException: Required request parameter 'userId' for method parameter type Long is not present]
+2025-07-21 16:21:19 [http-nio-8080-exec-6] INFO  c.e.G.Controller.CartController - Received request to get cart items for user ID: 1753095020866
+2025-07-21 16:21:19 [http-nio-8080-exec-6] INFO  c.e.Grocito.Services.CartService - Retrieving cart items for user ID: 1753095020866
+2025-07-21 16:21:19 [http-nio-8080-exec-6] DEBUG org.hibernate.SQL - select c1_0.id,c1_0.user_id from cart c1_0 left join users u1_0 on u1_0.id=c1_0.user_id where u1_0.id=?
+2025-07-21 16:21:19 [http-nio-8080-exec-6] WARN  c.e.Grocito.Services.CartService - Cannot retrieve items: Cart not found for user ID: 1753095020866
+2025-07-21 16:21:19 [http-nio-8080-exec-6] WARN  c.e.G.Controller.CartController - Failed to retrieve cart items for user ID: 1753095020866. Error: Cart not found for user: 1753095020866
+2025-07-21 16:21:22 [http-nio-8080-exec-4] INFO  c.e.G.Controller.CartController - Received request to get cart items for user ID: 1753095020866
+2025-07-21 16:21:22 [http-nio-8080-exec-4] INFO  c.e.Grocito.Services.CartService - Retrieving cart items for user ID: 1753095020866
+2025-07-21 16:21:22 [http-nio-8080-exec-8] INFO  c.e.G.Controller.ProductController - Fetching products for pincode: 412105
+2025-07-21 16:21:22 [http-nio-8080-exec-8] DEBUG c.e.Grocito.Services.ProductService - Fetching products for pincode: 412105
+2025-07-21 16:21:22 [http-nio-8080-exec-4] DEBUG org.hibernate.SQL - select c1_0.id,c1_0.user_id from cart c1_0 left join users u1_0 on u1_0.id=c1_0.user_id where u1_0.id=?
+2025-07-21 16:21:22 [http-nio-8080-exec-8] DEBUG org.hibernate.SQL - select p1_0.id,p1_0.category,p1_0.description,p1_0.image_url,p1_0.name,p1_0.pincode,p1_0.price,p1_0.stock from products p1_0 where p1_0.pincode=?
+2025-07-21 16:21:22 [http-nio-8080-exec-4] WARN  c.e.Grocito.Services.CartService - Cannot retrieve items: Cart not found for user ID: 1753095020866
+2025-07-21 16:21:22 [http-nio-8080-exec-4] WARN  c.e.G.Controller.CartController - Failed to retrieve cart items for user ID: 1753095020866. Error: Cart not found for user: 1753095020866
+2025-07-21 16:21:22 [http-nio-8080-exec-8] DEBUG c.e.Grocito.Services.ProductService - Found 10 products for pincode: 412105
+2025-07-21 16:21:22 [http-nio-8080-exec-8] DEBUG c.e.G.Controller.ProductController - Retrieved 10 products for pincode: 412105
+2025-07-21 16:21:22 [http-nio-8080-exec-10] INFO  c.e.G.Controller.CartController - Received request to get cart items for user ID: 1753095020866
+2025-07-21 16:21:22 [http-nio-8080-exec-10] INFO  c.e.Grocito.Services.CartService - Retrieving cart items for user ID: 1753095020866
+2025-07-21 16:21:22 [http-nio-8080-exec-2] INFO  c.e.G.Controller.ProductController - Fetching products for pincode: 412105
+2025-07-21 16:21:22 [http-nio-8080-exec-2] DEBUG c.e.Grocito.Services.ProductService - Fetching products for pincode: 412105
+2025-07-21 16:21:22 [http-nio-8080-exec-10] DEBUG org.hibernate.SQL - select c1_0.id,c1_0.user_id from cart c1_0 left join users u1_0 on u1_0.id=c1_0.user_id where u1_0.id=?
+2025-07-21 16:21:22 [http-nio-8080-exec-2] DEBUG org.hibernate.SQL - select p1_0.id,p1_0.category,p1_0.description,p1_0.image_url,p1_0.name,p1_0.pincode,p1_0.price,p1_0.stock from products p1_0 where p1_0.pincode=?
+2025-07-21 16:21:22 [http-nio-8080-exec-10] WARN  c.e.Grocito.Services.CartService - Cannot retrieve items: Cart not found for user ID: 1753095020866
+2025-07-21 16:21:22 [http-nio-8080-exec-10] WARN  c.e.G.Controller.CartController - Failed to retrieve cart items for user ID: 1753095020866. Error: Cart not found for user: 1753095020866
+2025-07-21 16:21:22 [http-nio-8080-exec-2] DEBUG c.e.Grocito.Services.ProductService - Found 10 products for pincode: 412105
+2025-07-21 16:21:22 [http-nio-8080-exec-2] DEBUG c.e.G.Controller.ProductController - Retrieved 10 products for pincode: 412105
+2025-07-21 16:21:29 [http-nio-8080-exec-6] INFO  c.e.G.Controller.CartController - Received request to add product ID: 1 to cart for user ID: 1753095020866 with quantity: 1
+2025-07-21 16:21:29 [http-nio-8080-exec-6] INFO  c.e.Grocito.Services.CartService - Adding product ID: 1 to cart for user ID: 1753095020866, quantity: 1
+2025-07-21 16:21:29 [http-nio-8080-exec-6] DEBUG org.hibernate.SQL - select u1_0.id,u1_0.address,u1_0.contact_number,u1_0.email,u1_0.full_name,u1_0.password,u1_0.pincode,u1_0.registered_date,u1_0.role from users u1_0 where u1_0.id=?
+2025-07-21 16:21:29 [http-nio-8080-exec-6] ERROR c.e.Grocito.Services.CartService - Failed to add to cart: User not found with ID: 1753095020866
+2025-07-21 16:21:29 [http-nio-8080-exec-6] WARN  c.e.G.Controller.CartController - Failed to add product ID: 1 to cart for user ID: 1753095020866. Error: User not found with id: 1753095020866
+2025-07-21 16:21:44 [http-nio-8080-exec-7] INFO  c.e.G.Controller.CartController - Received request to add product ID: 2 to cart for user ID: 1753095020866 with quantity: 1
+2025-07-21 16:21:44 [http-nio-8080-exec-7] INFO  c.e.Grocito.Services.CartService - Adding product ID: 2 to cart for user ID: 1753095020866, quantity: 1
+2025-07-21 16:21:44 [http-nio-8080-exec-7] DEBUG org.hibernate.SQL - select u1_0.id,u1_0.address,u1_0.contact_number,u1_0.email,u1_0.full_name,u1_0.password,u1_0.pincode,u1_0.registered_date,u1_0.role from users u1_0 where u1_0.id=?
+2025-07-21 16:21:44 [http-nio-8080-exec-7] ERROR c.e.Grocito.Services.CartService - Failed to add to cart: User not found with ID: 1753095020866
+2025-07-21 16:21:44 [http-nio-8080-exec-7] WARN  c.e.G.Controller.CartController - Failed to add product ID: 2 to cart for user ID: 1753095020866. Error: User not found with id: 1753095020866
+2025-07-21 16:21:48 [http-nio-8080-exec-9] INFO  c.e.G.Controller.CartController - Received request to get cart items for user ID: 1753095020866
+2025-07-21 16:21:48 [http-nio-8080-exec-9] INFO  c.e.Grocito.Services.CartService - Retrieving cart items for user ID: 1753095020866
+2025-07-21 16:21:48 [http-nio-8080-exec-9] DEBUG org.hibernate.SQL - select c1_0.id,c1_0.user_id from cart c1_0 left join users u1_0 on u1_0.id=c1_0.user_id where u1_0.id=?
+2025-07-21 16:21:48 [http-nio-8080-exec-9] WARN  c.e.Grocito.Services.CartService - Cannot retrieve items: Cart not found for user ID: 1753095020866
+2025-07-21 16:21:48 [http-nio-8080-exec-9] WARN  c.e.G.Controller.CartController - Failed to retrieve cart items for user ID: 1753095020866. Error: Cart not found for user: 1753095020866
+2025-07-21 16:21:48 [http-nio-8080-exec-4] INFO  c.e.G.Controller.CartController - Received request to get cart items for user ID: 1753095020866
+2025-07-21 16:21:48 [http-nio-8080-exec-4] INFO  c.e.Grocito.Services.CartService - Retrieving cart items for user ID: 1753095020866
+2025-07-21 16:21:48 [http-nio-8080-exec-4] DEBUG org.hibernate.SQL - select c1_0.id,c1_0.user_id from cart c1_0 left join users u1_0 on u1_0.id=c1_0.user_id where u1_0.id=?
+2025-07-21 16:21:48 [http-nio-8080-exec-4] WARN  c.e.Grocito.Services.CartService - Cannot retrieve items: Cart not found for user ID: 1753095020866
+2025-07-21 16:21:48 [http-nio-8080-exec-4] WARN  c.e.G.Controller.CartController - Failed to retrieve cart items for user ID: 1753095020866. Error: Cart not found for user: 1753095020866
+2025-07-21 16:23:54 [http-nio-8080-exec-3] INFO  c.e.G.Controller.CartController - Received request to get cart items for user ID: 1753095020866
+2025-07-21 16:23:54 [http-nio-8080-exec-3] INFO  c.e.Grocito.Services.CartService - Retrieving cart items for user ID: 1753095020866
+2025-07-21 16:23:54 [http-nio-8080-exec-3] DEBUG org.hibernate.SQL - select c1_0.id,c1_0.user_id from cart c1_0 left join users u1_0 on u1_0.id=c1_0.user_id where u1_0.id=?
+2025-07-21 16:23:54 [http-nio-8080-exec-3] WARN  c.e.Grocito.Services.CartService - Cannot retrieve items: Cart not found for user ID: 1753095020866
+2025-07-21 16:23:54 [http-nio-8080-exec-3] WARN  c.e.G.Controller.CartController - Failed to retrieve cart items for user ID: 1753095020866. Error: Cart not found for user: 1753095020866
+2025-07-21 16:23:54 [http-nio-8080-exec-6] INFO  c.e.G.Controller.CartController - Received request to get cart items for user ID: 1753095020866
+2025-07-21 16:23:54 [http-nio-8080-exec-6] INFO  c.e.Grocito.Services.CartService - Retrieving cart items for user ID: 1753095020866
+2025-07-21 16:23:54 [http-nio-8080-exec-6] DEBUG org.hibernate.SQL - select c1_0.id,c1_0.user_id from cart c1_0 left join users u1_0 on u1_0.id=c1_0.user_id where u1_0.id=?
+2025-07-21 16:23:54 [http-nio-8080-exec-6] WARN  c.e.Grocito.Services.CartService - Cannot retrieve items: Cart not found for user ID: 1753095020866
+2025-07-21 16:23:54 [http-nio-8080-exec-6] WARN  c.e.G.Controller.CartController - Failed to retrieve cart items for user ID: 1753095020866. Error: Cart not found for user: 1753095020866
+2025-07-21 16:26:13 [http-nio-8080-exec-5] INFO  c.e.G.Controller.ProductController - Fetching products for pincode: 560001
+2025-07-21 16:26:13 [http-nio-8080-exec-5] DEBUG c.e.Grocito.Services.ProductService - Fetching products for pincode: 560001
+2025-07-21 16:26:13 [http-nio-8080-exec-5] DEBUG org.hibernate.SQL - select p1_0.id,p1_0.category,p1_0.description,p1_0.image_url,p1_0.name,p1_0.pincode,p1_0.price,p1_0.stock from products p1_0 where p1_0.pincode=?
+2025-07-21 16:26:13 [http-nio-8080-exec-5] DEBUG c.e.Grocito.Services.ProductService - Found 9 products for pincode: 560001
+2025-07-21 16:26:13 [http-nio-8080-exec-5] DEBUG c.e.G.Controller.ProductController - Retrieved 9 products for pincode: 560001
+2025-07-21 16:26:28 [http-nio-8080-exec-10] INFO  c.e.G.Controller.ProductController - Fetching products for pincode: 560001
+2025-07-21 16:26:28 [http-nio-8080-exec-10] DEBUG c.e.Grocito.Services.ProductService - Fetching products for pincode: 560001
+2025-07-21 16:26:28 [http-nio-8080-exec-10] DEBUG org.hibernate.SQL - select p1_0.id,p1_0.category,p1_0.description,p1_0.image_url,p1_0.name,p1_0.pincode,p1_0.price,p1_0.stock from products p1_0 where p1_0.pincode=?
+2025-07-21 16:26:28 [http-nio-8080-exec-3] INFO  c.e.G.Controller.CartController - Received request to get cart items for user ID: 1753095388096
+2025-07-21 16:26:28 [http-nio-8080-exec-3] INFO  c.e.Grocito.Services.CartService - Retrieving cart items for user ID: 1753095388096
+2025-07-21 16:26:28 [http-nio-8080-exec-3] DEBUG org.hibernate.SQL - select c1_0.id,c1_0.user_id from cart c1_0 left join users u1_0 on u1_0.id=c1_0.user_id where u1_0.id=?
+2025-07-21 16:26:28 [http-nio-8080-exec-10] DEBUG c.e.Grocito.Services.ProductService - Found 9 products for pincode: 560001
+2025-07-21 16:26:28 [http-nio-8080-exec-10] DEBUG c.e.G.Controller.ProductController - Retrieved 9 products for pincode: 560001
+2025-07-21 16:26:28 [http-nio-8080-exec-3] WARN  c.e.Grocito.Services.CartService - Cannot retrieve items: Cart not found for user ID: 1753095388096
+2025-07-21 16:26:28 [http-nio-8080-exec-3] WARN  c.e.G.Controller.CartController - Failed to retrieve cart items for user ID: 1753095388096. Error: Cart not found for user: 1753095388096
+2025-07-21 16:26:28 [http-nio-8080-exec-6] INFO  c.e.G.Controller.ProductController - Fetching products for pincode: 560001
+2025-07-21 16:26:28 [http-nio-8080-exec-6] DEBUG c.e.Grocito.Services.ProductService - Fetching products for pincode: 560001
+2025-07-21 16:26:28 [http-nio-8080-exec-1] INFO  c.e.G.Controller.CartController - Received request to get cart items for user ID: 1753095388096
+2025-07-21 16:26:28 [http-nio-8080-exec-1] INFO  c.e.Grocito.Services.CartService - Retrieving cart items for user ID: 1753095388096
+2025-07-21 16:26:28 [http-nio-8080-exec-6] DEBUG org.hibernate.SQL - select p1_0.id,p1_0.category,p1_0.description,p1_0.image_url,p1_0.name,p1_0.pincode,p1_0.price,p1_0.stock from products p1_0 where p1_0.pincode=?
+2025-07-21 16:26:28 [http-nio-8080-exec-1] DEBUG org.hibernate.SQL - select c1_0.id,c1_0.user_id from cart c1_0 left join users u1_0 on u1_0.id=c1_0.user_id where u1_0.id=?
+2025-07-21 16:26:28 [http-nio-8080-exec-6] DEBUG c.e.Grocito.Services.ProductService - Found 9 products for pincode: 560001
+2025-07-21 16:26:28 [http-nio-8080-exec-6] DEBUG c.e.G.Controller.ProductController - Retrieved 9 products for pincode: 560001
+2025-07-21 16:26:28 [http-nio-8080-exec-1] WARN  c.e.Grocito.Services.CartService - Cannot retrieve items: Cart not found for user ID: 1753095388096
+2025-07-21 16:26:28 [http-nio-8080-exec-1] WARN  c.e.G.Controller.CartController - Failed to retrieve cart items for user ID: 1753095388096. Error: Cart not found for user: 1753095388096
+2025-07-21 16:26:38 [http-nio-8080-exec-9] INFO  c.e.G.Controller.CartController - Received request to get cart items for user ID: 1753095388096
+2025-07-21 16:26:38 [http-nio-8080-exec-9] INFO  c.e.Grocito.Services.CartService - Retrieving cart items for user ID: 1753095388096
+2025-07-21 16:26:38 [http-nio-8080-exec-9] DEBUG org.hibernate.SQL - select c1_0.id,c1_0.user_id from cart c1_0 left join users u1_0 on u1_0.id=c1_0.user_id where u1_0.id=?
+2025-07-21 16:26:38 [http-nio-8080-exec-9] WARN  c.e.Grocito.Services.CartService - Cannot retrieve items: Cart not found for user ID: 1753095388096
+2025-07-21 16:26:38 [http-nio-8080-exec-9] WARN  c.e.G.Controller.CartController - Failed to retrieve cart items for user ID: 1753095388096. Error: Cart not found for user: 1753095388096
+2025-07-21 16:26:38 [http-nio-8080-exec-8] INFO  c.e.G.Controller.CartController - Received request to get cart items for user ID: 1753095388096
+2025-07-21 16:26:38 [http-nio-8080-exec-8] INFO  c.e.Grocito.Services.CartService - Retrieving cart items for user ID: 1753095388096
+2025-07-21 16:26:38 [http-nio-8080-exec-8] DEBUG org.hibernate.SQL - select c1_0.id,c1_0.user_id from cart c1_0 left join users u1_0 on u1_0.id=c1_0.user_id where u1_0.id=?
+2025-07-21 16:26:38 [http-nio-8080-exec-8] WARN  c.e.Grocito.Services.CartService - Cannot retrieve items: Cart not found for user ID: 1753095388096
+2025-07-21 16:26:38 [http-nio-8080-exec-8] WARN  c.e.G.Controller.CartController - Failed to retrieve cart items for user ID: 1753095388096. Error: Cart not found for user: 1753095388096
