@@ -5,6 +5,7 @@ import LoginPage from './components/LoginPage';
 import SignUpPage from './components/SignUpPage';
 import ProductsPage from './components/ProductsPage';
 import CartPage from './components/CartPage';
+import CheckoutPage from './components/CheckoutPage';
 import OrdersPage from './components/OrdersPage';
 import ServiceNotAvailable from './components/ServiceNotAvailable';
 import ProtectedRoute from './components/ProtectedRoute';
@@ -16,6 +17,8 @@ import TestRedirect from './components/TestRedirect';
 // import PaymentTest from './components/PaymentTest';
 import PaymentSuccess from './components/PaymentSuccess';
 import PaymentFailed from './components/PaymentFailed';
+import PaymentSuccessPage from './components/PaymentSuccessPage';
+import PaymentFailedPage from './components/PaymentFailedPage';
 import EmergencyCartManager from './components/EmergencyCartManager';
 import SimpleWorkingCart from './components/SimpleWorkingCart';
 // import FlowTest from './components/FlowTest';
@@ -79,6 +82,11 @@ function App() {
               <CartPage />
             </ProtectedRoute>
           } />
+          <Route path="/checkout" element={
+            <ProtectedRoute>
+              <CheckoutPage />
+            </ProtectedRoute>
+          } />
           <Route path="/orders" element={
             <ProtectedRoute>
               <OrdersPage />
@@ -86,8 +94,18 @@ function App() {
           } />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/test-redirect" element={<TestRedirect />} />
-          <Route path="/payment-success" element={<PaymentSuccess />} />
-          <Route path="/payment-failed" element={<PaymentFailed />} />
+          <Route path="/payment-success" element={
+            <ProtectedRoute>
+              <PaymentSuccessPage />
+            </ProtectedRoute>
+          } />
+          <Route path="/payment-failed" element={
+            <ProtectedRoute>
+              <PaymentFailedPage />
+            </ProtectedRoute>
+          } />
+          <Route path="/payment-success-legacy" element={<PaymentSuccess />} />
+          <Route path="/payment-failed-legacy" element={<PaymentFailed />} />
           <Route path="/emergency-cart" element={<EmergencyCartManager />} />
           <Route path="/simple-cart" element={<SimpleWorkingCart />} />
           <Route path="/not-available" element={<ServiceNotAvailable />} />
