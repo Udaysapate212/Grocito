@@ -27,5 +27,22 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     
     @Query("SELECT p FROM Product p WHERE (p.name LIKE %:keyword% OR p.description LIKE %:keyword%) AND p.pincode = :pincode")
     List<Product> searchProductsByPincode(@Param("keyword") String keyword, @Param("pincode") String pincode);
+    
+    // Additional paginated search methods for enhanced filtering
+    @Query("SELECT p FROM Product p WHERE p.name LIKE %:search% OR p.description LIKE %:search%")
+    Page<Product> findBySearch(@Param("search") String search, Pageable pageable);
+    
+    @Query("SELECT p FROM Product p WHERE p.category = :category AND (p.name LIKE %:search% OR p.description LIKE %:search%)")
+    Page<Product> findByCategoryAndSearch(@Param("category") String category, @Param("search") String search, Pageable pageable);
+    
+    @Query("SELECT p FROM Product p WHERE p.pincode = :pincode AND (p.name LIKE %:search% OR p.description LIKE %:search%)")
+    Page<Product> findByPincodeAndSearch(@Param("pincode") String pincode, @Param("search") String search, Pageable pageable);
+    
+    @Query("SELECT p FROM Product p WHERE p.category = :category AND p.pincode = :pincode AND (p.name LIKE %:search% OR p.description LIKE %:search%)")
+    Page<Product> findByCategoryAndPincodeAndSearch(@Param("category") String category, @Param("pincode") String pincode, @Param("search") String search, Pageable pageable);
+    
+    // Additional methods for stock-based queries
+    List<Product> findByStockLessThanEqual(int stock);
+    List<Product> findByStock(int stock);
 }
 

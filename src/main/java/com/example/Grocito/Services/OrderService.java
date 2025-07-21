@@ -94,7 +94,11 @@ public class OrderService {
             
             // Calculate item price and add to order total
             item.setPrice(product.getPrice());
-            orderTotal += product.getPrice() * item.getQuantity();
+            double itemTotal = product.getPrice() * item.getQuantity();
+            item.setTotalPrice(itemTotal);
+            orderTotal += itemTotal;
+            logger.debug("Item total for product {}: {} (price: {} x quantity: {})", 
+                    product.getName(), itemTotal, product.getPrice(), item.getQuantity());
         }
         
         order.setTotalAmount(orderTotal);
@@ -173,10 +177,14 @@ public class OrderService {
             orderItem.setProduct(product);
             orderItem.setQuantity(cartItem.getQuantity());
             orderItem.setPrice(product.getPrice());
+            double itemTotal = product.getPrice() * cartItem.getQuantity();
+            orderItem.setTotalPrice(itemTotal);
             orderItem.setOrder(order);
             
             orderItems.add(orderItem);
-            orderTotal += product.getPrice() * cartItem.getQuantity();
+            orderTotal += itemTotal;
+            logger.debug("Item total for product {}: {} (price: {} x quantity: {})", 
+                    product.getName(), itemTotal, product.getPrice(), cartItem.getQuantity());
         }
         
         order.setItems(orderItems);
@@ -324,4 +332,445 @@ public class OrderService {
         logger.debug("Found {} total orders in the system", orders.size());
         return orders;
     }
-}
+    
+    /**
+     * Get orders by pincode
+     */
+    public List<Order> getOrdersByPincode(String pincode) {
+        logger.info("Retrieving orders for pincode: {}", pincode);
+        List<Order> orders = orderRepository.findByPincode(pincode);
+        logger.debug("Found {} orders for pincode: {}", orders.size(), pincode);
+        return orders;
+    }
+    
+    /**
+     * Get filtered orders with pagination
+     */
+    public org.springframework.data.domain.Page<Order> getFilteredOrders(
+            int page, int size, String sortBy, String status, String pincode, 
+            String search, String dateFrom, String dateTo) {
+        
+        logger.debug("Fetching filtered orders - page: {}, size: {}, sortBy: {}, status: {}, pincode: {}, search: {}", 
+                page, size, sortBy, status, pincode, search);
+        
+        org.springframework.data.domain.Pageable pageable = org.springframework.data.domain.PageRequest.of(
+                page, size, org.springframework.data.domain.Sort.by(sortBy).descending());
+        
+        // For now, return all orders with basic filtering
+        // In a real implementation, you would create custom repository methods
+        List<Order> allOrders = orderRepository.findAll();
+        
+        // Apply filters
+        java.util.stream.Stream<Order> orderStream = allOrders.stream();
+        
+        if (status != null && !status.isEmpty()) {
+            orderStream = orderStream.filter(order -> status.equals(order.getStatus()));
+        }
+        
+        if (pincode != null && !pincode.isEmpty()) {
+            orderStream = orderStream.filter(order -> pincode.equals(order.getPincode()));
+        }
+        
+        if (search != null && !search.isEmpty()) {
+            String searchLower = search.toLowerCase();
+            orderStream = orderStream.filter(order -> 
+                order.getId().toString().contains(searchLower) ||
+                (order.getUser() != null && order.getUser().getFullName() != null && 
+                 order.getUser().getFullName().toLowerCase().contains(searchLower)) ||
+                (order.getUser() != null && order.getUser().getEmail() != null && 
+                 order.getUser().getEmail().toLowerCase().contains(searchLower)) ||
+                (order.getDeliveryAddress() != null && 
+                 order.getDeliveryAddress().toLowerCase().contains(searchLower))
+            );
+        }
+        
+        if (dateFrom != null && !dateFrom.isEmpty()) {
+            try {
+                java.time.LocalDate fromDate = java.time.LocalDate.parse(dateFrom);
+                orderStream = orderStream.filter(order -> 
+                    order.getOrderTime().toLocalDate().isAfter(fromDate.minusDays(1)));
+            } catch (Exception e) {
+                logger.warn("Invalid dateFrom format: {}", dateFrom);
+            }
+        }
+        
+        if (dateTo != null && !dateTo.isEmpty()) {
+            try {
+                java.time.LocalDate toDate = java.time.LocalDate.parse(dateTo);
+                orderStream = orderStream.filter(order -> 
+                    order.getOrderTime().toLocalDate().isBefore(toDate.plusDays(1)));
+            } catch (Exception e) {
+                logger.warn("Invalid dateTo format: {}", dateTo);
+            }
+        }
+        
+        List<Order> filteredOrders = orderStream.collect(java.util.stream.Collectors.toList());
+        
+        // Sort orders
+        if ("orderTime".equals(sortBy)) {
+            filteredOrders.sort((a, b) -> b.getOrderTime().compareTo(a.getOrderTime()));
+        } else if ("totalAmount".equals(sortBy)) {
+            filteredOrders.sort((a, b) -> Double.compare(b.getTotalAmount(), a.getTotalAmount()));
+        }
+        
+        // Create page
+        int start = page * size;
+        int end = Math.min(start + size, filteredOrders.size());
+        List<Order> pageContent = start < filteredOrders.size() ? 
+                filteredOrders.subList(start, end) : new ArrayList<>();
+        
+        return new org.springframework.data.domain.PageImpl<>(
+                pageContent, pageable, filteredOrders.size());
+    }
+    
+    /**
+     * Get order analytics
+     */
+    public Map<String, Object> getOrderAnalytics(String pincode, String dateFrom, String dateTo) {
+        logger.debug("Calculating order analytics for pincode: {}", pincode);
+        
+        List<Order> orders = pincode != null ? getOrdersByPincode(pincode) : getAllOrders();
+        
+        // Apply date filtering
+        if (dateFrom != null || dateTo != null) {
+            orders = orders.stream().filter(order -> {
+                java.time.LocalDate orderDate = order.getOrderTime().toLocalDate();
+                
+                if (dateFrom != null) {
+                    try {
+                        java.time.LocalDate fromDate = java.time.LocalDate.parse(dateFrom);
+                        if (orderDate.isBefore(fromDate)) return false;
+                    } catch (Exception e) {
+                        logger.warn("Invalid dateFrom format: {}", dateFrom);
+                    }
+                }
+                
+                if (dateTo != null) {
+                    try {
+                        java.time.LocalDate toDate = java.time.LocalDate.parse(dateTo);
+                        if (orderDate.isAfter(toDate)) return false;
+                    } catch (Exception e) {
+                        logger.warn("Invalid dateTo format: {}", dateTo);
+                    }
+                }
+                
+                return true;
+            }).collect(java.util.stream.Collectors.toList());
+        }
+        
+        Map<String, Object> analytics = new HashMap<>();
+        
+        // Basic metrics
+        analytics.put("totalOrders", orders.size());
+        analytics.put("totalRevenue", orders.stream().mapToDouble(Order::getTotalAmount).sum());
+        analytics.put("averageOrderValue", orders.isEmpty() ? 0 : 
+                orders.stream().mapToDouble(Order::getTotalAmount).average().orElse(0));
+        
+        // Status distribution
+        Map<String, Long> statusDistribution = orders.stream()
+                .collect(java.util.stream.Collectors.groupingBy(
+                    Order::getStatus, 
+                    java.util.stream.Collectors.counting()
+                ));
+        analytics.put("statusDistribution", statusDistribution);
+        
+        // Time-based metrics
+        java.time.LocalDate today = java.time.LocalDate.now();
+        java.time.LocalDate weekAgo = today.minusDays(7);
+        java.time.LocalDate monthAgo = today.minusMonths(1);
+        
+        analytics.put("todayOrders", orders.stream()
+                .filter(order -> order.getOrderTime().toLocalDate().equals(today))
+                .count());
+        
+        analytics.put("weekOrders", orders.stream()
+                .filter(order -> order.getOrderTime().toLocalDate().isAfter(weekAgo))
+                .count());
+        
+        analytics.put("monthOrders", orders.stream()
+                .filter(order -> order.getOrderTime().toLocalDate().isAfter(monthAgo))
+                .count());
+        
+        // Revenue metrics
+        analytics.put("todayRevenue", orders.stream()
+                .filter(order -> order.getOrderTime().toLocalDate().equals(today))
+                .mapToDouble(Order::getTotalAmount).sum());
+        
+        analytics.put("weekRevenue", orders.stream()
+                .filter(order -> order.getOrderTime().toLocalDate().isAfter(weekAgo))
+                .mapToDouble(Order::getTotalAmount).sum());
+        
+        analytics.put("monthRevenue", orders.stream()
+                .filter(order -> order.getOrderTime().toLocalDate().isAfter(monthAgo))
+                .mapToDouble(Order::getTotalAmount).sum());
+        
+        analytics.put("pincode", pincode != null ? pincode : "All Regions");
+        
+        // Daily trends (last 7 days)
+        List<Map<String, Object>> dailyTrends = new ArrayList<>();
+        for (int i = 6; i >= 0; i--) {
+            java.time.LocalDate date = today.minusDays(i);
+            List<Order> dayOrders = orders.stream()
+                    .filter(order -> order.getOrderTime().toLocalDate().equals(date))
+                    .collect(java.util.stream.Collectors.toList());
+            
+            Map<String, Object> dayData = new HashMap<>();
+            dayData.put("date", date.toString());
+            dayData.put("orders", dayOrders.size());
+            dayData.put("revenue", dayOrders.stream().mapToDouble(Order::getTotalAmount).sum());
+            dailyTrends.add(dayData);
+        }
+        analytics.put("dailyTrends", dailyTrends);
+        
+        logger.debug("Analytics calculated for {} orders", orders.size());
+        return analytics;
+    }
+    
+    /**
+     * Bulk update order status with role-based access control
+     */
+    @Transactional
+    public List<Order> bulkUpdateStatus(List<Long> orderIds, String status, String userRole, String userPincode) {
+        logger.info("Processing bulk status update for {} orders to status: {} by {} admin", 
+                   orderIds.size(), status, userRole);
+        
+        List<Order> updatedOrders = new ArrayList<>();
+        
+        for (Long orderId : orderIds) {
+            try {
+                Order order = orderRepository.findById(orderId)
+                        .orElseThrow(() -> new RuntimeException("Order not found with id: " + orderId));
+                
+                // Check access permissions
+                if ("ADMIN".equals(userRole) && !userPincode.equals(order.getPincode())) {
+                    logger.warn("Regional admin {} attempted to update unauthorized order ID: {} (pincode: {})", 
+                               userPincode, orderId, order.getPincode());
+                    throw new RuntimeException("Access denied for order ID " + orderId + 
+                            ". You can only update orders from your assigned region.");
+                }
+                
+                order.setStatus(status);
+                Order updatedOrder = orderRepository.save(order);
+                updatedOrders.add(updatedOrder);
+                
+                logger.debug("Updated order {} to status: {}", orderId, status);
+            } catch (Exception e) {
+                logger.error("Error updating order ID {}: {}", orderId, e.getMessage());
+                throw new RuntimeException("Failed to update order ID " + orderId + ": " + e.getMessage());
+            }
+        }
+        
+        logger.info("Successfully updated {} orders to status: {}", updatedOrders.size(), status);
+        return updatedOrders;
+    }    
+ 
+   /**
+     * Get dashboard analytics with role-based filtering
+     */
+    public Map<String, Object> getDashboardAnalytics(String userRole, String userPincode) {
+        logger.info("Calculating dashboard analytics for role: {}, pincode: {}", userRole, userPincode);
+        
+        // Get orders based on role
+        List<Order> orders = "SUPER_ADMIN".equals(userRole) ? 
+                getAllOrders() : 
+                (userPincode != null ? getOrdersByPincode(userPincode) : getAllOrders());
+        
+        // Get all users count (this would need UserService in real implementation)
+        // For now, we'll use a placeholder or get from UserRepository
+        int totalUsers = 0;
+        try {
+            totalUsers = (int) userRepository.count();
+        } catch (Exception e) {
+            logger.warn("Could not get user count: {}", e.getMessage());
+            totalUsers = 0;
+        }
+        
+        // Get all products count (this would need ProductService in real implementation)
+        int totalProducts = 0;
+        try {
+            totalProducts = (int) productRepository.count();
+        } catch (Exception e) {
+            logger.warn("Could not get product count: {}", e.getMessage());
+            totalProducts = 0;
+        }
+        
+        // Calculate metrics
+        java.time.LocalDate today = java.time.LocalDate.now();
+        
+        // Active orders (not delivered or cancelled)
+        long activeOrders = orders.stream()
+                .filter(order -> !"DELIVERED".equals(order.getStatus()) && !"CANCELLED".equals(order.getStatus()))
+                .count();
+        
+        // Today's revenue
+        double todayRevenue = orders.stream()
+                .filter(order -> order.getOrderTime().toLocalDate().equals(today))
+                .mapToDouble(Order::getTotalAmount)
+                .sum();
+        
+        // Total revenue
+        double totalRevenue = orders.stream()
+                .mapToDouble(Order::getTotalAmount)
+                .sum();
+        
+        Map<String, Object> analytics = new HashMap<>();
+        analytics.put("totalUsers", totalUsers);
+        analytics.put("activeOrders", activeOrders);
+        analytics.put("totalProducts", totalProducts);
+        analytics.put("todayRevenue", todayRevenue);
+        analytics.put("totalRevenue", totalRevenue);
+        analytics.put("totalOrders", orders.size());
+        
+        // Additional metrics
+        analytics.put("averageOrderValue", orders.isEmpty() ? 0 : totalRevenue / orders.size());
+        
+        // Orders by status
+        Map<String, Long> ordersByStatus = orders.stream()
+                .collect(java.util.stream.Collectors.groupingBy(
+                    Order::getStatus, 
+                    java.util.stream.Collectors.counting()
+                ));
+        analytics.put("ordersByStatus", ordersByStatus);
+        
+        // Recent orders count (last 24 hours)
+        java.time.LocalDateTime yesterday = java.time.LocalDateTime.now().minusDays(1);
+        long recentOrdersCount = orders.stream()
+                .filter(order -> order.getOrderTime().isAfter(yesterday))
+                .count();
+        analytics.put("recentOrdersCount", recentOrdersCount);
+        
+        logger.info("Dashboard analytics calculated - Total orders: {}, Active orders: {}, Today's revenue: {}", 
+                   orders.size(), activeOrders, todayRevenue);
+        
+        return analytics;
+    }
+    
+    /**
+     * Get recent activity for dashboard
+     */
+    public List<Map<String, Object>> getRecentActivity(String userRole, String userPincode, int limit) {
+        logger.info("Fetching recent activity for role: {}, pincode: {}, limit: {}", userRole, userPincode, limit);
+        
+        // Get orders based on role
+        List<Order> orders = "SUPER_ADMIN".equals(userRole) ? 
+                getAllOrders() : 
+                (userPincode != null ? getOrdersByPincode(userPincode) : getAllOrders());
+        
+        // Sort by most recent first and limit
+        List<Order> recentOrders = orders.stream()
+                .sorted((a, b) -> b.getOrderTime().compareTo(a.getOrderTime()))
+                .limit(limit)
+                .collect(java.util.stream.Collectors.toList());
+        
+        List<Map<String, Object>> activities = new ArrayList<>();
+        
+        for (Order order : recentOrders) {
+            Map<String, Object> activity = new HashMap<>();
+            
+            // Determine activity type and message based on order status and time
+            String activityType = getActivityType(order);
+            String message = getActivityMessage(order);
+            String timeAgo = getTimeAgo(order.getOrderTime());
+            
+            activity.put("type", activityType);
+            activity.put("message", message);
+            activity.put("timeAgo", timeAgo);
+            activity.put("orderId", order.getId());
+            activity.put("orderStatus", order.getStatus());
+            activity.put("customerName", order.getUser() != null ? order.getUser().getFullName() : "Unknown");
+            activity.put("amount", order.getTotalAmount());
+            activity.put("pincode", order.getPincode());
+            
+            activities.add(activity);
+        }
+        
+        // Add some product-related activities (low stock alerts)
+        try {
+            List<Product> lowStockProducts = productRepository.findAll().stream()
+                    .filter(product -> product.getStock() <= 5)
+                    .limit(3)
+                    .collect(java.util.stream.Collectors.toList());
+            
+            for (Product product : lowStockProducts) {
+                // Only add if it's relevant to the admin's region or if super admin
+                if ("SUPER_ADMIN".equals(userRole) || 
+                    (userPincode != null && userPincode.equals(product.getPincode()))) {
+                    
+                    Map<String, Object> activity = new HashMap<>();
+                    activity.put("type", "warning");
+                    activity.put("message", "Product \"" + product.getName() + "\" is low in stock (" + product.getStock() + " remaining)");
+                    activity.put("timeAgo", "Recently");
+                    activity.put("productId", product.getId());
+                    activity.put("productName", product.getName());
+                    activity.put("stock", product.getStock());
+                    activity.put("pincode", product.getPincode());
+                    
+                    activities.add(activity);
+                }
+            }
+        } catch (Exception e) {
+            logger.warn("Could not fetch low stock products for recent activity: {}", e.getMessage());
+        }
+        
+        // Sort all activities by relevance and recency
+        activities = activities.stream()
+                .limit(limit)
+                .collect(java.util.stream.Collectors.toList());
+        
+        logger.info("Generated {} recent activities", activities.size());
+        return activities;
+    }
+    
+    private String getActivityType(Order order) {
+        switch (order.getStatus()) {
+            case "PLACED":
+                return "success";
+            case "PACKED":
+                return "info";
+            case "OUT_FOR_DELIVERY":
+                return "warning";
+            case "DELIVERED":
+                return "success";
+            case "CANCELLED":
+                return "error";
+            default:
+                return "info";
+        }
+    }
+    
+    private String getActivityMessage(Order order) {
+        String customerName = order.getUser() != null ? order.getUser().getFullName() : "Customer";
+        
+        switch (order.getStatus()) {
+            case "PLACED":
+                return "New order #" + order.getId() + " received from " + customerName;
+            case "PACKED":
+                return "Order #" + order.getId() + " has been packed";
+            case "OUT_FOR_DELIVERY":
+                return "Order #" + order.getId() + " is out for delivery";
+            case "DELIVERED":
+                return "Order #" + order.getId() + " delivered successfully";
+            case "CANCELLED":
+                return "Order #" + order.getId() + " was cancelled";
+            default:
+                return "Order #" + order.getId() + " status updated";
+        }
+    }
+    
+    private String getTimeAgo(java.time.LocalDateTime orderTime) {
+        java.time.Duration duration = java.time.Duration.between(orderTime, java.time.LocalDateTime.now());
+        
+        long minutes = duration.toMinutes();
+        long hours = duration.toHours();
+        long days = duration.toDays();
+        
+        if (minutes < 1) {
+            return "Just now";
+        } else if (minutes < 60) {
+            return minutes + " minute" + (minutes == 1 ? "" : "s") + " ago";
+        } else if (hours < 24) {
+            return hours + " hour" + (hours == 1 ? "" : "s") + " ago";
+        } else {
+            return days + " day" + (days == 1 ? "" : "s") + " ago";
+        }
+    }}

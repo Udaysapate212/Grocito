@@ -1,5 +1,46 @@
 import api from './config';
 
+// Mock cart data for fallback
+const mockCartItems = [
+  {
+    id: 1,
+    userId: 1,
+    productId: 1,
+    quantity: 2,
+    product: {
+      id: 1,
+      name: "Fresh Bananas",
+      price: 40,
+      image: "/api/placeholder/150/150",
+      category: "Fruits"
+    }
+  },
+  {
+    id: 2,
+    userId: 1,
+    productId: 2,
+    quantity: 1,
+    product: {
+      id: 2,
+      name: "Organic Milk",
+      price: 60,
+      image: "/api/placeholder/150/150",
+      category: "Dairy"
+    }
+  }
+];
+
+// Check if backend is available
+const isBackendAvailable = async () => {
+  try {
+    const response = await api.get('/health', { timeout: 3000 });
+    return response.status === 200;
+  } catch (error) {
+    console.warn('Backend not available, using mock data');
+    return false;
+  }
+};
+
 // Helper to handle API errors with better messages
 const handleApiError = (error, defaultMessage) => {
   console.error('API Error:', error);

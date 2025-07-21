@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { userService } from '../../api/userService';
 import { authService } from '../../api/authService';
+import { locationService } from '../../services/locationService';
 import { toast } from 'react-toastify';
 import UserTable from './UserTable';
 import UserFilters from './UserFilters';
 import UserStats from './UserStats';
 import UserModal from './UserModal';
+import LocationDetector from '../common/LocationDetector';
+import AdminHeader from '../common/AdminHeader';
 
 const UserManagement = () => {
   const [users, setUsers] = useState([]);
@@ -28,6 +31,8 @@ const UserManagement = () => {
   const [selectedUser, setSelectedUser] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [modalType, setModalType] = useState('view'); // 'view', 'edit', 'delete'
+  const [detectedLocation, setDetectedLocation] = useState(null);
+  const [showLocationDetector, setShowLocationDetector] = useState(false);
 
   // Fetch users data
   const fetchUsers = async (page = 1, currentFilters = filters) => {
@@ -71,7 +76,7 @@ const UserManagement = () => {
       '110004': 'West Delhi Warehouse',
       '110005': 'Central Delhi Warehouse',
       '412105': 'Pune Warehouse, Maharashtra',
-      '441904': 'Nagpur Warehouse, Maharashtra'
+      '441904': 'Bhandara Warehouse, Maharashtra'
     };
     
     if (isSuperAdmin) {
@@ -222,52 +227,121 @@ const UserManagement = () => {
     }
   };
 
+  // Handle location detection
+  const handleLocationDetected = (locationData) => {
+    setDetectedLocation(locationData);
+    
+    // Auto-update pincode filter if super admin
+    const currentAdmin = authService.getCurrentUser();
+    const isSuperAdmin = currentAdmin?.role === 'SUPER_ADMIN';
+    
+    if (isSuperAdmin) {
+      const newFilters = {
+        ...filters,
+        pincode: locationData.pincode
+      };
+      setFilters(newFilters);
+      fetchUsers(1, newFilters);
+      
+      toast.success(
+        `Filtering users by detected location: ${locationData.pincode}`,
+        { autoClose: 3000 }
+      );
+    }
+  };
+
+  // Handle location detection error
+  const handleLocationError = (error) => {
+    console.error('Location detection error:', error);
+    setDetectedLocation(null);
+  };
+
+  // Toggle location detector visibility
+  const toggleLocationDetector = () => {
+    setShowLocationDetector(!showLocationDetector);
+  };
+
   return (
-    <div className="min-h-screen bg-admin-50">
-      {/* Header */}
-      <div className="bg-white shadow-sm border-b border-admin-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-3xl font-bold text-admin-900">User Management</h1>
-              <p className="text-admin-600 mt-1">
-                {warehouseInfo.name ? (
-                  <>
-                    {warehouseInfo.role === 'SUPER_ADMIN' ? (
-                      <span>Managing all warehouses and users</span>
-                    ) : (
-                      <>
-                        Managing warehouse: <span className="font-semibold text-admin-700">{warehouseInfo.name}</span>
-                        {warehouseInfo.pincode && (
-                          <span className="text-admin-500"> • Pincode: {warehouseInfo.pincode}</span>
-                        )}
-                      </>
-                    )}
-                  </>
-                ) : (
-                  'Loading warehouse information...'
-                )}
-              </p>
-            </div>
-            <div className="flex items-center space-x-3">
-              <button
-                onClick={() => fetchUsers(pagination.currentPage)}
-                disabled={loading}
-                className="bg-admin-100 hover:bg-admin-200 text-admin-700 px-4 py-2 rounded-lg font-medium transition-colors flex items-center space-x-2"
-              >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                </svg>
-                <span>Refresh</span>
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
+    <div className="min-h-screen bg-gray-50">
+      <AdminHeader 
+        title="User Management" 
+        subtitle={warehouseInfo.name ? (
+          warehouseInfo.role === 'SUPER_ADMIN' ? 
+            'Managing all warehouses and users' : 
+            `Managing warehouse: ${warehouseInfo.name}${warehouseInfo.pincode ? ` • Pincode: ${warehouseInfo.pincode}` : ''}`
+        ) : 'Loading warehouse information...'}
+      />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Action Buttons */}
+        <div className="flex items-center justify-end space-x-3 mb-6">
+          {/* Location Detector Toggle - Only for Super Admin */}
+          {warehouseInfo.role === 'SUPER_ADMIN' && (
+            <button
+              onClick={toggleLocationDetector}
+              className="bg-blue-100 hover:bg-blue-200 text-blue-700 px-4 py-2 rounded-lg font-medium transition-colors flex items-center space-x-2"
+            >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+              <span>{showLocationDetector ? 'Hide' : 'Detect'} Location</span>
+            </button>
+          )}
+          
+          <button
+            onClick={() => fetchUsers(pagination.currentPage)}
+            disabled={loading}
+            className="bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-lg font-medium transition-colors flex items-center space-x-2"
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+            </svg>
+            <span>Refresh</span>
+          </button>
+        </div>
         {/* Stats Cards */}
         <UserStats stats={stats} loading={loading} />
+
+        {/* Location Detector - Only for Super Admin */}
+        {warehouseInfo.role === 'SUPER_ADMIN' && showLocationDetector && (
+          <div className="bg-white rounded-lg shadow-sm border border-admin-200 p-6 mb-6">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-lg font-semibold text-admin-900">Location Detection</h3>
+              <p className="text-sm text-admin-600">
+                Detect your current location to filter users by nearby pincode
+              </p>
+            </div>
+            <LocationDetector
+              onLocationDetected={handleLocationDetected}
+              onError={handleLocationError}
+              className="w-full"
+            />
+            {detectedLocation && (
+              <div className="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h4 className="font-medium text-blue-900">Current Filter Applied</h4>
+                    <p className="text-sm text-blue-700">
+                      Showing users from pincode: <strong>{detectedLocation.pincode}</strong>
+                    </p>
+                  </div>
+                  <button
+                    onClick={() => {
+                      setFilters(prev => ({ ...prev, pincode: '' }));
+                      fetchUsers(1, { ...filters, pincode: '' });
+                      setDetectedLocation(null);
+                      toast.info('Location filter cleared');
+                    }}
+                    className="text-blue-600 hover:text-blue-800 text-sm font-medium"
+                  >
+                    Clear Filter
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
 
         {/* Filters */}
         <UserFilters 

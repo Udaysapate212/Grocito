@@ -22,6 +22,7 @@ import PaymentSuccessPage from './components/PaymentSuccessPage';
 import PaymentFailedPage from './components/PaymentFailedPage';
 import EmergencyCartManager from './components/EmergencyCartManager';
 import SimpleWorkingCart from './components/SimpleWorkingCart';
+import LocationTest from './components/LocationTest';
 // import FlowTest from './components/FlowTest';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -111,6 +112,7 @@ function App() {
           <Route path="/emergency-cart" element={<EmergencyCartManager />} />
           <Route path="/simple-cart" element={<SimpleWorkingCart />} />
           <Route path="/not-available" element={<ServiceNotAvailable />} />
+          <Route path="/location-test" element={<LocationTest />} />
         </Routes>
 
         {/* Debug components - remove in production */}

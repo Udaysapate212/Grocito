@@ -120,7 +120,7 @@ export const authService = {
             contactNumber: '9999999999'
           };
         }
-        token = 'demo-admin-token-' + Date.now();
+        token = 'demo-admin-token-' + user.id + '-' + Date.now();
       }
       
       if (token && user) {
@@ -149,7 +149,7 @@ export const authService = {
           pincode: '110001',
           contactNumber: '9999999999'
         };
-        const demoToken = 'demo-admin-token-' + Date.now();
+        const demoToken = 'demo-admin-token-' + demoUser.id + '-' + Date.now();
         
         localStorage.setItem('admin_token', demoToken);
         localStorage.setItem('admin_user', JSON.stringify(demoUser));

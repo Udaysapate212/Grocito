@@ -51,63 +51,98 @@ const LandingPage = () => {
     setSuggestions([]);
   };
 
-  // Handle location detection
+  // Handle location detection with improved accuracy
   const handleDetectLocation = async () => {
     setLocationLoading(true);
-    console.log('Starting location detection process...');
+    console.log('Starting enhanced location detection process...');
     toast.info('Detecting your location...', {
       position: "top-right",
       autoClose: 2000,
     });
     
     try {
-      console.log('Calling getCurrentLocation...');
-      // Get coordinates using the browser's geolocation API
-      const userCoordinates = await geocodingService.getCurrentLocation();
-      console.log('Received coordinates:', userCoordinates);
+      console.log('Calling getCurrentLocationWithPincode for complete location data...');
+      // Use the enhanced method that gets complete location data in one call
+      const locationData = await geocodingService.getCurrentLocationWithPincode();
+      console.log('Received complete location data:', locationData);
       
       // Save coordinates for weather widget
-      setCoordinates(userCoordinates);
+      setCoordinates(locationData.coordinates);
       setShowWeather(true);
       console.log('Coordinates saved for weather widget');
       
-      toast.info('Finding your pincode...', {
-        position: "top-right",
-        autoClose: 1500,
-      });
+      // Set the pincode from the location data
+      setPincode(locationData.pincode);
+      console.log('Pincode set to:', locationData.pincode);
       
-      console.log('Calling getAddressFromCoordinates with:', userCoordinates.latitude, userCoordinates.longitude);
-      // Use the new geocodingService to get accurate address information
-      const addressData = await geocodingService.getAddressFromCoordinates(
-        userCoordinates.latitude, 
-        userCoordinates.longitude
+      // Show detailed success message with location information
+      toast.success(
+        <div>
+          <div className="font-bold">Location detected!</div>
+          <div>Pincode: {locationData.pincode}</div>
+          <div className="text-xs">{locationData.city}, {locationData.state}</div>
+        </div>, 
+        {
+          position: "top-right",
+          autoClose: 4000,
+        }
       );
       
-      console.log('Received address data:', addressData);
-      
-      // Set the pincode from the address data
-      setPincode(addressData.pincode);
-      console.log('Pincode set to:', addressData.pincode);
-      
-      toast.success(`Location detected: Pincode ${addressData.pincode}`, {
-        position: "top-right",
-        autoClose: 3000,
-      });
+      // Check if the location is serviceable
+      if (locationData.pincode && geocodingService.isServiceableLocation(locationData.pincode)) {
+        toast.info('Your area is serviceable! Click "Check Service Availability" to continue.', {
+          position: "top-right",
+          autoClose: 3000,
+        });
+      } else {
+        toast.warn('We may not service this area yet. Please check availability.', {
+          position: "top-right",
+          autoClose: 3000,
+        });
+      }
     } catch (error) {
       console.error('Location detection error:', error);
       console.error('Error details:', error.message, error.stack);
-      toast.error(`Unable to detect location: ${error.message}. Please enter your pincode manually.`);
+      
+      // Show user-friendly error message based on error type
+      let errorMessage = 'Unable to detect location. Please enter your pincode manually.';
+      
+      if (error.message.includes('denied')) {
+        errorMessage = 'Location access denied. Please enable location permissions and try again.';
+      } else if (error.message.includes('unavailable')) {
+        errorMessage = 'Location services unavailable. Please check your GPS settings.';
+      } else if (error.message.includes('timeout')) {
+        errorMessage = 'Location detection timed out. Please try again.';
+      } else if (error.message.includes('pincode')) {
+        errorMessage = 'Could not determine pincode for your location. Please enter manually.';
+      }
+      
+      toast.error(errorMessage, {
+        position: "top-right",
+        autoClose: 5000,
+      });
       
       // Try to get more information about the error
       if (error.response) {
-        // The request was made and the server responded with a status code
-        // that falls out of the range of 2xx
         console.error('Error response data:', error.response.data);
         console.error('Error response status:', error.response.status);
         console.error('Error response headers:', error.response.headers);
       } else if (error.request) {
-        // The request was made but no response was received
         console.error('Error request:', error.request);
+      }
+      
+      // Try fallback method if available
+      try {
+        console.log('Attempting fallback location detection...');
+        const position = await geocodingService.getCurrentLocation();
+        setCoordinates(position);
+        setShowWeather(true);
+        toast.info('Got your approximate location, but couldn\'t determine pincode. Please enter it manually.', {
+          position: "top-right",
+          autoClose: 4000,
+        });
+      } catch (fallbackError) {
+        console.error('Fallback location detection failed:', fallbackError);
       }
     } finally {
       setLocationLoading(false);

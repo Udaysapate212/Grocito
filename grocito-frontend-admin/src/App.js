@@ -4,6 +4,8 @@ import AdminLoginPage from './components/auth/AdminLoginPage';
 import AdminForgotPasswordPage from './components/auth/AdminForgotPasswordPage';
 import AdminDashboard from './components/dashboard/AdminDashboard';
 import UserManagement from './components/users/UserManagement';
+import ProductManagement from './components/products/ProductManagement';
+import OrderManagement from './components/orders/OrderManagement';
 import AdminRoute from './components/auth/AdminRoute';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -47,6 +49,16 @@ function App() {
           <Route path="/users" element={
             <AdminRoute>
               <UserManagement />
+            </AdminRoute>
+          } />
+          <Route path="/products" element={
+            <AdminRoute>
+              <ProductManagement />
+            </AdminRoute>
+          } />
+          <Route path="/orders" element={
+            <AdminRoute>
+              <OrderManagement />
             </AdminRoute>
           } />
           <Route path="/" element={<Navigate to="/login" replace />} />

@@ -1,5 +1,8 @@
 package com.example.Grocito.Controller;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -13,8 +16,10 @@ import org.springframework.web.bind.annotation.*;
 import com.example.Grocito.config.LoggerConfig;
 import com.example.Grocito.Entity.Order;
 import com.example.Grocito.Entity.User;
+import com.example.Grocito.Entity.DeliveryPartner;
 import com.example.Grocito.Repository.UserRepository;
 import com.example.Grocito.Services.OrderService;
+import com.example.Grocito.Services.OrderAssignmentService;
 
 @RestController
 @RequestMapping("/api/orders")
@@ -27,6 +32,9 @@ public class OrderController {
 
     @Autowired
     private UserRepository userRepository;
+    
+    @Autowired
+    private OrderAssignmentService orderAssignmentService;
 
     /**
      * Place an order with the provided order details
@@ -142,17 +150,29 @@ public class OrderController {
     }
     
     /**
+     * Get all orders (admin function)
+     */
+    @GetMapping("/all")
+    public ResponseEntity<?> getAllOrders() {
+        try {
+            List<Order> orders = orderService.getAllOrders();
+            return ResponseEntity.ok(orders);
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+    
+    /**
      * Update order status
      */
     @PutMapping("/{id}/status")
-    public ResponseEntity<?> updateOrderStatus(
-            @PathVariable Long id,
-            @RequestBody Map<String, String> statusData) {
+    public ResponseEntity<?> updateOrderStatus(@PathVariable Long id, @RequestBody Map<String, String> statusData) {
         try {
             String status = statusData.get("status");
             if (status == null || status.trim().isEmpty()) {
                 return ResponseEntity.badRequest().body("Status is required");
             }
+            
             Order updatedOrder = orderService.updateOrderStatus(id, status);
             return ResponseEntity.ok(updatedOrder);
         } catch (RuntimeException e) {
@@ -161,7 +181,7 @@ public class OrderController {
     }
     
     /**
-     * Cancel an order
+     * Cancel order
      */
     @PutMapping("/{id}/cancel")
     public ResponseEntity<?> cancelOrder(@PathVariable Long id) {
@@ -174,14 +194,83 @@ public class OrderController {
     }
     
     /**
-     * Get all orders (admin function)
+     * Assign order to delivery partner automatically
      */
-    @GetMapping({"/all", ""})
-    public ResponseEntity<?> getAllOrders() {
+    @PostMapping("/{id}/assign-auto")
+    public ResponseEntity<?> assignOrderAutomatically(@PathVariable Long id) {
         try {
-            List<Order> orders = orderService.getAllOrders();
-            return ResponseEntity.ok(orders);
+            logger.info("Auto-assigning order ID: {}", id);
+            
+            // Check if order exists and is ready for assignment
+            Optional<Order> orderOpt = orderService.getOrderById(id);
+            if (!orderOpt.isPresent()) {
+                return ResponseEntity.notFound().build();
+            }
+            
+            Order order = orderOpt.get();
+            if (!"PLACED".equals(order.getStatus()) && !"PACKED".equals(order.getStatus())) {
+                return ResponseEntity.badRequest().body("Order must be in PLACED or PACKED status for assignment");
+            }
+            
+            var assignment = orderAssignmentService.assignOrderAutomatically(id);
+            
+            return ResponseEntity.status(HttpStatus.CREATED).body(assignment);
         } catch (RuntimeException e) {
+            logger.error("Error auto-assigning order: {}", e.getMessage());
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+    
+    /**
+     * Assign order to specific delivery partner
+     */
+    @PostMapping("/{id}/assign-manual")
+    public ResponseEntity<?> assignOrderToPartner(@PathVariable Long id, @RequestBody Map<String, Long> requestData) {
+        try {
+            Long partnerId = requestData.get("partnerId");
+            if (partnerId == null) {
+                return ResponseEntity.badRequest().body("Partner ID is required");
+            }
+            
+            logger.info("Manually assigning order ID: {} to partner ID: {}", id, partnerId);
+            
+            // Check if order exists and is ready for assignment
+            Optional<Order> orderOpt = orderService.getOrderById(id);
+            if (!orderOpt.isPresent()) {
+                return ResponseEntity.notFound().build();
+            }
+            
+            Order order = orderOpt.get();
+            if (!"PLACED".equals(order.getStatus()) && !"PACKED".equals(order.getStatus())) {
+                return ResponseEntity.badRequest().body("Order must be in PLACED or PACKED status for assignment");
+            }
+            
+            var assignment = orderAssignmentService.assignOrderToPartner(id, partnerId);
+            
+            return ResponseEntity.status(HttpStatus.CREATED).body(assignment);
+        } catch (RuntimeException e) {
+            logger.error("Error manually assigning order: {}", e.getMessage());
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+    
+    /**
+     * Get order assignment details
+     */
+    @GetMapping("/{id}/assignment")
+    public ResponseEntity<?> getOrderAssignment(@PathVariable Long id) {
+        try {
+            logger.info("Fetching assignment for order ID: {}", id);
+            
+            var assignmentOpt = orderAssignmentService.getAssignmentByOrderId(id);
+            
+            if (assignmentOpt.isPresent()) {
+                return ResponseEntity.ok(assignmentOpt.get());
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } catch (RuntimeException e) {
+            logger.error("Error fetching order assignment: {}", e.getMessage());
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
