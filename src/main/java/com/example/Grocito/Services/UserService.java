@@ -8,10 +8,17 @@ import java.util.Random;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 
 import com.example.Grocito.config.LoggerConfig;
 import com.example.Grocito.Entity.User;
+import com.example.Grocito.Entity.Cart;
+import com.example.Grocito.Entity.Notification;
 import com.example.Grocito.Repository.UserRepository;
+import com.example.Grocito.Repository.CartRepository;
+import com.example.Grocito.Repository.NotificationRepository;
 
 @Service
 public class UserService {
@@ -23,6 +30,15 @@ public class UserService {
     
     @Autowired
     private EmailService emailService;
+    
+    @Autowired
+    private CartRepository cartRepo;
+    
+    @Autowired
+    private NotificationRepository notificationRepo;
+    
+    @PersistenceContext
+    private EntityManager entityManager;
 
     // Register a new user
     public User register(User user) {
@@ -162,10 +178,103 @@ public class UserService {
     
     // Delete user (admin function or account deletion)
     public void deleteUser(Long userId) {
-        if (!userRepo.existsById(userId)) {
-            throw new RuntimeException("User not found with id: " + userId);
+        deleteUser(userId, false);
+    }
+    
+    // Delete user with force option (for super admin)
+    @Transactional
+    public void deleteUser(Long userId, boolean forceDelete) {
+        logger.info("Attempting to delete user with ID: {} (force: {})", userId, forceDelete);
+        
+        User user = userRepo.findById(userId)
+                .orElseThrow(() -> {
+                    logger.error("Delete failed: User not found with ID: {}", userId);
+                    return new RuntimeException("User not found with id: " + userId);
+                });
+        
+        logger.debug("Found user to delete: {}", user.getEmail());
+        
+        // Check if user has orders - prevent deletion if they do (unless force delete)
+        if (!forceDelete && user.getOrders() != null && !user.getOrders().isEmpty()) {
+            int orderCount = user.getOrders().size();
+            logger.warn("Delete failed: User {} has {} existing orders", user.getEmail(), orderCount);
+            
+            String friendlyMessage = String.format(
+                "This user has %d active order%s and cannot be deleted. " +
+                "Deleting users with order history would affect business records. " +
+                "Please contact the Super Admin if deletion is absolutely necessary.",
+                orderCount,
+                orderCount == 1 ? "" : "s"
+            );
+            
+            throw new RuntimeException(friendlyMessage);
         }
-        userRepo.deleteById(userId);
+        
+        if (forceDelete && user.getOrders() != null && !user.getOrders().isEmpty()) {
+            logger.warn("Force deleting user {} with {} existing orders", user.getEmail(), user.getOrders().size());
+        }
+        
+        // CRITICAL FIX: Use native SQL to delete in exact order to avoid foreign key constraints
+        try {
+            logger.info("Starting comprehensive user deletion for user: {}", user.getEmail());
+            
+            // 1. Delete cart items first (child of cart)
+            int cartItemsDeleted = entityManager.createNativeQuery(
+                "DELETE FROM cart_items WHERE cart_id IN (SELECT id FROM cart WHERE user_id = ?)")
+                .setParameter(1, userId)
+                .executeUpdate();
+            logger.info("Deleted {} cart items for user: {}", cartItemsDeleted, user.getEmail());
+            
+            // 2. Delete cart
+            int cartsDeleted = entityManager.createNativeQuery(
+                "DELETE FROM cart WHERE user_id = ?")
+                .setParameter(1, userId)
+                .executeUpdate();
+            logger.info("Deleted {} carts for user: {}", cartsDeleted, user.getEmail());
+            
+            // 3. Delete notifications
+            int notificationsDeleted = entityManager.createNativeQuery(
+                "DELETE FROM notifications WHERE user_id = ?")
+                .setParameter(1, userId)
+                .executeUpdate();
+            logger.info("Deleted {} notifications for user: {}", notificationsDeleted, user.getEmail());
+            
+            // 4. Delete order items (child of orders)
+            int orderItemsDeleted = entityManager.createNativeQuery(
+                "DELETE FROM order_items WHERE order_id IN (SELECT id FROM orders WHERE user_id = ?)")
+                .setParameter(1, userId)
+                .executeUpdate();
+            logger.info("Deleted {} order items for user: {}", orderItemsDeleted, user.getEmail());
+            
+            // 5. Delete orders
+            int ordersDeleted = entityManager.createNativeQuery(
+                "DELETE FROM orders WHERE user_id = ?")
+                .setParameter(1, userId)
+                .executeUpdate();
+            logger.info("Deleted {} orders for user: {}", ordersDeleted, user.getEmail());
+            
+            // 6. Finally delete the user
+            int usersDeleted = entityManager.createNativeQuery(
+                "DELETE FROM users WHERE id = ?")
+                .setParameter(1, userId)
+                .executeUpdate();
+            logger.info("Deleted {} users (should be 1): {}", usersDeleted, user.getEmail());
+            
+            // Flush all changes
+            entityManager.flush();
+            
+            logger.info("User deletion completed successfully for: {}", user.getEmail());
+            
+        } catch (Exception e) {
+            logger.error("Error during comprehensive user deletion for {}: {}", user.getEmail(), e.getMessage());
+            
+            // Provide user-friendly error message
+            if (e.getMessage().contains("foreign key constraint")) {
+                throw new RuntimeException("Unable to delete user due to existing data dependencies. Please contact system administrator.");
+            } else {
+                throw new RuntimeException("Failed to delete user: " + e.getMessage());
+            }
+        }
     }
     
     // Send welcome email after registration

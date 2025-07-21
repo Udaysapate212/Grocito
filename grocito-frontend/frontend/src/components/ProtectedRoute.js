@@ -24,6 +24,38 @@ const ProtectedRoute = ({ children }) => {
         navigate('/login', { replace: true });
         return;
       }
+
+      // Check if user has the correct role for customer app
+      if (currentUser.role && currentUser.role !== 'USER') {
+        console.log('User is not a customer, access denied to customer app');
+        let redirectMessage = '';
+        let redirectUrl = '';
+        
+        if (currentUser.role === 'ADMIN') {
+          redirectMessage = 'Admin users should use the Admin Portal';
+          redirectUrl = 'http://localhost:3001'; // Admin portal URL
+        } else if (currentUser.role === 'DELIVERY_PARTNER') {
+          redirectMessage = 'Delivery partners should use the Delivery App';
+          redirectUrl = 'http://localhost:3002'; // Future delivery app URL
+        }
+        
+        toast.error(redirectMessage, {
+          position: "bottom-right",
+          autoClose: 5000,
+        });
+        
+        // Clear customer session and redirect to appropriate portal
+        authService.logout();
+        
+        if (redirectUrl) {
+          setTimeout(() => {
+            window.location.href = redirectUrl;
+          }, 2000);
+        } else {
+          navigate('/login', { replace: true });
+        }
+        return;
+      }
       
       setIsChecking(false);
     };

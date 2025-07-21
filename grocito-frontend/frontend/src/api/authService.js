@@ -69,5 +69,30 @@ export const authService = {
   // Get stored token
   getToken: () => {
     return localStorage.getItem('token');
+  },
+
+  // Forgot password - send reset email
+  forgotPassword: async (email) => {
+    try {
+      console.log('AuthService: Making forgot password request to /users/forgot-password');
+      const response = await api.post('/users/forgot-password', { email });
+      console.log('AuthService: Forgot password response received:', response);
+      
+      return response.data;
+    } catch (error) {
+      console.error('AuthService: Forgot password error:', error);
+      console.error('AuthService: Error response:', error.response);
+      
+      let errorMessage = 'Failed to send reset email';
+      if (error.response) {
+        errorMessage = error.response.data?.message || error.response.data || errorMessage;
+      } else if (error.request) {
+        errorMessage = 'Network error - Backend server may not be running';
+      } else {
+        errorMessage = error.message;
+      }
+      
+      throw new Error(errorMessage);
+    }
   }
 };

@@ -173,7 +173,18 @@ public class UserController {
             userService.deleteUser(id);
             return ResponseEntity.ok().body("User deleted successfully");
         } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
+    
+    // Force delete user (for super admin)
+    @DeleteMapping("/{id}/force")
+    public ResponseEntity<?> forceDeleteUser(@PathVariable Long id) {
+        try {
+            userService.deleteUser(id, true);
+            return ResponseEntity.ok().body("User force deleted successfully");
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
     

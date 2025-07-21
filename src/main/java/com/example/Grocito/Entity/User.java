@@ -29,6 +29,10 @@ public class User {
     @JsonIgnore
     private List<Order> orders;
     
+    @OneToOne(mappedBy = "user")
+    @JsonIgnore
+    private Cart cart;
+    
     public User() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -37,7 +41,7 @@ public class User {
 
 
 	public User(Long id, String fullName, String email, String password, String role, String address, String pincode,
-			String contactNumber, LocalDate registeredDate, List<Order> orders) {
+			String contactNumber, LocalDate registeredDate, List<Order> orders, Cart cart) {
 		super();
 		this.id = id;
 		this.fullName = fullName;
@@ -49,6 +53,7 @@ public class User {
 		this.contactNumber = contactNumber;
 		this.registeredDate = registeredDate;
 		this.orders = orders;
+		this.cart = cart;
 	}
 
 
@@ -140,6 +145,14 @@ public class User {
 
 	public void setOrders(List<Order> orders) {
 		this.orders = orders;
+	}
+
+	public Cart getCart() {
+		return cart;
+	}
+
+	public void setCart(Cart cart) {
+		this.cart = cart;
 	}
 
 	@Override
