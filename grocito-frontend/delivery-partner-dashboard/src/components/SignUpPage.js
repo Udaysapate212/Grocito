@@ -85,26 +85,6 @@ const SignUpPage = () => {
     } catch (error) {
       console.error('Registration error:', error);
       
-      // For demo purposes, simulate successful registration if backend is not available
-      if (error.message && error.message.includes('Network error')) {
-        console.log('Network error detected, simulating successful registration');
-        
-        toast.success('Registration successful (Demo Mode)! 🎉', {
-          position: "bottom-right",
-          autoClose: 2000,
-        });
-        
-        toast.info('Please login to continue...', {
-          position: "bottom-right",
-          autoClose: 2000,
-        });
-        
-        setTimeout(() => {
-          navigate('/login', { replace: true });
-        }, 2000);
-        return;
-      }
-      
       setError(error.message || 'Registration failed. Please try again.');
       toast.error('Registration failed. Please try again.', {
         position: "bottom-right",

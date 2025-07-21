@@ -29,13 +29,13 @@ const LoginPage = () => {
     try {
       // Call the login API
       const response = await deliveryPartnerService.login(formData.email, formData.password);
-      
-      // Store authentication data
-      localStorage.setItem('deliveryPartnerToken', 'dp-token-' + Date.now());
-      localStorage.setItem('deliveryPartner', JSON.stringify(response));
-      
+
+      // Store authentication data - use the token from the backend response
+      localStorage.setItem('deliveryPartnerToken', response.token);
+      localStorage.setItem('deliveryPartner', JSON.stringify(response.partner));
+
       console.log('Delivery partner login successful');
-      
+
       // Show success toast
       toast.success('Login successful! 🎉', {
         position: "bottom-right",
@@ -45,13 +45,13 @@ const LoginPage = () => {
         pauseOnHover: true,
         draggable: true,
       });
-      
+
       // Show redirecting toast
       toast.info('Going to dashboard...', {
         position: "bottom-right",
         autoClose: 1000,
       });
-      
+
       // Navigate to dashboard
       setTimeout(() => {
         console.log('Navigating to dashboard');
@@ -59,38 +59,7 @@ const LoginPage = () => {
       }, 1000);
     } catch (error) {
       console.error('Login error:', error);
-      
-      // For demo purposes, allow login with any credentials if backend is not available
-      if (error.message && error.message.includes('Network error')) {
-        console.log('Network error detected, using demo mode');
-        
-        // Create a mock delivery partner object
-        const mockPartner = {
-          id: 1,
-          fullName: formData.email.split('@')[0] || 'Demo Partner',
-          email: formData.email,
-          contactNumber: '123-456-7890',
-          address: 'Demo Address',
-          pincode: '110001',
-          registeredDate: new Date().toISOString().split('T')[0],
-          isActive: true
-        };
-        
-        // Store mock data
-        localStorage.setItem('deliveryPartnerToken', 'dp-token-' + Date.now());
-        localStorage.setItem('deliveryPartner', JSON.stringify(mockPartner));
-        
-        toast.success('Login successful (Demo Mode)! 🎉', {
-          position: "bottom-right",
-          autoClose: 2000,
-        });
-        
-        setTimeout(() => {
-          navigate('/dashboard', { replace: true });
-        }, 1000);
-        return;
-      }
-      
+
       setError(error.message || 'Login failed. Please try again.');
       toast.error('Login failed. Please check your credentials.', {
         position: "bottom-right",
@@ -173,14 +142,7 @@ const LoginPage = () => {
           </button>
         </form>
 
-        {/* Demo Account */}
-        <div className="mt-6 p-4 bg-gray-50 rounded-lg">
-          <h3 className="text-sm font-medium text-gray-700 mb-2">Demo Account:</h3>
-          <div className="text-xs text-gray-600">
-            <div>Email: [Contact admin for demo credentials]</div>
-            <div>Password: [Contact admin for demo credentials]</div>
-          </div>
-        </div>
+
 
         {/* Sign Up Link */}
         <div className="mt-6 text-center">
@@ -194,8 +156,8 @@ const LoginPage = () => {
 
         {/* Back to Main Site */}
         <div className="mt-4 text-center">
-          <a 
-            href="http://localhost:3000" 
+          <a
+            href="http://localhost:3000"
             className="text-gray-500 hover:text-gray-700 text-sm"
           >
             ← Back to Grocito Main Site

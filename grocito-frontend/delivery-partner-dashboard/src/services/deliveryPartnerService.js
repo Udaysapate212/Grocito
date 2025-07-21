@@ -11,6 +11,20 @@ const api = axios.create({
   withCredentials: true,
 });
 
+// Add a request interceptor to include auth token in authenticated requests
+api.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem('deliveryPartnerToken');
+    if (token) {
+      config.headers['Authorization'] = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
 export const deliveryPartnerService = {
   // Register a new delivery partner
   register: async (deliveryPartnerData) => {
@@ -23,7 +37,10 @@ export const deliveryPartnerService = {
       console.error('Registration error:', error);
       if (error.response) {
         // Server responded with error status
-        throw new Error(error.response.data || 'Registration failed');
+        const errorMessage = error.response.data && error.response.data.error 
+          ? error.response.data.error 
+          : 'Registration failed';
+        throw new Error(errorMessage);
       } else if (error.request) {
         // Request was made but no response received
         throw new Error('Network error. Please check your connection.');
@@ -48,7 +65,10 @@ export const deliveryPartnerService = {
         if (error.response.status === 401) {
           throw new Error('Invalid email or password');
         }
-        throw new Error(error.response.data || 'Login failed');
+        const errorMessage = error.response.data && error.response.data.error 
+          ? error.response.data.error 
+          : 'Login failed';
+        throw new Error(errorMessage);
       } else if (error.request) {
         // Request was made but no response received
         throw new Error('Network error. Please check your connection.');

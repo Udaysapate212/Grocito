@@ -27,6 +27,11 @@ public class Order {
     @JoinColumn(name = "user_id")
 //    @JsonIgnore
     private User user;
+    
+    @ManyToOne
+    @JoinColumn(name = "delivery_partner_id")
+    @JsonIgnore
+    private DeliveryPartner deliveryPartner;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     @JsonManagedReference
@@ -117,11 +122,20 @@ public class Order {
 	public void setTotalAmount(double totalAmount) {
 		this.totalAmount = totalAmount;
 	}
+	
+	public DeliveryPartner getDeliveryPartner() {
+		return deliveryPartner;
+	}
+
+	public void setDeliveryPartner(DeliveryPartner deliveryPartner) {
+		this.deliveryPartner = deliveryPartner;
+	}
 
 	@Override
 	public String toString() {
 		return "Order [id=" + id + ", status=" + status + ", orderTime=" + orderTime + ", deliveryAddress="
 				+ deliveryAddress + ", pincode=" + pincode + ", totalAmount=" + totalAmount + ", user=" + user 
+				+ ", deliveryPartner=" + (deliveryPartner != null ? deliveryPartner.getId() : "none")
 				+ ", itemsCount=" + (items != null ? items.size() : 0)+ "]";
 	}
     
