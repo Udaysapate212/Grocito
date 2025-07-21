@@ -147,17 +147,24 @@ const ProductsPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gradient-to-br from-yellow-50 to-green-50">
       <Header user={user} cartCount={cartCount} />
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">
-            Fresh Groceries Delivered Fast
-          </h1>
-          <p className="text-gray-600">
-            Choose from {products.length} products available in your area
+        <div className="mb-10 text-center">
+          <div className="inline-flex items-center space-x-3 mb-4">
+            <div className="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center shadow-lg">
+              <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+              </svg>
+            </div>
+            <h1 className="text-4xl font-bold text-green-700">
+              Fresh Groceries Delivered Fast
+            </h1>
+          </div>
+          <p className="text-gray-700 text-lg">
+            Choose from <span className="font-semibold text-green-600 bg-yellow-200 px-3 py-1 rounded-full">{products.length}</span> products available in your area
           </p>
         </div>
 
@@ -178,16 +185,21 @@ const ProductsPage = () => {
         )}
 
         {filteredProducts.length === 0 ? (
-          <div className="text-center py-12">
-            <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <svg className="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
-              </svg>
+          <div className="text-center py-16">
+            <div className="relative">
+              <div className="w-24 h-24 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">
+                <svg className="w-12 h-12 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                </svg>
+              </div>
+              <div className="absolute -top-2 -right-2 w-8 h-8 bg-yellow-400 rounded-full flex items-center justify-center">
+                <span className="text-lg">🔍</span>
+              </div>
             </div>
-            <h3 className="text-lg font-medium text-gray-900 mb-2">
+            <h3 className="text-2xl font-bold text-gray-900 mb-3">
               {products.length === 0 ? 'No products available' : 'No products found'}
             </h3>
-            <p className="text-gray-600">
+            <p className="text-gray-600 text-lg max-w-md mx-auto mb-6">
               {products.length === 0
                 ? "We're working to stock products in your area. Please check back soon!"
                 : searchQuery || selectedCategory !== 'All'
@@ -201,7 +213,7 @@ const ProductsPage = () => {
                   setSearchQuery('');
                   setSelectedCategory('All');
                 }}
-                className="mt-4 text-primary-500 hover:text-primary-600 font-medium"
+                className="bg-green-500 hover:bg-green-600 text-white px-8 py-4 rounded-xl font-bold transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
               >
                 Clear filters
               </button>
@@ -223,21 +235,21 @@ const ProductsPage = () => {
 
         {/* Success Message */}
         {products.length > 0 && (
-          <div className="mt-12 bg-green-50 border border-green-200 rounded-lg p-6 text-center">
-            <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div className="mt-12 bg-white border-2 border-green-200 rounded-2xl p-8 text-center shadow-lg hover:shadow-xl transition-all duration-300">
+            <div className="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">
+              <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
               </svg>
             </div>
-            <h3 className="text-lg font-semibold text-green-800 mb-2">
+            <h3 className="text-2xl font-bold text-green-700 mb-3">
               🎉 Welcome to Grocito!
             </h3>
-            <p className="text-green-700 mb-4">
-              You're all set! Browse products, add them to cart, and place your order for quick delivery to {pincode}.
+            <p className="text-gray-700 mb-6 text-lg">
+              You're all set! Browse products, add them to cart, and place your order for quick delivery to <span className="font-semibold bg-yellow-200 px-2 py-1 rounded-full text-green-700">{pincode}</span>.
             </p>
             <button
               onClick={() => setShowGuide(true)}
-              className="text-primary-600 hover:text-primary-700 font-medium text-sm"
+              className="bg-yellow-400 hover:bg-yellow-500 text-green-700 px-8 py-4 rounded-xl font-bold transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
             >
               Need help? View quick tour →
             </button>

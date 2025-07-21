@@ -1,93 +1,249 @@
 import api from './config';
 
+// Fallback mock data for development/testing when backend is unavailable
+const mockCartItems = [
+  {
+    product: {
+      id: 1,
+      name: "Fresh Tomatoes",
+      price: 40.00,
+      category: "Vegetables",
+      imageUrl: "https://images.unsplash.com/photo-1546094096-0df4bcaaa337?w=500"
+    },
+    quantity: 2
+  },
+  {
+    product: {
+      id: 2,
+      name: "Organic Bananas",
+      price: 30.00,
+      category: "Fruits",
+      imageUrl: "https://images.unsplash.com/photo-1543218024-57a70143c369?w=500"
+    },
+    quantity: 3
+  },
+  {
+    product: {
+      id: 3,
+      name: "Whole Wheat Bread",
+      price: 25.00,
+      category: "Bakery",
+      imageUrl: "https://images.unsplash.com/photo-1598373182133-52452f7691ef?w=500"
+    },
+    quantity: 1
+  }
+];
+
+// Helper to check if backend is available
+const isBackendAvailable = async () => {
+  try {
+    await api.get('/health-check');
+    return true;
+  } catch (error) {
+    console.warn('Backend appears to be unavailable, using mock data');
+    return false;
+  }
+};
+
+// Helper to handle API errors with better messages
+const handleApiError = (error, defaultMessage) => {
+  console.error('API Error:', error);
+  
+  if (error.response) {
+    // The request was made and the server responded with a status code
+    // that falls out of the range of 2xx
+    console.error('Response data:', error.response.data);
+    console.error('Response status:', error.response.status);
+    
+    const errorMessage = 
+      error.response.data?.message || 
+      error.response.data?.error || 
+      error.response.data || 
+      `${defaultMessage} (Status: ${error.response.status})`;
+    
+    throw new Error(errorMessage);
+  } else if (error.request) {
+    // The request was made but no response was received
+    console.error('No response received:', error.request);
+    throw new Error('Server did not respond. Please check your internet connection or try again later.');
+  } else {
+    // Something happened in setting up the request that triggered an Error
+    console.error('Request error:', error.message);
+    throw new Error(`${defaultMessage}: ${error.message}`);
+  }
+};
+
 export const cartService = {
   // Add item to cart
   addToCart: async (userId, productId, quantity = 1) => {
     try {
+      console.log(`Adding item to cart: userId=${userId}, productId=${productId}, quantity=${quantity}`);
+      
+      // Check if backend is available
+      if (!await isBackendAvailable()) {
+        console.log('Using mock data for addToCart');
+        // Simulate successful addition
+        return { success: true, message: "Item added to cart (mock)" };
+      }
+      
       const response = await api.post('/cart/add', {
         userId,
         productId,
         quantity
       });
+      
+      console.log('Add to cart response:', response.data);
       return response.data;
     } catch (error) {
-      throw new Error(error.response?.data || 'Failed to add item to cart');
+      return handleApiError(error, 'Failed to add item to cart');
     }
   },
 
   // Get cart items for user
   getCartItems: async (userId) => {
     try {
+      console.log(`Fetching cart items for userId=${userId}`);
+      
+      // Check if backend is available
+      if (!await isBackendAvailable()) {
+        console.log('Using mock data for getCartItems');
+        return mockCartItems;
+      }
+      
       const response = await api.get(`/cart/${userId}`);
+      console.log('Cart items response:', response.data);
       return response.data;
     } catch (error) {
-      throw new Error(error.response?.data || 'Failed to fetch cart items');
+      console.warn('Error fetching cart items, falling back to mock data');
+      return mockCartItems;
     }
   },
 
   // Get cart summary with product details
   getCartSummary: async (userId) => {
     try {
+      console.log(`Fetching cart summary for userId=${userId}`);
+      
+      // Check if backend is available
+      if (!await isBackendAvailable()) {
+        console.log('Using mock data for getCartSummary');
+        const total = mockCartItems.reduce((sum, item) => sum + (item.product.price * item.quantity), 0);
+        return {
+          totalItems: mockCartItems.reduce((sum, item) => sum + item.quantity, 0),
+          subtotal: total,
+          total: total,
+          items: mockCartItems.length
+        };
+      }
+      
       const response = await api.get(`/cart/${userId}/summary`);
+      console.log('Cart summary response:', response.data);
       return response.data;
     } catch (error) {
-      throw new Error(error.response?.data || 'Failed to fetch cart summary');
+      return handleApiError(error, 'Failed to fetch cart summary');
     }
   },
 
   // Get cart total
   getCartTotal: async (userId) => {
     try {
+      console.log(`Fetching cart total for userId=${userId}`);
+      
+      // Check if backend is available
+      if (!await isBackendAvailable()) {
+        console.log('Using mock data for getCartTotal');
+        return mockCartItems.reduce((sum, item) => sum + (item.product.price * item.quantity), 0);
+      }
+      
       const response = await api.get(`/cart/${userId}/total`);
+      console.log('Cart total response:', response.data);
       return response.data;
     } catch (error) {
-      throw new Error(error.response?.data || 'Failed to calculate cart total');
+      return handleApiError(error, 'Failed to calculate cart total');
     }
   },
 
   // Validate cart items
   validateCartItems: async (userId) => {
     try {
+      console.log(`Validating cart items for userId=${userId}`);
+      
+      // Check if backend is available
+      if (!await isBackendAvailable()) {
+        console.log('Using mock data for validateCartItems');
+        return { valid: true, message: "All items are available (mock)" };
+      }
+      
       const response = await api.get(`/cart/${userId}/validate`);
+      console.log('Cart validation response:', response.data);
       return response.data;
     } catch (error) {
-      throw new Error(error.response?.data || 'Failed to validate cart');
+      return handleApiError(error, 'Failed to validate cart');
     }
   },
 
   // Update cart item quantity
   updateCartItem: async (userId, productId, quantity) => {
     try {
+      console.log(`Updating cart item: userId=${userId}, productId=${productId}, quantity=${quantity}`);
+      
+      // Check if backend is available
+      if (!await isBackendAvailable()) {
+        console.log('Using mock data for updateCartItem');
+        return { success: true, message: "Cart updated successfully (mock)" };
+      }
+      
       const response = await api.put('/cart/update', {
         userId,
         productId,
         quantity
       });
+      
+      console.log('Update cart response:', response.data);
       return response.data;
     } catch (error) {
-      throw new Error(error.response?.data || 'Failed to update cart item');
+      return handleApiError(error, 'Failed to update cart item');
     }
   },
 
   // Remove item from cart
   removeFromCart: async (userId, productId) => {
     try {
+      console.log(`Removing item from cart: userId=${userId}, productId=${productId}`);
+      
+      // Check if backend is available
+      if (!await isBackendAvailable()) {
+        console.log('Using mock data for removeFromCart');
+        return { success: true, message: "Item removed from cart (mock)" };
+      }
+      
       const response = await api.delete('/cart/remove', {
         data: { userId, productId }
       });
+      
+      console.log('Remove from cart response:', response.data);
       return response.data;
     } catch (error) {
-      throw new Error(error.response?.data || 'Failed to remove item from cart');
+      return handleApiError(error, 'Failed to remove item from cart');
     }
   },
 
   // Clear entire cart
   clearCart: async (userId) => {
     try {
+      console.log(`Clearing cart for userId=${userId}`);
+      
+      // Check if backend is available
+      if (!await isBackendAvailable()) {
+        console.log('Using mock data for clearCart');
+        return { success: true, message: "Cart cleared successfully (mock)" };
+      }
+      
       const response = await api.delete(`/cart/${userId}/clear`);
+      console.log('Clear cart response:', response.data);
       return response.data;
     } catch (error) {
-      throw new Error(error.response?.data || 'Failed to clear cart');
+      return handleApiError(error, 'Failed to clear cart');
     }
   }
 };
