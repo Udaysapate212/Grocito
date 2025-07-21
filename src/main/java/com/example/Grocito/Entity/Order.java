@@ -22,11 +22,17 @@ public class Order {
     private String deliveryAddress;
     private String pincode;
     private double totalAmount;
+    private LocalDateTime assignedTime;
+    private LocalDateTime deliveredTime;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
 //    @JsonIgnore
     private User user;
+    
+    @ManyToOne
+    @JoinColumn(name = "delivery_partner_id")
+    private DeliveryPartner deliveryPartner;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     @JsonManagedReference
@@ -38,7 +44,8 @@ public class Order {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Order(Long id, String status, LocalDateTime orderTime, String deliveryAddress, String pincode, double totalAmount, User user,
+	public Order(Long id, String status, LocalDateTime orderTime, String deliveryAddress, String pincode, double totalAmount, 
+			LocalDateTime assignedTime, LocalDateTime deliveredTime, User user, DeliveryPartner deliveryPartner,
 			List<OrderItem> items) {
 		super();
 		this.id = id;
@@ -47,7 +54,10 @@ public class Order {
 		this.deliveryAddress = deliveryAddress;
 		this.pincode = pincode;
 		this.totalAmount = totalAmount;
+		this.assignedTime = assignedTime;
+		this.deliveredTime = deliveredTime;
 		this.user = user;
+		this.deliveryPartner = deliveryPartner;
 		this.items = items;
 	}
 
@@ -117,11 +127,37 @@ public class Order {
 	public void setTotalAmount(double totalAmount) {
 		this.totalAmount = totalAmount;
 	}
+	
+	public LocalDateTime getAssignedTime() {
+		return assignedTime;
+	}
+
+	public void setAssignedTime(LocalDateTime assignedTime) {
+		this.assignedTime = assignedTime;
+	}
+
+	public LocalDateTime getDeliveredTime() {
+		return deliveredTime;
+	}
+
+	public void setDeliveredTime(LocalDateTime deliveredTime) {
+		this.deliveredTime = deliveredTime;
+	}
+	
+	public DeliveryPartner getDeliveryPartner() {
+		return deliveryPartner;
+	}
+
+	public void setDeliveryPartner(DeliveryPartner deliveryPartner) {
+		this.deliveryPartner = deliveryPartner;
+	}
 
 	@Override
 	public String toString() {
 		return "Order [id=" + id + ", status=" + status + ", orderTime=" + orderTime + ", deliveryAddress="
-				+ deliveryAddress + ", pincode=" + pincode + ", totalAmount=" + totalAmount + ", user=" + user 
+				+ deliveryAddress + ", pincode=" + pincode + ", totalAmount=" + totalAmount 
+				+ ", assignedTime=" + assignedTime + ", deliveredTime=" + deliveredTime
+				+ ", user=" + user + ", deliveryPartner=" + (deliveryPartner != null ? deliveryPartner.getId() : "none")
 				+ ", itemsCount=" + (items != null ? items.size() : 0)+ "]";
 	}
     

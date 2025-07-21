@@ -19,6 +19,7 @@ import PaymentFailed from './components/PaymentFailed';
 import EmergencyCartManager from './components/EmergencyCartManager';
 import SimpleWorkingCart from './components/SimpleWorkingCart';
 // import FlowTest from './components/FlowTest';
+
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -85,6 +86,8 @@ function App() {
             </ProtectedRoute>
           } />
           <Route path="/dashboard" element={<Dashboard />} />
+      
+          
           <Route path="/test-redirect" element={<TestRedirect />} />
           <Route path="/payment-success" element={<PaymentSuccess />} />
           <Route path="/payment-failed" element={<PaymentFailed />} />

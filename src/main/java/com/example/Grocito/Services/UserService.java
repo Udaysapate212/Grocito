@@ -211,4 +211,61 @@ public class UserService {
         
         logger.info("Password reset successful for user: {}", email);
     }
+    
+    // Delivery Partner specific methods
+    
+    // Register a new delivery partner
+    public User registerDeliveryPartner(User deliveryPartner) {
+        logger.debug("Attempting to register new delivery partner with email: {}", deliveryPartner.getEmail());
+        
+        // Check if email already exists
+        if (userRepo.findByEmail(deliveryPartner.getEmail()).isPresent()) {
+            logger.warn("Registration failed: Email already registered: {}", deliveryPartner.getEmail());
+            throw new RuntimeException("Email already registered");
+        }
+        
+        // Set role as DELIVERY_PARTNER
+        deliveryPartner.setRole("DELIVERY_PARTNER");
+        deliveryPartner.setRegisteredDate(LocalDate.now());
+        
+        User savedUser = userRepo.save(deliveryPartner);
+        logger.info("Delivery partner registered successfully with ID: {}", savedUser.getId());
+        return savedUser;
+    }
+    
+    // Login delivery partner
+    public Optional<User> loginDeliveryPartner(String email, String password) {
+        logger.debug("Attempting delivery partner login for user: {}", email);
+        Optional<User> user = userRepo.findByEmailAndRole(email, "DELIVERY_PARTNER")
+                       .filter(u -> u.getPassword().equals(password));
+        
+        if (user.isPresent()) {
+            logger.info("Delivery partner logged in successfully: {}", email);
+        } else {
+            logger.warn("Delivery partner login failed for user: {}", email);
+        }
+        
+        return user;
+    }
+    
+    // Get all delivery partners
+    public List<User> getAllDeliveryPartners() {
+        logger.debug("Fetching all delivery partners");
+        return userRepo.findByRole("DELIVERY_PARTNER");
+    }
+    
+    // Get delivery partner by ID
+    public Optional<User> getDeliveryPartnerById(Long id) {
+        logger.debug("Fetching delivery partner with ID: {}", id);
+        Optional<User> user = userRepo.findById(id)
+                .filter(u -> "DELIVERY_PARTNER".equals(u.getRole()));
+        
+        if (user.isPresent()) {
+            logger.debug("Found delivery partner: {}", user.get().getEmail());
+        } else {
+            logger.debug("Delivery partner not found with ID: {}", id);
+        }
+        
+        return user;
+    }
 }

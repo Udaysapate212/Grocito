@@ -16,6 +16,7 @@ public class CorsConfig {
         corsConfiguration.setAllowCredentials(true);
         corsConfiguration.addAllowedOrigin("http://localhost:5173"); // Frontend development server
         corsConfiguration.addAllowedOrigin("http://localhost:3000"); // React default development server
+        corsConfiguration.addAllowedOrigin("http://localhost:3001"); // Delivery partner dashboard
         corsConfiguration.addAllowedHeader("*");
         corsConfiguration.addAllowedMethod("*");
         corsConfiguration.setExposedHeaders(List.of("Authorization", "Content-Type"));

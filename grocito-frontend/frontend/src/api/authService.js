@@ -1,5 +1,4 @@
 import api from './config';
-
 export const authService = {
   // Register new user
   register: async (userData) => {
