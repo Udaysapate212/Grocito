@@ -177,8 +177,8 @@ const LoginPage = () => {
         <div className="mt-6 p-4 bg-gray-50 rounded-lg">
           <h3 className="text-sm font-medium text-gray-700 mb-2">Demo Account:</h3>
           <div className="text-xs text-gray-600">
-            <div>Email: delivery@grocito.com</div>
-            <div>Password: delivery123</div>
+            <div>Email: [Contact admin for demo credentials]</div>
+            <div>Password: [Contact admin for demo credentials]</div>
           </div>
         </div>
 
