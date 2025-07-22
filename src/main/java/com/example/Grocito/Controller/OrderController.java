@@ -1,11 +1,10 @@
 package com.example.Grocito.Controller;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 import com.example.Grocito.config.LoggerConfig;
 import com.example.Grocito.Entity.Order;
 import com.example.Grocito.Entity.User;
-import com.example.Grocito.Entity.DeliveryPartner;
 import com.example.Grocito.Repository.UserRepository;
 import com.example.Grocito.Services.OrderService;
 import com.example.Grocito.Services.OrderAssignmentService;
@@ -150,6 +148,79 @@ public class OrderController {
     }
     
     /**
+     * Get orders with pagination and filtering (admin function)
+     */
+    @GetMapping
+    public ResponseEntity<?> getOrders(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "orderTime") String sortBy,
+            @RequestParam(required = false) String status,
+            @RequestParam(required = false) String pincode,
+            @RequestParam(required = false) String search,
+            @RequestParam(required = false) String dateFrom,
+            @RequestParam(required = false) String dateTo) {
+        try {
+            logger.info("Fetching orders with pagination - page: {}, size: {}, sortBy: {}, status: {}, pincode: {}, search: {}", 
+                       page, size, sortBy, status, pincode, search);
+            
+            org.springframework.data.domain.Page<Order> ordersPage = orderService.getFilteredOrders(
+                page, size, sortBy, status, pincode, search, dateFrom, dateTo);
+            
+            return ResponseEntity.ok(ordersPage);
+        } catch (RuntimeException e) {
+            logger.error("Error fetching orders: {}", e.getMessage());
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+    
+    /**
+     * Get orders by pincode with pagination (for regional admins)
+     */
+    @GetMapping("/pincode/{pincode}")
+    public ResponseEntity<?> getOrdersByPincode(
+            @PathVariable String pincode,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "orderTime") String sortBy) {
+        try {
+            logger.info("Fetching orders for pincode: {} with pagination - page: {}, size: {}, sortBy: {}", 
+                       pincode, page, size, sortBy);
+            
+            // For now, get all orders by pincode and create a simple page response
+            // In a production app, you'd want to implement proper pagination in the repository
+            List<Order> orders = orderService.getOrdersByPincode(pincode);
+            
+            // Sort orders
+            if ("orderTime".equals(sortBy)) {
+                orders.sort((a, b) -> b.getOrderTime().compareTo(a.getOrderTime()));
+            } else if ("totalAmount".equals(sortBy)) {
+                orders.sort((a, b) -> Double.compare(b.getTotalAmount(), a.getTotalAmount()));
+            }
+            
+            // Create simple pagination
+            int start = page * size;
+            int end = Math.min(start + size, orders.size());
+            List<Order> pageContent = start < orders.size() ? orders.subList(start, end) : List.of();
+            
+            // Create page response
+            Map<String, Object> pageResponse = new HashMap<>();
+            pageResponse.put("content", pageContent);
+            pageResponse.put("totalElements", orders.size());
+            pageResponse.put("totalPages", (int) Math.ceil((double) orders.size() / size));
+            pageResponse.put("size", size);
+            pageResponse.put("number", page);
+            pageResponse.put("first", page == 0);
+            pageResponse.put("last", page >= (int) Math.ceil((double) orders.size() / size) - 1);
+            
+            return ResponseEntity.ok(pageResponse);
+        } catch (RuntimeException e) {
+            logger.error("Error fetching orders by pincode: {}", e.getMessage());
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+    
+    /**
      * Get all orders (admin function)
      */
     @GetMapping("/all")
@@ -158,6 +229,134 @@ public class OrderController {
             List<Order> orders = orderService.getAllOrders();
             return ResponseEntity.ok(orders);
         } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+    
+    /**
+     * Get order analytics (admin function)
+     */
+    @GetMapping("/analytics")
+    public ResponseEntity<?> getOrderAnalytics(
+            @RequestParam(required = false) String pincode,
+            @RequestParam(required = false) String dateFrom,
+            @RequestParam(required = false) String dateTo) {
+        try {
+            logger.info("Fetching order analytics with pincode: {}, dateFrom: {}, dateTo: {}", pincode, dateFrom, dateTo);
+            
+            List<Order> orders;
+            if (pincode != null && !pincode.trim().isEmpty()) {
+                // Filter orders by pincode for regional admins
+                orders = orderService.getOrdersByPincode(pincode.trim());
+            } else {
+                // Get all orders for super admins
+                orders = orderService.getAllOrders();
+            }
+            
+            // Apply date filtering if provided
+            if (dateFrom != null || dateTo != null) {
+                // Note: Date filtering logic can be added here if needed
+                // For now, we'll work with all orders
+            }
+            
+            // Calculate analytics
+            Map<String, Object> analytics = new HashMap<>();
+            
+            // Total orders
+            analytics.put("totalOrders", orders.size());
+            
+            // Orders by status
+            Map<String, Long> ordersByStatus = new HashMap<>();
+            ordersByStatus.put("PLACED", orders.stream().filter(o -> "PLACED".equals(o.getStatus())).count());
+            ordersByStatus.put("PACKED", orders.stream().filter(o -> "PACKED".equals(o.getStatus())).count());
+            ordersByStatus.put("ASSIGNED", orders.stream().filter(o -> "ASSIGNED".equals(o.getStatus())).count());
+            ordersByStatus.put("OUT_FOR_DELIVERY", orders.stream().filter(o -> "OUT_FOR_DELIVERY".equals(o.getStatus())).count());
+            ordersByStatus.put("DELIVERED", orders.stream().filter(o -> "DELIVERED".equals(o.getStatus())).count());
+            ordersByStatus.put("CANCELLED", orders.stream().filter(o -> "CANCELLED".equals(o.getStatus())).count());
+            analytics.put("statusDistribution", ordersByStatus);
+            
+            // Total revenue
+            double totalRevenue = orders.stream()
+                .filter(o -> !"CANCELLED".equals(o.getStatus()))
+                .mapToDouble(Order::getTotalAmount)
+                .sum();
+            analytics.put("totalRevenue", totalRevenue);
+            
+            // Average order value
+            double avgOrderValue = orders.isEmpty() ? 0 : totalRevenue / orders.size();
+            analytics.put("averageOrderValue", avgOrderValue);
+            
+            // Time-based calculations
+            java.time.LocalDate today = java.time.LocalDate.now();
+            java.time.LocalDate weekAgo = today.minusDays(7);
+            java.time.LocalDate monthAgo = today.minusMonths(1);
+            
+            // Today's metrics
+            long todayOrders = orders.stream()
+                .filter(order -> order.getOrderTime().toLocalDate().equals(today))
+                .count();
+            double todayRevenue = orders.stream()
+                .filter(order -> order.getOrderTime().toLocalDate().equals(today))
+                .filter(o -> !"CANCELLED".equals(o.getStatus()))
+                .mapToDouble(Order::getTotalAmount)
+                .sum();
+            analytics.put("todayOrders", todayOrders);
+            analytics.put("todayRevenue", todayRevenue);
+            
+            // This week's metrics
+            long weekOrders = orders.stream()
+                .filter(order -> order.getOrderTime().toLocalDate().isAfter(weekAgo.minusDays(1)))
+                .count();
+            double weekRevenue = orders.stream()
+                .filter(order -> order.getOrderTime().toLocalDate().isAfter(weekAgo.minusDays(1)))
+                .filter(o -> !"CANCELLED".equals(o.getStatus()))
+                .mapToDouble(Order::getTotalAmount)
+                .sum();
+            analytics.put("weekOrders", weekOrders);
+            analytics.put("weekRevenue", weekRevenue);
+            
+            // This month's metrics
+            long monthOrders = orders.stream()
+                .filter(order -> order.getOrderTime().toLocalDate().isAfter(monthAgo.minusDays(1)))
+                .count();
+            double monthRevenue = orders.stream()
+                .filter(order -> order.getOrderTime().toLocalDate().isAfter(monthAgo.minusDays(1)))
+                .filter(o -> !"CANCELLED".equals(o.getStatus()))
+                .mapToDouble(Order::getTotalAmount)
+                .sum();
+            analytics.put("monthOrders", monthOrders);
+            analytics.put("monthRevenue", monthRevenue);
+            
+            // Daily trends (last 7 days)
+            java.util.List<Map<String, Object>> dailyTrends = new java.util.ArrayList<>();
+            for (int i = 6; i >= 0; i--) {
+                java.time.LocalDate date = today.minusDays(i);
+                java.util.List<Order> dayOrders = orders.stream()
+                    .filter(order -> order.getOrderTime().toLocalDate().equals(date))
+                    .collect(Collectors.toList());
+                
+                Map<String, Object> dayData = new HashMap<>();
+                dayData.put("date", date.toString());
+                dayData.put("orders", dayOrders.size());
+                dayData.put("revenue", dayOrders.stream()
+                    .filter(o -> !"CANCELLED".equals(o.getStatus()))
+                    .mapToDouble(Order::getTotalAmount)
+                    .sum());
+                dailyTrends.add(dayData);
+            }
+            analytics.put("dailyTrends", dailyTrends);
+            
+            // Recent orders (last 10)
+            List<Order> recentOrders = orders.stream()
+                .sorted((o1, o2) -> o2.getOrderTime().compareTo(o1.getOrderTime()))
+                .limit(10)
+                .collect(Collectors.toList());
+            analytics.put("recentOrders", recentOrders);
+            
+            logger.info("Analytics calculated successfully for {} orders", orders.size());
+            return ResponseEntity.ok(analytics);
+        } catch (RuntimeException e) {
+            logger.error("Error fetching order analytics: {}", e.getMessage());
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }

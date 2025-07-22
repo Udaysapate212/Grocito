@@ -142,10 +142,26 @@ public class UserController {
         }
     }
     
-    // Admin: Get all users
+    // Admin: Get all users with pagination and filtering
     @GetMapping
-    public ResponseEntity<List<User>> getAllUsers() {
-        return ResponseEntity.ok(userService.getAllUsers());
+    public ResponseEntity<?> getAllUsers(
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "10") int limit,
+            @RequestParam(required = false) String search,
+            @RequestParam(required = false) String role,
+            @RequestParam(required = false) String status,
+            @RequestParam(required = false) String pincode) {
+        try {
+            logger.info("Fetching users with pagination - page: {}, limit: {}, search: {}, role: {}, status: {}, pincode: {}", 
+                       page, limit, search, role, status, pincode);
+            
+            Map<String, Object> result = userService.getAllUsersWithFilters(page, limit, search, role, status, pincode);
+            
+            return ResponseEntity.ok(result);
+        } catch (RuntimeException e) {
+            logger.error("Error fetching users: {}", e.getMessage());
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
     
     // Admin: Update user role
