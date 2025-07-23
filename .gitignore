@@ -17,6 +17,34 @@ target/
 application-local.properties
 application-prod.properties
 
+# Environment files - NEVER commit these!
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+.env.staging
+**/.env
+**/.env.local
+**/.env.development
+**/.env.test
+**/.env.production
+**/.env.staging
+
+# Email service environment files
+email-service/.env
+email-service/.env.local
+email-service/.env.production
+
+# Frontend environment files
+grocito-frontend/**/.env
+grocito-frontend/**/.env.local
+grocito-frontend/**/.env.development
+grocito-frontend/**/.env.production
+grocito-frontend-admin/**/.env
+grocito-frontend-admin/**/.env.local
+grocito-frontend-delivery-partner/**/.env
+
 ### IntelliJ IDEA ###
 .idea
 *.iws
@@ -36,6 +64,26 @@ build/
 ### VS Code ###
 .vscode/
 
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 
+# Logs
+logs/
+*.log
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Test files and scripts (containing sensitive data)
+test-*.js
+debug-*.js
+final-*.js
+send-*.js
 
 /.metadata/
