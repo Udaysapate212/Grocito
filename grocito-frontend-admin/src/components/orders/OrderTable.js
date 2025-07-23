@@ -79,211 +79,201 @@ const OrderTable = ({ orders, onView, onUpdateStatus, onCancel, onBulkStatusUpda
 
   if (orders.length === 0) {
     return (
-      <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-12 text-center">
-        <svg className="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-        </svg>
-        <h3 className="mt-4 text-lg font-medium text-gray-900">No orders found</h3>
-        <p className="mt-2 text-gray-500">No orders match your current filters.</p>
+      <div className="card">
+        <div className="card-body text-center py-12">
+          <div className="w-24 h-24 bg-gradient-to-br from-gray-100 to-gray-200 rounded-3xl flex items-center justify-center mx-auto mb-6">
+            <span className="text-4xl">📦</span>
+          </div>
+          <h3 className="text-xl font-bold text-gray-900 mb-2">No Orders Found</h3>
+          <p className="text-gray-500 max-w-md mx-auto">
+            No orders match your current filters. Try adjusting your search criteria or check back later for new orders.
+          </p>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+    <div>
       {/* Bulk Actions */}
       {selectedOrders.length > 0 && (
-        <div className="px-6 py-4 bg-blue-50 border-b border-blue-200">
-          <div className="flex items-center justify-between">
-            <span className="text-sm font-medium text-blue-900">
-              {selectedOrders.length} order{selectedOrders.length > 1 ? 's' : ''} selected
-            </span>
-            <div className="flex items-center space-x-3">
-              <select
-                value={bulkStatus}
-                onChange={(e) => setBulkStatus(e.target.value)}
-                className="px-3 py-1 text-sm border border-blue-300 rounded focus:ring-2 focus:ring-blue-500"
-              >
-                <option value="">Select Status</option>
-                <option value="PACKED">Mark as Packed</option>
-                <option value="OUT_FOR_DELIVERY">Mark as Out for Delivery</option>
-                <option value="DELIVERED">Mark as Delivered</option>
-                <option value="CANCELLED">Cancel Orders</option>
-              </select>
-              <button
-                onClick={handleBulkUpdate}
-                disabled={!bulkStatus}
-                className="px-4 py-1 bg-blue-600 text-white text-sm rounded hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                Update
-              </button>
-              <button
-                onClick={() => setSelectedOrders([])}
-                className="px-4 py-1 bg-gray-600 text-white text-sm rounded hover:bg-gray-700"
-              >
-                Clear
-              </button>
+        <div className="card mb-6 bg-gradient-to-r from-blue-50 to-indigo-50 border-blue-200">
+          <div className="card-body">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-3">
+                <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-indigo-500 rounded-xl flex items-center justify-center">
+                  <span className="text-white font-bold">{selectedOrders.length}</span>
+                </div>
+                <div>
+                  <h3 className="font-bold text-blue-900">
+                    {selectedOrders.length} order{selectedOrders.length !== 1 ? 's' : ''} selected
+                  </h3>
+                  <p className="text-sm text-blue-700">Choose an action to apply to selected orders</p>
+                </div>
+              </div>
+              <div className="flex items-center space-x-3">
+                <select
+                  value={bulkStatus}
+                  onChange={(e) => setBulkStatus(e.target.value)}
+                  className="px-4 py-2 text-sm border border-blue-300 rounded-xl focus:ring-2 focus:ring-blue-500 bg-white"
+                >
+                  <option value="">Select Status</option>
+                  <option value="PACKED">Mark as Packed</option>
+                  <option value="OUT_FOR_DELIVERY">Mark as Out for Delivery</option>
+                  <option value="DELIVERED">Mark as Delivered</option>
+                  <option value="CANCELLED">Cancel Orders</option>
+                </select>
+                <button
+                  onClick={handleBulkUpdate}
+                  disabled={!bulkStatus}
+                  className="px-6 py-2 bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 text-white text-sm font-medium rounded-xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  Update Orders
+                </button>
+                  onClick={() => setSelectedOrders([])}
+                  className="px-6 py-2 bg-gradient-to-r from-gray-500 to-gray-600 hover:from-gray-600 hover:to-gray-700 text-white text-sm font-medium rounded-xl transition-all duration-200"
+                >
+                  Clear Selection
+                </button>
+              </div>
             </div>
           </div>
         </div>
       )}
+      
+      {/* Select All Option */}
+      {orders.length > 0 && (
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center space-x-3">
+            <input
+              type="checkbox"
+              checked={selectedOrders.length === orders.length}
+              onChange={handleSelectAll}
+              className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+            />
+            <span className="text-sm font-medium text-gray-700">
+              Select all {orders.length} orders
+            </span>
+          </div>
+          <div className="text-sm text-gray-500">
+            Showing {orders.length} order{orders.length !== 1 ? 's' : ''}
+          </div>
+        </div>
+      )}
 
-      <div className="overflow-x-auto">
-        <table className="min-w-full divide-y divide-gray-200">
-          <thead className="bg-gray-50">
-            <tr>
-              <th className="px-6 py-3 text-left">
-                <input
-                  type="checkbox"
-                  checked={selectedOrders.length === orders.length}
-                  onChange={handleSelectAll}
-                  className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-                />
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Order Details
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Customer
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Status
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Amount
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Location
-              </th>
-              <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Actions
-              </th>
-            </tr>
-          </thead>
-          <tbody className="bg-white divide-y divide-gray-200">
-            {orders.map((order) => (
-              <tr key={order.id} className="hover:bg-gray-50">
-                <td className="px-6 py-4 whitespace-nowrap">
+      {/* Orders Grid */}
+      <div className="space-y-4">
+        {orders.map((order) => (
+          <div key={order.id} className="card group hover:shadow-soft-lg transition-all duration-200">
+            <div className="card-body">
+              <div className="flex items-start justify-between">
+                {/* Left Section - Order Info */}
+                <div className="flex items-start space-x-4">
                   <input
                     type="checkbox"
                     checked={selectedOrders.includes(order.id)}
                     onChange={() => handleSelectOrder(order.id)}
-                    className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                    className="mt-1 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
                   />
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap">
-                  <div>
-                    <div className="text-sm font-medium text-gray-900">#{order.id}</div>
-                    <div className="text-sm text-gray-500">{formatDateTime(order.orderTime)}</div>
-                    <div className="text-xs text-gray-400">
-                      {order.items?.length || 0} item{(order.items?.length || 0) !== 1 ? 's' : ''}
+                  
+                  <div className="flex-1">
+                    <div className="flex items-center space-x-3 mb-3">
+                      <div className="w-12 h-12 bg-gradient-to-br from-blue-100 to-indigo-100 rounded-xl flex items-center justify-center">
+                        <span className="text-xl">🛒</span>
+                      </div>
+                      <div>
+                        <h3 className="text-lg font-bold text-gray-900">Order #{order.id}</h3>
+                        <p className="text-sm text-gray-600 font-medium">{formatDateTime(order.orderTime)}</p>
+                      </div>
+                    </div>
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                      {/* Customer Info */}
+                      <div className="p-3 bg-gradient-to-br from-purple-50 to-pink-50 rounded-xl border border-purple-100">
+                        <div className="flex items-center space-x-2 mb-2">
+                          <span className="text-lg">👤</span>
+                          <h4 className="font-semibold text-gray-900">Customer</h4>
+                        </div>
+                        <p className="text-sm font-medium text-gray-900">{order.user?.fullName || 'N/A'}</p>
+                        <p className="text-xs text-gray-600">{order.user?.email || 'N/A'}</p>
+                      </div>
+                      
+                      {/* Order Details */}
+                      <div className="p-3 bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl border border-green-100">
+                        <div className="flex items-center space-x-2 mb-2">
+                          <span className="text-lg">📦</span>
+                          <h4 className="font-semibold text-gray-900">Items</h4>
+                        </div>
+                        <p className="text-sm font-medium text-gray-900">
+                          {order.items?.length || 0} item{(order.items?.length || 0) !== 1 ? 's' : ''}
+                        </p>
+                        <p className="text-lg font-bold text-green-600">{formatCurrency(order.totalAmount)}</p>
+                      </div>
+                      
+                      {/* Location */}
+                      <div className="p-3 bg-gradient-to-br from-orange-50 to-yellow-50 rounded-xl border border-orange-100">
+                        <div className="flex items-center space-x-2 mb-2">
+                          <span className="text-lg">📍</span>
+                          <h4 className="font-semibold text-gray-900">Location</h4>
+                        </div>
+                        <p className="text-sm font-medium text-gray-900">Pincode: {order.pincode}</p>
+                        <p className="text-xs text-gray-600 truncate">{order.deliveryAddress}</p>
+                      </div>
                     </div>
                   </div>
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap">
-                  <div>
-                    <div className="text-sm font-medium text-gray-900">
-                      {order.user?.fullName || 'N/A'}
-                    </div>
-                    <div className="text-sm text-gray-500">{order.user?.email || 'N/A'}</div>
-                    <div className="text-xs text-gray-400 max-w-xs truncate">
-                      {order.deliveryAddress}
-                    </div>
-                  </div>
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap">
-                  <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusColor(order.status)}`}>
+                </div>
+                
+                {/* Right Section - Status & Actions */}
+                <div className="flex flex-col items-end space-y-3">
+                  <span className={`inline-flex items-center px-4 py-2 rounded-xl text-sm font-semibold ${getStatusColor(order.status)}`}>
                     {order.status ? order.status.replace('_', ' ') : 'Unknown'}
                   </span>
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                  {formatCurrency(order.totalAmount)}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap">
-                  <div className="flex items-center">
-                    <span className="text-sm text-gray-900">{order.pincode}</span>
-                    {adminInfo?.isRegionalAdmin && order.pincode === adminInfo.pincode && (
-                      <span className="ml-2 inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-green-800">
-                        Your Region
-                      </span>
-                    )}
-                    {adminInfo?.isSuperAdmin && (
-                      <span className="ml-2 text-xs text-gray-400">
-                        (All Access)
-                      </span>
-                    )}
-                  </div>
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                  <div className="flex items-center justify-end space-x-2">
-                    {/* View Button */}
+                  
+                  <div className="flex items-center space-x-2">
                     <button
                       onClick={() => onView(order)}
-                      className="text-blue-600 hover:text-blue-900 p-1 rounded hover:bg-blue-50"
-                      title="View Order Details"
+                      className="px-4 py-2 bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 text-white text-sm font-medium rounded-xl transition-all duration-200 hover:shadow-soft"
                     >
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                      </svg>
+                      View Details
                     </button>
-
-                    {/* Status Update Button */}
+                    
                     {canUpdateStatus(order) && getNextStatus(order.status) && (
                       <button
                         onClick={() => onUpdateStatus(order.id, getNextStatus(order.status))}
-                        className="text-green-600 hover:text-green-900 p-1 rounded hover:bg-green-50"
-                        title={`Mark as ${getNextStatus(order.status) ? getNextStatus(order.status).replace('_', ' ') : 'Next Status'}`}
+                        className="px-4 py-2 bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white text-sm font-medium rounded-xl transition-all duration-200 hover:shadow-soft"
                       >
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
+                        Mark as {getNextStatus(order.status).replace('_', ' ')}
                       </button>
                     )}
-
-                    {/* Cancel Button */}
-                    {canCancelOrder(order) ? (
+                    
+                    {canUpdateStatus(order) && order.status !== 'CANCELLED' && order.status !== 'DELIVERED' && (
                       <button
                         onClick={() => onCancel(order.id)}
-                        className="text-red-600 hover:text-red-900 p-1 rounded hover:bg-red-50"
-                        title="Cancel Order"
+                        className="px-4 py-2 bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600 text-white text-sm font-medium rounded-xl transition-all duration-200 hover:shadow-soft"
                       >
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                        </svg>
+                        Cancel
                       </button>
-                    ) : (
-                      <button
-                        disabled
-                        className="text-gray-400 p-1 rounded cursor-not-allowed"
-                        title="Cannot cancel this order"
-                      >
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                        </svg>
-                      </button>
-                    )}
-
-                    {/* Disabled buttons for unauthorized access */}
-                    {!canUpdateStatus(order) && (
-                      <div className="flex items-center space-x-2">
-                        <button
-                          disabled
-                          className="text-gray-400 p-1 rounded cursor-not-allowed"
-                          title="No permission to update this order"
-                        >
-                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                          </svg>
-                        </button>
-                      </div>
                     )}
                   </div>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+        
+        {orders.length === 0 && (
+          <div className="card">
+            <div className="card-body text-center py-12">
+              <div className="w-24 h-24 bg-gradient-to-br from-gray-100 to-gray-200 rounded-3xl flex items-center justify-center mx-auto mb-6">
+                <span className="text-4xl">📦</span>
+              </div>
+              <h3 className="text-xl font-bold text-gray-900 mb-2">No Orders Found</h3>
+              <p className="text-gray-500 max-w-md mx-auto">
+                No orders match your current filters. Try adjusting your search criteria or check back later for new orders.
+              </p>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

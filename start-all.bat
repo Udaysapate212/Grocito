@@ -15,7 +15,12 @@ start "Grocito Customer" cmd /k "echo Starting Customer App... && cd grocito-fro
 timeout /t 2
 
 echo.
-echo 👨‍💼 Starting Admin Portal (Port 3001)...
+echo 📧 Starting Email Service (Port 3001)...
+start "Grocito Email Service" cmd /k "echo Starting Email Service... && cd email-service && if not exist node_modules npm install && npm start"
+timeout /t 2
+
+echo.
+echo 👨‍💼 Starting Admin Portal (Port 3002)...
 start "Grocito Admin" cmd /k "echo Starting Admin Portal... && cd grocito-frontend-admin && npm start"
 
 echo.
@@ -26,7 +31,8 @@ echo.
 echo 🌐 Access URLs:
 echo   • Backend API:    http://localhost:8080
 echo   • Customer App:   http://localhost:3000  
-echo   • Admin Portal:   http://localhost:3001
+echo   • Email Service:  http://localhost:3001
+echo   • Admin Portal:   http://localhost:3002
 echo.
 echo 🔐 Demo Login Credentials:
 echo   • Customer:  john@example.com / password123

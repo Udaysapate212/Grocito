@@ -136,15 +136,58 @@ export const orderService = {
         };
       }
       
-      const requestData = {
-        userId,
-        deliveryAddress,
-        paymentMethod,
-        ...(paymentInfo && { paymentInfo })
-      };
+      // CRITICAL FIX: Sync frontend cart with backend before placing order
+      console.log('Syncing frontend cart with backend before placing order...');
+      
+      try {
+        // Get cart items from frontend (localStorage/mock)
+        const { cartService } = await import('./cartService');
+        const frontendCartItems = await cartService.getCartItems(userId);
+        console.log('Frontend cart items:', frontendCartItems);
+        
+        if (!frontendCartItems || frontendCartItems.length === 0) {
+          throw new Error('Your cart is empty. Please add items to your cart before placing an order.');
+        }
+        
+        // Clear any existing backend cart and sync with frontend cart
+        try {
+          await api.delete(`/cart/clear/${userId}`);
+          console.log('Cleared existing backend cart');
+        } catch (clearError) {
+          console.log('No existing backend cart to clear (this is normal)');
+        }
+        
+        // Add each frontend cart item to backend cart
+        for (const item of frontendCartItems) {
+          console.log(`Syncing item: ${item.product.name} (ID: ${item.product.id}), quantity: ${item.quantity}`);
+          
+          try {
+            await api.post('/cart/add', {
+              userId: Number(userId),
+              productId: Number(item.product.id),
+              quantity: Number(item.quantity)
+            });
+            console.log(`Successfully synced item: ${item.product.name}`);
+          } catch (syncError) {
+            console.error(`Failed to sync item ${item.product.name}:`, syncError);
+          }
+        }
+        
+        console.log('Cart sync completed successfully');
+      } catch (syncError) {
+        console.error('Cart sync failed:', syncError);
+        // If sync fails, we can still try to place the order
+      }
+      
+      // Backend expects userId and deliveryAddress as request parameters, not in body
+      // Based on OrderController.java: @RequestParam Long userId, @RequestParam String deliveryAddress
+      const params = new URLSearchParams({
+        userId: String(userId), // Ensure userId is converted to string for URL params
+        deliveryAddress: String(deliveryAddress).trim()
+      });
 
-      console.log('Order request data:', requestData);
-      const response = await api.post('/orders/place-from-cart', requestData);
+      console.log('Order request params:', params.toString());
+      const response = await api.post(`/orders/place-from-cart?${params.toString()}`);
       console.log('Order response:', response.data);
       return response.data;
     } catch (error) {
@@ -197,6 +240,7 @@ export const orderService = {
         return mockOrders.filter(order => order.userId === userId);
       }
       
+      // URL follows same pattern as user profile: /users/{id} -> /orders/user/{userId}
       const response = await api.get(`/orders/user/${userId}`);
       console.log('User orders response:', response.data);
       return response.data;

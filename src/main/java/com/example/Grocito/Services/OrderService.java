@@ -43,6 +43,9 @@ public class OrderService {
     
     @Autowired
     private CartService cartService;
+    
+    @Autowired
+    private EmailService emailService;
 
     /**
      * Place an order with the provided order details
@@ -102,7 +105,19 @@ public class OrderService {
         }
         
         order.setTotalAmount(orderTotal);
-        return orderRepository.save(order);
+        Order savedOrder = orderRepository.save(order);
+        
+        // Send order confirmation email
+        try {
+            logger.debug("Sending order confirmation email for order ID: {}", savedOrder.getId());
+            emailService.sendOrderConfirmationEmail(savedOrder, "COD", null);
+        } catch (Exception e) {
+            logger.warn("Failed to send order confirmation email for order ID: {}: {}", 
+                       savedOrder.getId(), e.getMessage());
+            // Don't fail the order if email fails
+        }
+        
+        return savedOrder;
     }
     
     /**
@@ -196,6 +211,16 @@ public class OrderService {
         Order savedOrder = orderRepository.save(order);
         logger.info("Order successfully placed with ID: {} for user ID: {}, total amount: ${}", 
                 savedOrder.getId(), userId, orderTotal);
+        
+        // Send order confirmation email
+        try {
+            logger.debug("Sending order confirmation email for order ID: {}", savedOrder.getId());
+            emailService.sendOrderConfirmationEmail(savedOrder, "COD", null);
+        } catch (Exception e) {
+            logger.warn("Failed to send order confirmation email for order ID: {}: {}", 
+                       savedOrder.getId(), e.getMessage());
+            // Don't fail the order if email fails
+        }
         
         // Clear the cart after successful order
         logger.debug("Clearing cart for user ID: {}", userId);
@@ -773,4 +798,78 @@ public class OrderService {
         } else {
             return days + " day" + (days == 1 ? "" : "s") + " ago";
         }
-    }}
+    }
+    
+    /**
+     * Reduce inventory for order items after 2 minutes waiting period
+     * This method is called to permanently reduce product stock after the cancellation window expires
+     */
+    @Transactional
+    public void reduceInventoryForOrder(Long orderId) {
+        logger.info("Starting inventory reduction for order ID: {}", orderId);
+        
+        // Get the order
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> {
+                    logger.error("Order not found with ID: {}", orderId);
+                    return new RuntimeException("Order not found with id: " + orderId);
+                });
+        
+        // Check if order is cancelled - if so, don't reduce inventory
+        if ("CANCELLED".equals(order.getStatus())) {
+            logger.info("Order {} is cancelled, skipping inventory reduction", orderId);
+            return;
+        }
+        
+        // Get all order items for this order
+        List<OrderItem> orderItems = orderItemRepository.findByOrderId(orderId);
+        
+        if (orderItems.isEmpty()) {
+            logger.warn("No order items found for order ID: {}", orderId);
+            return;
+        }
+        
+        logger.info("Processing inventory reduction for {} items in order {}", orderItems.size(), orderId);
+        
+        // Reduce inventory for each order item
+        for (OrderItem orderItem : orderItems) {
+            try {
+                Product product = orderItem.getProduct();
+                int orderedQuantity = orderItem.getQuantity();
+                int currentStock = product.getStock();
+                
+                logger.debug("Reducing inventory for product {} (ID: {}): current stock = {}, ordered quantity = {}", 
+                           product.getName(), product.getId(), currentStock, orderedQuantity);
+                
+                // Check if we have enough stock
+                if (currentStock < orderedQuantity) {
+                    logger.warn("Insufficient stock for product {} (ID: {}): available = {}, required = {}", 
+                              product.getName(), product.getId(), currentStock, orderedQuantity);
+                    
+                    // Reduce by available stock only
+                    product.setStock(0);
+                    logger.warn("Set stock to 0 for product {} due to insufficient inventory", product.getName());
+                } else {
+                    // Reduce stock by ordered quantity
+                    int newStock = currentStock - orderedQuantity;
+                    product.setStock(newStock);
+                    logger.debug("Updated stock for product {} from {} to {}", 
+                               product.getName(), currentStock, newStock);
+                }
+                
+                // Save the updated product
+                productRepository.save(product);
+                
+                logger.info("Successfully reduced inventory for product {} (ID: {}) by {} units", 
+                          product.getName(), product.getId(), orderedQuantity);
+                
+            } catch (Exception e) {
+                logger.error("Error reducing inventory for order item {} in order {}: {}", 
+                           orderItem.getId(), orderId, e.getMessage());
+                // Continue with other items even if one fails
+            }
+        }
+        
+        logger.info("Completed inventory reduction for order ID: {}", orderId);
+    }
+}

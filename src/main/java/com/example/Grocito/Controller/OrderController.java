@@ -274,4 +274,37 @@ public class OrderController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+    
+    /**
+     * Reduce inventory for order items after 2 minutes waiting period
+     */
+    @PostMapping("/{id}/reduce-inventory")
+    public ResponseEntity<?> reduceInventoryForOrder(@PathVariable Long id) {
+        try {
+            logger.info("Reducing inventory for order ID: {}", id);
+            
+            // Check if order exists
+            Optional<Order> orderOpt = orderService.getOrderById(id);
+            if (!orderOpt.isPresent()) {
+                return ResponseEntity.notFound().build();
+            }
+            
+            Order order = orderOpt.get();
+            
+            // Only reduce inventory for non-cancelled orders
+            if ("CANCELLED".equals(order.getStatus())) {
+                logger.info("Order {} is cancelled, skipping inventory reduction", id);
+                return ResponseEntity.ok("Order is cancelled, inventory reduction skipped");
+            }
+            
+            // Reduce inventory for each order item
+            orderService.reduceInventoryForOrder(id);
+            
+            logger.info("Successfully reduced inventory for order ID: {}", id);
+            return ResponseEntity.ok("Inventory reduced successfully");
+        } catch (RuntimeException e) {
+            logger.error("Error reducing inventory for order {}: {}", id, e.getMessage());
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
 }
