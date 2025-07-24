@@ -81,11 +81,14 @@ public class DeliveryPartner {
     @Column(name = "bank_account_holder_name", length = 100)
     private String bankAccountHolderName;
 
+<<<<<<< HEAD
     // Link to authentication record
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "auth_id")
     private DeliveryPartnerAuth authRecord;
 
+=======
+>>>>>>> 2a68c785e9aa6a0fc145941030b4a641910832ec
     // Timestamps
     @Column(name = "created_at", nullable = true)
     private LocalDateTime createdAt = LocalDateTime.now();
@@ -314,6 +317,7 @@ public class DeliveryPartner {
         this.lastActiveAt = lastActiveAt;
     }
 
+<<<<<<< HEAD
     public DeliveryPartnerAuth getAuthRecord() {
         return authRecord;
     }
@@ -322,6 +326,8 @@ public class DeliveryPartner {
         this.authRecord = authRecord;
     }
 
+=======
+>>>>>>> 2a68c785e9aa6a0fc145941030b4a641910832ec
     // Utility methods
     public void updateLastActive() {
         this.lastActiveAt = LocalDateTime.now();

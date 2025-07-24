@@ -392,6 +392,7 @@ public class DeliveryPartnerController {
             String token = authHeader.substring(7);
             
             if (token.contains("demo-admin-token")) {
+<<<<<<< HEAD
                 // Extract user ID from token format: demo-admin-token-{userId}-{timestamp}
                 String[] parts = token.split("-");
                 if (parts.length >= 4) {
@@ -403,6 +404,13 @@ public class DeliveryPartnerController {
                     }
                 }
                 return "ADMIN"; // Default to ADMIN if pattern doesn't match
+=======
+                if (token.contains("-1-")) {
+                    return "SUPER_ADMIN";
+                } else {
+                    return "ADMIN";
+                }
+>>>>>>> 2a68c785e9aa6a0fc145941030b4a641910832ec
             }
         }
         
@@ -417,6 +425,7 @@ public class DeliveryPartnerController {
             String token = authHeader.substring(7);
             
             if (token.contains("demo-admin-token")) {
+<<<<<<< HEAD
                 // Extract user ID from token format: demo-admin-token-{userId}-{timestamp}
                 String[] parts = token.split("-");
                 if (parts.length >= 4) {
@@ -436,5 +445,18 @@ public class DeliveryPartnerController {
         }
         
         return null; // Super admin access (no pincode restriction)
+=======
+                if (token.contains("-1-")) return null; // Super admin
+                if (token.contains("-2-")) return "110001"; // South Delhi Admin
+                if (token.contains("-3-")) return "110002"; // North Delhi Admin
+                if (token.contains("-4-")) return "110003"; // East Delhi Admin
+                if (token.contains("-5-")) return "412105"; // Pune Admin
+                if (token.contains("-6-")) return "441904"; // Nagpur Admin
+                if (token.contains("-7-")) return "441904"; // Default Demo Admin
+            }
+        }
+        
+        return null; // Super admin access
+>>>>>>> 2a68c785e9aa6a0fc145941030b4a641910832ec
     }
 }

@@ -6,7 +6,10 @@ import AdminDashboard from './components/dashboard/AdminDashboard';
 import UserManagement from './components/users/UserManagement';
 import ProductManagement from './components/products/ProductManagement';
 import OrderManagement from './components/orders/OrderManagement';
+<<<<<<< HEAD
 import DeliveryPartnerManagement from './components/delivery-partners/DeliveryPartnerManagement';
+=======
+>>>>>>> 2a68c785e9aa6a0fc145941030b4a641910832ec
 import AdminRoute from './components/auth/AdminRoute';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -62,11 +65,14 @@ function App() {
               <OrderManagement />
             </AdminRoute>
           } />
+<<<<<<< HEAD
           <Route path="/delivery-partners" element={
             <AdminRoute>
               <DeliveryPartnerManagement />
             </AdminRoute>
           } />
+=======
+>>>>>>> 2a68c785e9aa6a0fc145941030b4a641910832ec
           <Route path="/" element={<Navigate to="/login" replace />} />
           <Route path="*" element={<Navigate to="/login" replace />} />
         </Routes>

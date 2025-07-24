@@ -37,6 +37,7 @@ api.interceptors.response.use(
   }
 );
 
+<<<<<<< HEAD
 // API request helper function
 export const apiRequest = async (endpoint, method = 'GET', data = null) => {
   try {
@@ -57,4 +58,6 @@ export const apiRequest = async (endpoint, method = 'GET', data = null) => {
   }
 };
 
+=======
+>>>>>>> 2a68c785e9aa6a0fc145941030b4a641910832ec
 export default api;

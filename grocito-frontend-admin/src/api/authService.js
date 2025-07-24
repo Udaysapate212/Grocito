@@ -22,7 +22,11 @@ export const authService = {
       } else if (data.id) {
         // If user data is directly in response
         user = data;
+<<<<<<< HEAD
         token = data.token || 'demo-admin-token-1-1234567890';
+=======
+        token = data.token || 'demo-admin-token-' + Date.now();
+>>>>>>> 2a68c785e9aa6a0fc145941030b4a641910832ec
       } else {
         console.warn('AdminAuthService: Unexpected response structure');
         throw new Error('Invalid response from server');
@@ -120,7 +124,11 @@ export const authService = {
             contactNumber: '9999999999'
           };
         }
+<<<<<<< HEAD
         token = 'demo-admin-token-' + user.id + '-1234567890';
+=======
+        token = 'demo-admin-token-' + user.id + '-' + Date.now();
+>>>>>>> 2a68c785e9aa6a0fc145941030b4a641910832ec
       }
       
       if (token && user) {
@@ -142,6 +150,7 @@ export const authService = {
         console.log('AdminAuthService: Using demo admin login');
         const demoUser = {
           id: 1,
+<<<<<<< HEAD
           fullName: 'Super Admin',
           email: 'admin@grocito.com',
           role: 'SUPER_ADMIN',
@@ -150,6 +159,16 @@ export const authService = {
           contactNumber: '9999999999'
         };
         const demoToken = 'demo-admin-token-' + demoUser.id + '-1234567890';
+=======
+          fullName: 'Demo Admin',
+          email: 'admin@grocito.com',
+          role: 'ADMIN',
+          address: 'Admin Office',
+          pincode: '110001',
+          contactNumber: '9999999999'
+        };
+        const demoToken = 'demo-admin-token-' + demoUser.id + '-' + Date.now();
+>>>>>>> 2a68c785e9aa6a0fc145941030b4a641910832ec
         
         localStorage.setItem('admin_token', demoToken);
         localStorage.setItem('admin_user', JSON.stringify(demoUser));

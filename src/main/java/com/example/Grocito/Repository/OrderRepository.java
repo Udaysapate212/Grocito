@@ -16,6 +16,7 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     
     @org.springframework.data.jpa.repository.Query("SELECT o FROM Order o WHERE o.status = :status ORDER BY o.orderTime DESC")
     List<Order> findByStatusOrderByOrderTimeDesc(@org.springframework.data.repository.query.Param("status") String status);
+<<<<<<< HEAD
     
     // Methods for delivery partner assignment
     List<Order> findByStatusAndPincodeOrderByOrderTimeAsc(String status, String pincode);
@@ -49,5 +50,7 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     
     // Method to find orders without partner earnings for migration
     List<Order> findByStatusAndPartnerEarningIsNull(String status);
+=======
+>>>>>>> 2a68c785e9aa6a0fc145941030b4a641910832ec
 }
 

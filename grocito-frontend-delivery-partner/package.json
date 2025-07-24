@@ -4,7 +4,11 @@
   "description": "Grocito Delivery Partner Web App",
   "private": true,
   "scripts": {
+<<<<<<< HEAD
     "start": "set PORT=3002 && react-scripts start",
+=======
+    "start": "react-scripts start",
+>>>>>>> 2a68c785e9aa6a0fc145941030b4a641910832ec
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -21,8 +25,12 @@
     "socket.io-client": "^4.6.0",
     "leaflet": "^1.9.0",
     "react-leaflet": "^4.2.0",
+<<<<<<< HEAD
     "lucide-react": "^0.263.0",
     "@heroicons/react": "^2.0.18"
+=======
+    "lucide-react": "^0.263.0"
+>>>>>>> 2a68c785e9aa6a0fc145941030b4a641910832ec
   },
   "devDependencies": {
     "tailwindcss": "^3.3.0",

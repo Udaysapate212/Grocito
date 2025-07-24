@@ -54,6 +54,7 @@ const AdminHeader = ({ title, subtitle }) => {
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
         </svg>
       )
+<<<<<<< HEAD
     },
     {
       name: 'Delivery Partners',
@@ -63,6 +64,8 @@ const AdminHeader = ({ title, subtitle }) => {
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
         </svg>
       )
+=======
+>>>>>>> 2a68c785e9aa6a0fc145941030b4a641910832ec
     }
   ];
 

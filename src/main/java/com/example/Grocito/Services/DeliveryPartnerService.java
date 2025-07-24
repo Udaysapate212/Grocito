@@ -14,6 +14,7 @@ import java.util.Optional;
 @Service
 public class DeliveryPartnerService {
     private final Logger logger = LoggerFactory.getLogger(DeliveryPartnerService.class);
+<<<<<<< HEAD
 
     @Autowired
     private DeliveryPartnerRepository deliveryPartnerRepository;
@@ -21,12 +22,22 @@ public class DeliveryPartnerService {
     public DeliveryPartner registerPartner(DeliveryPartner partner) {
         logger.info("Registering new delivery partner: {}", partner.getFullName());
 
+=======
+    
+    @Autowired
+    private DeliveryPartnerRepository deliveryPartnerRepository;
+    
+    public DeliveryPartner registerPartner(DeliveryPartner partner) {
+        logger.info("Registering new delivery partner: {}", partner.getFullName());
+        
+>>>>>>> 2a68c785e9aa6a0fc145941030b4a641910832ec
         partner.setVerificationStatus("PENDING");
         partner.setAccountStatus("ACTIVE");
         partner.setAvailabilityStatus("OFFLINE");
         partner.setIsAvailable(false);
         partner.setTotalDeliveries(0);
         partner.setSuccessfulDeliveries(0);
+<<<<<<< HEAD
         partner.setAverageRating(java.math.BigDecimal.ZERO);
         partner.setTotalEarnings(java.math.BigDecimal.ZERO);
         partner.setCreatedAt(LocalDateTime.now());
@@ -35,6 +46,16 @@ public class DeliveryPartnerService {
         return deliveryPartnerRepository.save(partner);
     }
 
+=======
+        partner.setAverageRating(0.0);
+        partner.setTotalEarnings(0.0);
+        partner.setCreatedAt(LocalDateTime.now());
+        partner.setUpdatedAt(LocalDateTime.now());
+        
+        return deliveryPartnerRepository.save(partner);
+    }
+    
+>>>>>>> 2a68c785e9aa6a0fc145941030b4a641910832ec
     public List<DeliveryPartner> getAllDeliveryPartners(String userRole, String userPincode) {
         if ("ADMIN".equals(userRole) && userPincode != null) {
             return deliveryPartnerRepository.findByAssignedPincode(userPincode);
@@ -42,31 +63,50 @@ public class DeliveryPartnerService {
             return deliveryPartnerRepository.findAll();
         }
     }
+<<<<<<< HEAD
 
     public Optional<DeliveryPartner> getDeliveryPartnerById(Long id, String userRole, String userPincode) {
         Optional<DeliveryPartner> partnerOpt = deliveryPartnerRepository.findById(id);
 
+=======
+    
+    public Optional<DeliveryPartner> getDeliveryPartnerById(Long id, String userRole, String userPincode) {
+        Optional<DeliveryPartner> partnerOpt = deliveryPartnerRepository.findById(id);
+        
+>>>>>>> 2a68c785e9aa6a0fc145941030b4a641910832ec
         if (partnerOpt.isPresent() && "ADMIN".equals(userRole) && userPincode != null) {
             DeliveryPartner partner = partnerOpt.get();
             if (!userPincode.equals(partner.getAssignedPincode())) {
                 return Optional.empty();
             }
         }
+<<<<<<< HEAD
 
         return partnerOpt;
     }
 
+=======
+        
+        return partnerOpt;
+    }
+    
+>>>>>>> 2a68c785e9aa6a0fc145941030b4a641910832ec
     public DeliveryPartner updateAvailability(Long partnerId, boolean isAvailable, String availabilityStatus) {
         Optional<DeliveryPartner> partnerOpt = deliveryPartnerRepository.findById(partnerId);
         if (!partnerOpt.isPresent()) {
             throw new RuntimeException("Delivery partner not found with ID: " + partnerId);
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> 2a68c785e9aa6a0fc145941030b4a641910832ec
         DeliveryPartner partner = partnerOpt.get();
         partner.setIsAvailable(isAvailable);
         partner.setAvailabilityStatus(availabilityStatus);
         partner.setLastActiveAt(LocalDateTime.now());
         partner.setUpdatedAt(LocalDateTime.now());
+<<<<<<< HEAD
 
         return deliveryPartnerRepository.save(partner);
     }
@@ -238,3 +278,15 @@ public class DeliveryPartnerService {
                 .findFirst();
     }
 }
+=======
+        
+        return deliveryPartnerRepository.save(partner);
+    }
+    
+    public List<DeliveryPartner> getAvailablePartnersForPincode(String pincode) {
+        return deliveryPartnerRepository
+                .findByAssignedPincodeAndIsAvailableTrueAndVerificationStatusAndAccountStatus(
+                        pincode, "VERIFIED", "ACTIVE");
+    }
+}
+>>>>>>> 2a68c785e9aa6a0fc145941030b4a641910832ec
