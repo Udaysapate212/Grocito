@@ -24,10 +24,15 @@ public class User {
     private String pincode;
     private String contactNumber; 
     private LocalDate registeredDate;
+    private LocalDate lastLogin;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Order> orders;
+    
+    @OneToOne(mappedBy = "user")
+    @JsonIgnore
+    private Cart cart;
     
     public User() {
 		super();
@@ -37,7 +42,7 @@ public class User {
 
 
 	public User(Long id, String fullName, String email, String password, String role, String address, String pincode,
-			String contactNumber, LocalDate registeredDate, List<Order> orders) {
+			String contactNumber, LocalDate registeredDate, List<Order> orders, Cart cart) {
 		super();
 		this.id = id;
 		this.fullName = fullName;
@@ -49,6 +54,7 @@ public class User {
 		this.contactNumber = contactNumber;
 		this.registeredDate = registeredDate;
 		this.orders = orders;
+		this.cart = cart;
 	}
 
 
@@ -132,7 +138,13 @@ public class User {
 		this.registeredDate = registeredDate;
 	}
 
+	public LocalDate getLastLogin() {
+		return lastLogin;
+	}
 
+	public void setLastLogin(LocalDate lastLogin) {
+		this.lastLogin = lastLogin;
+	}
 
 	public List<Order> getOrders() {
 		return orders;
@@ -140,6 +152,14 @@ public class User {
 
 	public void setOrders(List<Order> orders) {
 		this.orders = orders;
+	}
+
+	public Cart getCart() {
+		return cart;
+	}
+
+	public void setCart(Cart cart) {
+		this.cart = cart;
 	}
 
 	@Override

@@ -59,6 +59,22 @@
 	<artifactId>spring-boot-starter-validation</artifactId>
 </dependency>
 
+<!-- Logging dependencies -->
+<dependency>
+    <groupId>org.slf4j</groupId>
+    <artifactId>slf4j-api</artifactId>
+</dependency>
+<dependency>
+    <groupId>ch.qos.logback</groupId>
+    <artifactId>logback-classic</artifactId>
+</dependency>
+
+<!-- Email dependencies -->
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-mail</artifactId>
+</dependency>
+
 	</dependencies>
 
 	<build>

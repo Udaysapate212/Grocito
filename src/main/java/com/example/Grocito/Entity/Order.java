@@ -17,16 +17,25 @@ public class Order {
 	private Long id;
 
 
-    private String status; // [ PLACED / PACKED / OUT_FOR_DELIVERY / DELIVERED ]
+    private String status; // [ PLACED / ASSIGNED / PICKED_UP / OUT_FOR_DELIVERY / DELIVERED / CANCELLED ]
     private LocalDateTime orderTime;
     private String deliveryAddress;
     private String pincode;
     private double totalAmount;
+    private double deliveryFee; // Delivery fee for the partner
+    private double partnerEarning; // Partner's earning from this order
+    private LocalDateTime assignedAt;
+    private LocalDateTime pickedUpAt;
+    private LocalDateTime deliveredAt;
+    private LocalDateTime cancelledAt;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-//    @JsonIgnore
     private User user;
+
+    @ManyToOne
+    @JoinColumn(name = "delivery_partner_auth_id", referencedColumnName = "id")
+    private DeliveryPartnerAuth deliveryPartner;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     @JsonManagedReference
@@ -116,6 +125,62 @@ public class Order {
 
 	public void setTotalAmount(double totalAmount) {
 		this.totalAmount = totalAmount;
+	}
+
+	public LocalDateTime getAssignedAt() {
+		return assignedAt;
+	}
+
+	public void setAssignedAt(LocalDateTime assignedAt) {
+		this.assignedAt = assignedAt;
+	}
+
+	public LocalDateTime getPickedUpAt() {
+		return pickedUpAt;
+	}
+
+	public void setPickedUpAt(LocalDateTime pickedUpAt) {
+		this.pickedUpAt = pickedUpAt;
+	}
+
+	public LocalDateTime getDeliveredAt() {
+		return deliveredAt;
+	}
+
+	public void setDeliveredAt(LocalDateTime deliveredAt) {
+		this.deliveredAt = deliveredAt;
+	}
+
+	public DeliveryPartnerAuth getDeliveryPartner() {
+		return deliveryPartner;
+	}
+
+	public void setDeliveryPartner(DeliveryPartnerAuth deliveryPartner) {
+		this.deliveryPartner = deliveryPartner;
+	}
+
+	public double getDeliveryFee() {
+		return deliveryFee;
+	}
+
+	public void setDeliveryFee(double deliveryFee) {
+		this.deliveryFee = deliveryFee;
+	}
+
+	public double getPartnerEarning() {
+		return partnerEarning;
+	}
+
+	public void setPartnerEarning(double partnerEarning) {
+		this.partnerEarning = partnerEarning;
+	}
+
+	public LocalDateTime getCancelledAt() {
+		return cancelledAt;
+	}
+
+	public void setCancelledAt(LocalDateTime cancelledAt) {
+		this.cancelledAt = cancelledAt;
 	}
 
 	@Override
